@@ -1,0 +1,3668 @@
+{
+  "name": "SEO Content Generator English VERSION 03",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 9 * * 2"
+            },
+            {
+              "field": "cronExpression",
+              "expression": "0 9 * * 5"
+            },
+            {
+              "field": "cronExpression",
+              "expression": "0 9 * * 7"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -3820,
+        160
+      ],
+      "id": "dcecbc56-60b4-44da-93d4-461ab1b53127",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1fCqPrSRZW-6VDHDy2TUG4xLy426oLvcGa7Gxnr55ftw",
+          "mode": "list",
+          "cachedResultName": "keywords-new",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1fCqPrSRZW-6VDHDy2TUG4xLy426oLvcGa7Gxnr55ftw/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1601578507,
+          "mode": "list",
+          "cachedResultName": "ALL TOPICS ",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1fCqPrSRZW-6VDHDy2TUG4xLy426oLvcGa7Gxnr55ftw/edit#gid=1601578507"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "completed",
+              "lookupValue": "no"
+            }
+          ]
+        },
+        "options": {
+          "returnFirstMatch": true
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -3540,
+        160
+      ],
+      "id": "2e9e5ea6-8481-40c9-a30b-3d9ecfc67a48",
+      "name": "Grab New Cluster",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "QEC07Kg4WTHjFyxo",
+          "name": "Google Sheets DirectDrivelogistic@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "23b8e8c4-9191-415a-9661-1b60d413528a",
+              "name": "research",
+              "value": "={{ \n  $json.choices[0].message.content\n    .replaceAll(\"[1]\", \" - Source: \"+$json.citations[0])\n    .replaceAll(\"[2]\", \" - Source: \"+$json.citations[1])\n    .replaceAll(\"[3]\", \" - Source: \"+$json.citations[2])\n    .replaceAll(\"[4]\", \" - Source: \"+$json.citations[3])\n    .replaceAll(\"[5]\", \" - Source: \"+$json.citations[4])\n    .replaceAll(\"[6]\", \" - Source: \"+$json.citations[5])\n    .replaceAll(\"[7]\", \" - Source: \"+$json.citations[6])\n    .replaceAll(\"[8]\", \" - Source: \"+$json.citations[7])\n    .replaceAll(\"[9]\", \" - Source: \"+$json.citations[8])\n    .replaceAll(\"[10]\", \" - Source: \"+$json.citations[9])\n}}\n",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -2580,
+        160
+      ],
+      "id": "63b5a085-787f-4e1d-adb6-4b2e6c0bb74d",
+      "name": "Fix Links"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "destinationFieldName": "previous-posts",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        -660,
+        160
+      ],
+      "id": "58a4f72a-f3de-40c3-8c6a-9cc70483d493",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1K3ovJrL3DE5CQxutfz682HGfF7CUxip_mkCzJasbgVQ",
+          "mode": "list",
+          "cachedResultName": "Completed Keywords - Template",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1K3ovJrL3DE5CQxutfz682HGfF7CUxip_mkCzJasbgVQ/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1K3ovJrL3DE5CQxutfz682HGfF7CUxip_mkCzJasbgVQ/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -800,
+        160
+      ],
+      "id": "71671da9-0f59-4653-a042-40fa00e834d9",
+      "name": "Previous Posts",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "QEC07Kg4WTHjFyxo",
+          "name": "Google Sheets DirectDrivelogistic@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1fCqPrSRZW-6VDHDy2TUG4xLy426oLvcGa7Gxnr55ftw",
+          "mode": "list",
+          "cachedResultName": "keywords-new",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1fCqPrSRZW-6VDHDy2TUG4xLy426oLvcGa7Gxnr55ftw/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1601578507,
+          "mode": "list",
+          "cachedResultName": "ALL TOPICS ",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1fCqPrSRZW-6VDHDy2TUG4xLy426oLvcGa7Gxnr55ftw/edit#gid=1601578507"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "completed": "Yes",
+            "Primary Keyword": "={{ $('Grab New Cluster').item.json['Primary Keyword'] }}"
+          },
+          "matchingColumns": [
+            "Primary Keyword"
+          ],
+          "schema": [
+            {
+              "id": "Pillar Page",
+              "displayName": "Pillar Page",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Cluster",
+              "displayName": "Cluster",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Intent",
+              "displayName": "Intent",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "In the style of ",
+              "displayName": "In the style of ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Keywords",
+              "displayName": "Keywords",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Primary Keyword",
+              "displayName": "Primary Keyword",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Category ID",
+              "displayName": "Category ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Author ID/Name",
+              "displayName": "Author ID/Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Word count",
+              "displayName": "Word count",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Image No.",
+              "displayName": "Image No.",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Call to Action URL",
+              "displayName": "Call to Action URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Customer offer/ Brand View",
+              "displayName": "Customer offer/ Brand View",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "completed",
+              "displayName": "completed",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -1300,
+        2600
+      ],
+      "id": "cc844a85-a7c8-484d-8123-c874e5f9d481",
+      "name": "Check as completed on Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "QEC07Kg4WTHjFyxo",
+          "name": "Google Sheets DirectDrivelogistic@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Schedule a trigger\n \n",
+        "height": 240,
+        "width": 260
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -3860,
+        80
+      ],
+      "typeVersion": 1,
+      "id": "113554d0-ab75-4406-89f3-03c0316e46f4",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## New Post Info\n \n",
+        "height": 240,
+        "width": 340
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -3560,
+        80
+      ],
+      "typeVersion": 1,
+      "id": "8bcb6b25-b572-4954-8273-ed25655c2bcd",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## Preliminary Post Plan \n \n",
+        "height": 240,
+        "width": 300
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -3180,
+        80
+      ],
+      "typeVersion": 1,
+      "id": "75eaf3b0-b554-40e8-bcb3-be80c040a074",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "## Research\n \n \n",
+        "height": 240,
+        "width": 420
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -2800,
+        80
+      ],
+      "typeVersion": 1,
+      "id": "51b9ee0e-f522-4c08-b8b8-f0e0dc3545c3",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "## Post Plan \n \n",
+        "height": 240,
+        "width": 300
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1800,
+        80
+      ],
+      "typeVersion": 1,
+      "id": "15c74b43-cad8-4b59-8677-979554b7248a",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "content": "## Writing Blog\n \n \n",
+        "height": 260,
+        "width": 500
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1400,
+        80
+      ],
+      "typeVersion": 1,
+      "id": "3359e4e6-d787-44a2-93e4-5c2308d86b08",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "content": "## Internal Links\n \n \n",
+        "height": 260,
+        "width": 620
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -840,
+        80
+      ],
+      "typeVersion": 1,
+      "id": "6e8190da-5c32-4697-9a15-31bf08ed20b7",
+      "name": "Sticky Note6"
+    },
+    {
+      "parameters": {
+        "content": "## HTML\n\n \n \n",
+        "height": 240,
+        "width": 700
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -3240,
+        2540
+      ],
+      "typeVersion": 1,
+      "id": "7d9d76f3-66cb-42db-b312-0c61039c3c64",
+      "name": "Sticky Note7"
+    },
+    {
+      "parameters": {
+        "content": "## Prompt image generator\n\n\n\n \n \n",
+        "height": 240,
+        "width": 740
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -3840,
+        1920
+      ],
+      "typeVersion": 1,
+      "id": "8e3456c6-7bad-48e5-8715-04843ea22871",
+      "name": "Sticky Note11"
+    },
+    {
+      "parameters": {
+        "content": "## Completion\n\n\n\n\n\n \n \n",
+        "height": 300,
+        "width": 700
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1400,
+        2520
+      ],
+      "typeVersion": 1,
+      "id": "3ba05ff3-c37e-42ef-a447-f88d81d87def",
+      "name": "Sticky Note13"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "Run system message",
+        "options": {
+          "systemMessage": "=You are part of a team that creates world-class blog posts.\n\nimportant note: Your output must ONLY be the plan and nothing else.\nFor each new blog post project, you are provided with a list of keywords, a primary keyword, search intent, research findings, and a preliminary blog post plan. Here’s a definition of each of the inputs:\n\nKeywords: The target phrases for SEO. These must be distributed naturally and logically across the blog post, mapped to the most relevant sections.\n\nSearch intent: The user’s true goal when searching these keywords. The blog post must directly and fully satisfy this intent—not just by presenting information, but by making it practical, actionable, and directly relevant to the user’s needs.\n\nResearch findings: Highly reputable sources and facts relevant to the blog post. You must incorporate these, with source URLs, to make the article authoritative.\n\nPreliminary plan: An initial, basic plan for the post.\n\nPrimary keyword: The single most important keyword—must be in the SEO title, H1, and first 100 words.\n\nGiven this info, create a comprehensive, detailed, and actionable blog post plan.\n\nYour output must:\n\nBe in bullet-point format.\n\nInclude every section, subsection, and step needed for a high-authority, SEO-optimized blog post.\n\nFor every section, explicitly list:\n\nWhich keywords (primary, secondary, semantic) should be placed, and in which headers/paragraphs.\n\nWhich research points/facts/statistics to use, and the precise URL(s) to hyperlink (with clear, unique, descriptive anchor text for each).\n\nWhich internal links (to the site’s service/content pages) to include, with unique, context-relevant anchor text.\n\nWhich external links (to research sources) to include, ensuring each URL/anchor is used only once per post (never repeated).\n\nImage guidance: For the entire article, suggest requested Number of images .  For each image, specify what kind of image or visual to use (real, illustrative, and contextually relevant—never generic or placeholder), and provide detailed ALT text instructions. ALT text must be concise, context-specific, and naturally include the primary or a high-value secondary keyword, reflecting the image’s content and SEO intent.\n\nAny other content (e.g., statistics, expert quotes, case study prompts).\n\n(NEW – CRUCIAL FOR INTENT):\nFor every section, add a bullet titled “Intent & Actionable Value:”\nExplicitly state how this section satisfies the user’s search intent.\n\nList the real-world takeaway, practical advice, common pitfall to avoid, “why this matters” summary, or next step for the reader.\n\nWhere relevant, prompt for a real-world scenario, checklist, or case study example.\n\nFor each technical concept, provide a copy-paste-ready, plain-language definition or explanation (e.g.,\n“Customs clearance is the process by which goods are officially permitted to enter or leave a country, requiring submission of paperwork and payment of duties as per local law.”).\nAvoid “define X.” Always spell out the full definition or explanation in the plan itself so any writer can use it directly.\n\nSection headers:\n\nFor each major section and subsection, specify the exact header to use (e.g., “<h2>Oil and Gas Logistics Iraq: Key Challenges</h2>”).\n\nAlways include at least one secondary or LSI/semantic keyword in each <h2> or <h3> header for strong on-page SEO.\n\nLink and anchor instructions:\n\nNever repeat the same anchor text or URL for multiple sections. Every link must be unique, descriptive, and mapped to the section’s context.\n\nFor research, list the exact research point and its URL, and provide an anchor suggestion.\n\nFor internal links, suggest a service/content page and unique anchor.\n\nOptional instructions:\n\nIf you provide 2–3 SEO blog title options at the top, clearly label them as “Choose ONE of these SEO Titles” to avoid confusion.\n\nProvide clear, step-by-step instructions for less experienced writers. Be as “copy-paste” friendly as possible.\n\nThe plan must have a logical, reader-friendly flow.\n\nThe plan must be highly detailed, satisfying the most important concepts and search intent for the topic.\n\nA new project has just come across your desk with below details:\n\nKeywords:\n{{ $('Edit Fields1').item.json.Keywords }}\n\nSearch intent:\n{{ $('Edit Fields1').item.json.Intent }}\n\nPreliminary plan:\n{{ $('Preliminary Plan').item.json.output }}\n\nResearch findings:\n{{ $json.output }}\n\nPrimary keyword:\n{{ $('Grab New Cluster').item.json['Primary Keyword'] }}\n\nNumber of images:\n{{ $('Grab New Cluster').item.json['Image No.'] }}\n\nCreate the detailed plan.\n\nYour output must ONLY be the plan and nothing else."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        -1780,
+        160
+      ],
+      "id": "02439d51-9023-4cb9-ab52-d7b6ce336944",
+      "name": "Create plan"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "Run system message",
+        "options": {
+          "systemMessage": "=You are an expert SEO copywriter for Direct Drive Logistic. Your only task is to write the main body content for a high-authority blog post, based on the Detailed Plan provided.\n\nINPUT DATA / PROJECT DATA\nHere are the details for this blog post:\n\nRequired Length: {{ $('Grab New Cluster').item.json['Word count'] }} words\nDetailed Plan: {{ $json.output }}\n\nBRANDING & VOICE GUIDELINES\nIn all narrative, examples, and advice, summarize and naturally weave in the following brand elements and voice wherever relevant. Never simply copy the full USP text; always adapt and contextualize for the article.\n\nBrand Name: Direct Drive Logistic\nBrand Voice: Professional, confident, and solutions-focused. Always emphasize practical knowledge of Iraq’s logistics challenges and reliability.\nUnique Selling Proposition (USP):\nInternational Transportation (Door-to-Door Logistics): Trusted, secure, and reliable cross-border partner—expertise in transport (esp. bitumen) to/from Iraq, Iran, Turkey, UAE, China. Offers guaranteed, insured delivery in regions with limited protections. Specialized in managing temporary import licenses and secure shipment of parts for maintenance and repair with neighboring countries.\nLocal Transportation (Domestic Logistics in Iraq): Unmatched local knowledge. Navigates regulations, checkpoints, and customs in Kurdistan and all Iraq. Provides reliable, on-time delivery, with deep expertise in overcoming Iraq’s unique logistics and political landscape challenges. Gives clients peace of mind.\nBrand Values (Key Benefits):\nSeamless management of temporary import licenses for factories/workshops shipping parts for repair/maintenance and secure, efficient returns.\n\nWRITING & FORMATTING INSTRUCTIONS\n\nYour output must ONLY be the HTML for the article's content sections.\n\n**Your output must be a sequence of HTML sections, starting with the first `<h2>` section of the article and ending with the final closing `</section>` tag of the last topic.**\n\n- **DO NOT include** the `<header>`, `<h1>`, `<main>`, `<article>`, `<body>`, or `<head>` tags. Your task is to generate the content body ONLY.\n- **DO NOT include** any placeholders (like ``). This will be handled by another node.\n- **DO NOT output** any links (`<a>` tags). This will be handled by another node.\n- Use the Detailed Plan to write the content for each section.\n- Format the content using semantic tags like `<h2>`, `<h3>`, `<p>`, `<strong>`, `<li>`, and `<img>`.\n- Adhere to the word count from the input.\n- **Use the image placeholders (e.g., <img src=\"image1.jpg\" ...>) exactly as specified in the plan.**\n- Write in a simple, concise style with short paragraphs.\n- Your final output must be only the HTML code, with no extra explanations or commentary."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        -1380,
+        160
+      ],
+      "id": "80fe4273-1e01-4f5a-8ba4-9f9a8a69cb0d",
+      "name": "Write Blog"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "Run system message",
+        "options": {
+          "systemMessage": "=You are an expert in SEO internal and external linking for blog content. Optimize only the <main> section of the provided HTML as follows:\n\nInsert 8–12 highly relevant, high-quality internal links to previous blog posts.\n\nInternal links must use only anchor text already present in the same paragraph (never in headings).\n\nFocus on natural, context-driven anchor text, and always prioritize value to the reader.\n\nAnchor text must be naturally integrated, contextually relevant, and never generic (no \"click here,\" etc.).\n\nNever link to category/tag/index pages unless no deep link is available.\n\nNever repeat the same destination URL more than once in the article.\n\nNever add internal links outside <main>.\n\nAdd 3–5 authoritative, non-competing external links using ONLY the provided Research findings input.\n\nYou must only use external URLs and anchor text found in the “Research findings” input for all external links. Do NOT invent or source new external links from model knowledge.\n\nUse target=\"_blank\" and rel=\"nofollow noopener\" on all external links.\n\nExternal links must use descriptive anchor text already present in the same paragraph (never headings).\n\nNever link to competitors, sales pages, or low-authority/irrelevant sites.\n\nIf a suitable anchor text for a research finding URL does not exist in the paragraph, do not add that link.\n\nFocus on natural, context-driven anchor text, and always prioritize value to the reader.\n\nPreserve all original formatting, HTML structure, and content. Only add inline hyperlinks as specified. Do not modify, move, or remove any other elements or tags.\n\nDo not output any introduction, explanation, summary, or audit table.\n\nThe output should be ONLY the full, modified <main> HTML section.\n\nNo headings, no markdown/code fencing, no “here is…” statements, no audit tables, nothing else.\n\nInputs:\n\nCurrent Blog Post (<main> HTML):\n{{ $('Write Blog refiner').item.json.cleanedHtml }}\n\nPrevious Blog Posts (Array):\n{{ $json['previous-posts'].toJsonString().split() }}\n\nResearch findings::\n{{ $('Competitors link santization').item.json.output }}\n\nOutput:\n\nOnly the modified <main> HTML section with all links injected as specified.\n\nShort summary for your workflow:\n\nOutput ONLY the finished <main> HTML with all links injected. Do not output anything else—not even a heading."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        -500,
+        160
+      ],
+      "id": "113ed5bc-c683-4f4a-8ce1-4592c51b500a",
+      "name": "Add internal links"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "Run system message",
+        "options": {
+          "systemMessage": "=You are part of a team that creates world-class blog posts. For each project, you get keywords and search intent to understand the user's goal.\n\n- Keywords: Terms to rank for, defining the blog topic.\n- Search intent: User's goal when searching keywords, guiding the blog theme.\n- Primary keyword:  Key term for the title and introduction; blog topic must directly relate.\n\nGiven keywords and search intent, plan a blog post. Determine the **essential Main Sections** and their **logical flow** for a cohesive narrative, creating a preliminary plan.\n\n**Your output must be concise and API-friendly:**\n- Identify **Main Sections** of the blog post.\n- Use dot point format.\n- **Keep it brief and to the point, aiming for roughly half the length of the example output.**\n- Focus on the core essence of each section.\n\nEnsure the plan satisfies the search intent, uses keywords, and has a **clear, logical flow**.  A concise plan is crucial for a focused, readable blog post that effectively meets user needs.\n\nProject:\n\nKeywords:\n{{ $json.Keywords }}\n\nSearch intent:\n{{ $json.Intent }}\n\nPrimary keyword:\n{{ $json['Primary Keyword'] }}\n\nCreate the preliminary plan. Start directly with your result."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        -3160,
+        160
+      ],
+      "id": "d97a5e1a-b0d9-4bc4-9e37-3a4079d255b7",
+      "name": "Preliminary Plan",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "chatId": "=8183574838",
+        "text": "=Blog score is: \nBlog title= {{ $json['Blog Title'] }}\n\nURL= {{ $json.URL }}\n\nkeywords={{ $json.Keywords }}\nDate= {{ $('Create a post').item.json.date }}\n\nimage1: \n{{ $('Imagedata').item.json.Imagedata[0].wp_url }}\n\n\nimage2:\n{{ $('Imagedata').item.json.Imagedata[1].wp_url }}\n\n\nis posted successfuly",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -860,
+        2600
+      ],
+      "id": "c2d2bae3-1477-4596-8558-4739746573d2",
+      "name": "Telegram Notify Post Published",
+      "webhookId": "335e9b84-8fad-4b0a-b48f-c6a081b3d0bf",
+      "credentials": {
+        "telegramApi": {
+          "id": "2au3ZTo4EwGWbEwi",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.0-flash-thinking-exp-01-21",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -3140,
+        420
+      ],
+      "id": "bc9a9e55-8b75-49b3-a62f-ed63d134d751",
+      "name": "Gemini-2.0-flash-thinking-exp-01-21",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "GuN25ijHYyyWUd8Y",
+          "name": "Google Gemini Mansurirad@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "=8183574838",
+        "text": "=انگلیسی\nEnglish weblog writer\n\nTrigger started on: {{ $now }}\n\ncluster: {{ $json.Cluster }}\n\nkeywords: {{ $json.Keywords }}\n\nPrimary Keyword: {{ $json['Primary Keyword'] }}\n\ncompleted: {{ $json.completed }}\n\n\nyou sould get the completed message very soon\nمقاله انگلیسی استارت خورد",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -3240,
+        -440
+      ],
+      "id": "6b07bed7-d4b2-428e-bc9d-a6a0327dafb7",
+      "name": "Telegram",
+      "webhookId": "b1afd326-4fe6-40f4-b68f-efbe005612f0",
+      "credentials": {
+        "telegramApi": {
+          "id": "2au3ZTo4EwGWbEwi",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.0-flash-thinking-exp-01-21",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -1780,
+        400
+      ],
+      "id": "55e24986-dfa7-4dd8-8c61-b2a99acffe6a",
+      "name": "Gemini-2.0-flash-thinking-exp-01-21 Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "dg8UqtcDtIDprGzD",
+          "name": "Google Gemini(PaLM) DirectDrivelogistic@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-flash-preview-05-20",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -480,
+        400
+      ],
+      "id": "09f40be4-ef96-430d-b17b-1dd643995c77",
+      "name": "Gemini-2.0-flash-thinking-exp-01-02(3)",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "dg8UqtcDtIDprGzD",
+          "name": "Google Gemini(PaLM) DirectDrivelogistic@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-1.5-flash-latest",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -1240,
+        1020
+      ],
+      "id": "564a1948-7c5f-46fb-831f-fe9f244da107",
+      "name": "gemini-1.5-flash-8b",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "GuN25ijHYyyWUd8Y",
+          "name": "Google Gemini Mansurirad@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={{\n  (() => {\n    // Check for valid input structure\n    if (!$json || !$json.output) {\n      return { error: \"Invalid input structure. Expected $json.output to exist.\" };\n    }\n\n    const raw = $json.output;\n\n    // Use a \"greedy\" regular expression to find the JSON block inside ```json ... ```\n    // This is the most reliable method we found.\n    const match = raw.match(/```json\\s*([\\s\\S]*)```/);\n\n    if (match && match[1]) {\n      try {\n        // If a match is found, trim any extra whitespace and parse the JSON string.\n        const parsedJson = JSON.parse(match[1].trim());\n        \n        // Return the entire parsed object, which contains all your requested fields.\n        return parsedJson;\n\n      } catch (e) {\n        // If parsing fails, it means the text inside the block is not valid JSON.\n        return { \n          error: \"Parsing failed. The extracted text is not valid JSON.\", \n          details: e.message\n        };\n      }\n    } else {\n      // Fallback: If no ```json``` block is found, maybe the input is already a clean JSON string.\n      try {\n        return JSON.parse(raw);\n      } catch (e) {\n        return { error: \"Could not find a ```json ... ``` block, and the input is not a valid JSON string either.\" };\n      }\n    }\n  })()\n}}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -920,
+        780
+      ],
+      "id": "0d2cf2e4-77b5-4d7f-957d-3ceda0bcb444",
+      "name": "SEO details"
+    },
+    {
+      "parameters": {
+        "content": "## SEO Metadata Intigrator\n\n\n\n\n \n \n",
+        "height": 240,
+        "width": 540
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1320,
+        720
+      ],
+      "typeVersion": 1,
+      "id": "1195dfeb-06e6-48f3-bb3d-15fe21c74a85",
+      "name": "Sticky Note16"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1K3ovJrL3DE5CQxutfz682HGfF7CUxip_mkCzJasbgVQ",
+          "mode": "list",
+          "cachedResultName": "Completed Keywords - Template",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1K3ovJrL3DE5CQxutfz682HGfF7CUxip_mkCzJasbgVQ/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "English",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1K3ovJrL3DE5CQxutfz682HGfF7CUxip_mkCzJasbgVQ/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Keywords": "={{ $('Grab New Cluster').item.json.Keywords }}",
+            "URL": "=https://directdrivelogistic.com/{{ $('SEO details').item.json.slug }}",
+            "Blog Title": "={{ $('SEO details').item.json.title }}",
+            "Summary": "={{ $('SEO details').item.json.meta_description }}",
+            "Completed": "Yes",
+            "Primary Keyword": "={{ $('Grab New Cluster').item.json[\"Primary Keyword\"] }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Blog Title",
+              "displayName": "Blog Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Primary Keyword",
+              "displayName": "Primary Keyword",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Keywords",
+              "displayName": "Keywords",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Summary",
+              "displayName": "Summary",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "URL",
+              "displayName": "URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Completed",
+              "displayName": "Completed",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -1100,
+        2600
+      ],
+      "id": "4f133dc9-69af-4824-8c20-9970f1db6011",
+      "name": "Completed Pages URLS",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "QEC07Kg4WTHjFyxo",
+          "name": "Google Sheets DirectDrivelogistic@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "18bsH2QnH6K2kA2MHmNVUVPvvHJHuJ8ZXYZPvXIsaQ9g",
+          "mode": "list",
+          "cachedResultName": "logistic competitors",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/18bsH2QnH6K2kA2MHmNVUVPvvHJHuJ8ZXYZPvXIsaQ9g/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "English",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/18bsH2QnH6K2kA2MHmNVUVPvvHJHuJ8ZXYZPvXIsaQ9g/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -3260,
+        -180
+      ],
+      "id": "0c59fee5-19f1-4fd7-bb8e-c62b984a9a35",
+      "name": "Competitors URL",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "QEC07Kg4WTHjFyxo",
+          "name": "Google Sheets DirectDrivelogistic@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "destinationFieldName": "=competitorDomains",
+        "include": "specifiedFields",
+        "fieldsToInclude": "domain",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        -2920,
+        -180
+      ],
+      "id": "6326327f-0045-4920-b506-e584eada0aa0",
+      "name": "Aggregate1"
+    },
+    {
+      "parameters": {
+        "jsCode": "return items\n  .filter(item => item.json.website && item.json.website.trim() !== \"\")\n  .map(item => {\n    let raw = item.json.website.trim();\n    if (!raw.startsWith(\"http\")) raw = \"http://\" + raw;\n\n    const match = raw.match(/:\\/\\/(?:www\\.)?([^/]+)/i);\n    const hostname = match ? match[1].toLowerCase() : null;\n\n    return hostname\n      ? { json: { domain: hostname } }\n      : null; // اگر نامعتبر بود، حذف شود\n  })\n  .filter(item => item !== null);\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -3100,
+        -180
+      ],
+      "id": "071df549-ce57-4c3e-8372-cb98e8906468",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "jsCode": "const domains = $json.competitorDomains.map(entry => entry.domain);\nreturn [{ json: { competitorDomains: domains } }];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2760,
+        -180
+      ],
+      "id": "db313b69-d17e-4b1e-9e77-2c9ef4444ec5",
+      "name": "List of competitors domains"
+    },
+    {
+      "parameters": {
+        "content": "## Competitors check\n\n \n \n",
+        "height": 260,
+        "width": 740
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -3300,
+        -220
+      ],
+      "typeVersion": 1,
+      "id": "e4d65a81-ad80-4b6f-8fc6-9ea98cc2f9f3",
+      "name": "Sticky Note17",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.perplexity.ai/chat/completions",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer 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"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"sonar\",\n  \"messages\": [\n    {\n      \"role\": \"system\",\n      \"content\": \"Act as a professional logistics news researcher who finds detailed summaries about the logistics industry and transportation services in Iraq. Focus on reputable sources such as governmental transportation websites, international logistics reports, and major shipping organizations. Exclude local competitor websites.\"\n    },\n    {\n      \"role\": \"user\",\n      \"content\": \" You are helping research for a blog article. Please provide **concise summaries of the key facts and essential information** for each of the titles of the following blog plan.  Focus on extracting the most important insights from reputable sources. blog plan: {{ $json.output.split(/\\n+/).join(' ') }}\"\n    }\n  ],\n  \"temperature\": 0.2,\n  \"top_p\": 0.9,\n  \"return_images\": false,\n  \"stream\": false,\n  \"presence_penalty\": 0,\n  \"frequency_penalty\": 1\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -2760,
+        160
+      ],
+      "id": "8e2fdabf-edda-4b1b-9ccc-21b829baab7b",
+      "name": "Research"
+    },
+    {
+      "parameters": {
+        "content": "## Link Sanitization Research\n \n \n",
+        "height": 240,
+        "width": 480
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -2340,
+        80
+      ],
+      "typeVersion": 1,
+      "id": "4c7f6620-a1f6-4eaf-9510-fbef65525664",
+      "name": "Sticky Note8"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        -2300,
+        160
+      ],
+      "id": "80f47563-ee58-431e-90e3-82d0b4f5f7f1",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-1.5-flash-8b",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -2140,
+        380
+      ],
+      "id": "decf592d-90a1-440e-906f-3ed721108994",
+      "name": "gemini-1.5-flash-8b1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "GuN25ijHYyyWUd8Y",
+          "name": "Google Gemini Mansurirad@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are a precise content sanitization agent. Your task is to execute a workflow to remove specific competitor references from a provided text. You must follow the logic below without deviation. All non-competitor links and brand mentions must be preserved perfectly.\n\nWorkflow & Rules:\n\nIdentify Inputs: You will receive two inputs: a Competitor Domains list and the Research Content.\n\nProcessing Logic: Scan the Research Content. For every URL, link, or brand name you encounter, apply the following conditional check:\n\nCondition: Does the domain in the URL or the text of the brand name match ANY item in the Competitor Domains list?\n\nAction IF TRUE (It's a competitor):\n\nIf it is a Markdown or HTML link (e.g., [anchor text](https://pirisroad.iq/page)), remove the entire link structure, including the anchor text and the URL.\nIf it is a raw URL (e.g., https://silkroad-iraq.com), remove the URL.\nIf it is a brand name (e.g., Move One Inc), remove the brand name.\nEnsure no leftover empty parentheses, brackets, or stray punctuation remains.\nAction IF FALSE (It's NOT a competitor):\n\nYou must not alter the item in any way.\nThe link, URL, or brand name must be left exactly as it is in the original text.\nCrucial Example: The research content contains links to mordorintelligence.com, verifiedmarketresearch.com, and directdrivelogistic.com. Since these are NOT in the competitor list, they are valid and MUST be preserved in the final output.\nOutput:\n\nProvide ONLY the modified Research Content.\nDo not include this prompt, the competitor list, or any other commentary in your response.\n\n\nResearch Content:\n{{ $json.research }}\n\nCompetitor Domains (do NOT include links to these in the final output):\n{{ $json.competitorDomains }}\nPlease provide the modified research content. Do not output anything else.",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        -2140,
+        160
+      ],
+      "id": "2d964f43-12b1-48f5-abbf-0bb39b04ea6b",
+      "name": "Competitors link santization"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are an expert in structured content extraction for SEO blog automation.\n\nInstructions:\n\nDo not include any markdown, explanations, or extra text—output the plain JSON object only.\n\nIf the blog post is not in English, translate it to English before extraction.\n\nInput fields provided:\n\nBlog post content: {{ $('Add internal links').item.json.output }}\nBlog Title:{{ $('Meta Description lenght controller').item.json.final_title }}\noriginal_title:{{ $('Meta Description lenght controller').item.json.original_title }}\nMeta Description: {{ $('Meta Description lenght controller').item.json.meta_description }}\nslug:{{ $('Meta Description lenght controller').item.json.slug }}\nPrimary keyword: {{ $('Grab New Cluster').item.json['Primary Keyword'] }}\n\nKEY WORDS: {{ $('Grab New Cluster').item.json.Keywords }}\nCategory Id:{{ $json.category_id }}\nSubtitle: {{ $json.subtitle_html }}\nExtraction Tasks:\n\nProcess the given blog post content and extract only (do NOT generate, rewrite, or infer) the following fields, returning them as a single valid JSON object with exactly these keys:\n\ntitle\noriginal_title\nsubtitle\n\nintroduction\n\nmeta_description\n\nconclusion\n\nslug\n\ncategory_id\n\nimages (array)\n\nFAQ_SECTION\n\n\nTABLE_OF_CONTENTS\n\n\nKEY_TAKEAWAYS\n\nESTIMATED_READING_TIME\n\nFOOTER_AUTHOR_BIO\n\nSCHEMA_MARKUP\n\nDetailed Extraction Rules:\n\nFor each key, if the data exists in the blog post content (e.g., as a heading, paragraph, or exact HTML placeholder comment), extract and return the value.\n\nFor placeholder fields (FAQ_SECTION, etc.), if the exact HTML comment exists in the input, extract it as the value (e.g., \"<!-- [FAQ_SECTION] -->\"); otherwise, set the value to null.\n\nFor images, extract all <img> tags or clearly described image placeholders:\n\n\"src\": Extract the image URL or filename (or null if not available).\n\n\"alt\": Extract the alt text or full image description.\n\n\"section\": Extract the nearest section heading or best-guess context for the image.\n\nIf no images are found, return \"images\": [].\n\nIf any field does not exist in the blog post content, return its value as null.\n\nDo not generate, rewrite, or fill in missing content. Only extract what is present.\n\nOutput Format:\n\nReturn only a valid JSON object in the following exact structure.\nNo markdown, no explanations, no extra text—only the JSON.\n\njson\nCopy\nEdit\n{\n  \"title\": \"...\",\n  \"subtitle\": \"...\",\n  \"introduction\": \"...\",\n  \"meta_description\": \"...\",\n  \"conclusion\": \"...\",\n  \"slug\": \"...\",\n  \"category_id\": ...,\n  \"images\": [\n    {\n      \"src\": \"...\",\n      \"alt\": \"...\",\n      \"section\": \"...\"\n    }\n  ],\n  \"FAQ_SECTION\": \"....\",\n  \"TABLE_OF_CONTENTS\": \"...\",\n  \"KEY_TAKEAWAYS\": \"...\",\n  \"ESTIMATED_READING_TIME\": \"...\",\n  \"FOOTER_AUTHOR_BIO\": \"...\",\n  \"SCHEMA_MARKUP\": \"<...\"\n}\nIf a placeholder or field is not found in the input, use null (for all fields except images), or [] for images.",
+        "options": {
+          "systemMessage": "="
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        -1260,
+        780
+      ],
+      "id": "a5475a30-c0b5-476f-858a-5f6a4b88c887",
+      "name": "SEO check details"
+    },
+    {
+      "parameters": {
+        "model": "google/gemini-2.5-pro-preview-05-06",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        -1360,
+        380
+      ],
+      "id": "696e0a92-8559-4131-9515-8a3b3be58a0a",
+      "name": "OpenRouter Chat Model",
+      "credentials": {
+        "openRouterApi": {
+          "id": "bcY7EIYJHtKWoKKU",
+          "name": "OpenRouter account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## FAQ Generator in HTML Format\n\n \n \n",
+        "height": 240,
+        "width": 400
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -680,
+        720
+      ],
+      "typeVersion": 1,
+      "id": "d8783d4a-b8e0-4314-bb04-8b293c7bc2dc",
+      "name": "Sticky Note9"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-flash-preview-05-20",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -620,
+        1020
+      ],
+      "id": "8c3cae14-2983-464b-8863-6915f94bd9e3",
+      "name": "Gemini-2.0-flash-thinking-exp-01-02(3)1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "dg8UqtcDtIDprGzD",
+          "name": "Google Gemini(PaLM) DirectDrivelogistic@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are an expert blog assistant.\nYour task is to create a complete, semantic HTML section for Frequently Asked Questions (FAQs) based on the provided blog post content.\n\nInstructions:\n- Your output MUST be ONLY the raw HTML code for the entire section.\n- The section must start with `<section class=\"faq\" id=\"faq\">` and end with `</section>`.\n- The main title of the section must be `<h2>Frequently Asked Questions</h2>`.\n- Extract 5-6 of the most relevant questions from the blog content.\n- For each question:\n  - The question itself must be an `<h3>` tag.\n  - The answer must follow in a `<p>` tag.\n  - The answer must be concise (2-4 sentences), clear, and directly extracted or summarized from the blog content.\n- CRITICAL: Do NOT include any markdown, code fences (like ```html), or any text outside of the `<section>` tag. Your output must start directly with `<section...`.\n\nInput Blog Post:\n{{ $('Add internal links').item.json.output }}",
+        "options": {
+          "systemMessage": "="
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        -640,
+        780
+      ],
+      "id": "401573e7-39f8-4238-bcf9-5b889a2ddead",
+      "name": "FAQ Generator"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-flash-preview-05-20",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -3760,
+        2820
+      ],
+      "id": "e9d3745b-733c-4f0b-a1ba-cecb6e18b099",
+      "name": "Gemini-2.0-flash-thinking-exp-01-02(3)2",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "dg8UqtcDtIDprGzD",
+          "name": "Google Gemini(PaLM) DirectDrivelogistic@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-1.5-flash-8b",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -3600,
+        2200
+      ],
+      "id": "ed36aa5f-31e3-496c-8914-1bebaa77e770",
+      "name": "gemini-1.5-flash-8b2",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "dg8UqtcDtIDprGzD",
+          "name": "Google Gemini(PaLM) DirectDrivelogistic@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are an expert visual prompt generator.\n\nYour task is to generate a highly detailed, realistic photographic prompt for a single blog image.\n\n**Image Context:**  \n- Blog Section Title: \"{{ $json.section }}\"\n- Image ALT Description: \"{{ $json.alt }}\"\n- Article Title: \"{{ $('SEO details').item.json.title }}\"\n\n**Instructions:**  \n- The image must visually represent the section context and description above.\n- Must focus on logistics/transport.\n- Visually convey reliability, modern professionalism, and secure operations.\n- Possible visual elements (based on alt/context): trucks, customs, highways, logistics facilities, maps, business professionals, cargo inspection, cityscapes in Iraq, or detailed visualizations matching the ALT description.\n\n- **Style:** Ultra-realistic photograph, Sigma 85mm f/1.4 lens, natural lighting, high resolution, businesslike, no text, no logos, no people looking at camera, cinematic feel.\n- **Direct Drive logistic company name if possible**\n- The image should look like a premium stock photo fit for a business logistics website.\n\n**Output:**  \nReturn only the single prompt string ready for an AI image generator (NO extra explanation).\n\n**Example output:**  \nRealistic photograph of an Iraqi customs officer checking shipping documents at a busy border terminal, modern trucks in background, sunrise light, Sigma 85mm f/1.4, natural colors, no visible logos.\n\n**IMPORTANT:**  \nReturn your result as a JSON object, copying all the input fields (`src`, `alt`, `section`), and add the generated `prompt` field, like this:\n\nReturn only a valid JSON object with the following structure, and nothing else.\nDo NOT use code blocks, backticks, or any explanation.\nJust output:\n{\n  \"src\": \"...\",\n  \"alt\": \"...\",\n  \"section\": \"...\",\n  \"prompt\": \"...\"\n}\nDo not add any extra text, markdown, or formatting.\n\n",
+        "options": {
+          "systemMessage": "="
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        -3620,
+        1980
+      ],
+      "id": "24f8c42b-7ee0-492a-a9c5-aebc4f9cd6a3",
+      "name": "Image Promp generator"
+    },
+    {
+      "parameters": {
+        "operation": "rotate",
+        "rotate": 360,
+        "options": {
+          "format": "jpeg",
+          "quality": 30
+        }
+      },
+      "type": "n8n-nodes-base.editImage",
+      "typeVersion": 1,
+      "position": [
+        -2480,
+        1980
+      ],
+      "id": "196291c6-cb5f-4cd7-a735-eee8ea7559b4",
+      "name": "Resize Image"
+    },
+    {
+      "parameters": {
+        "content": "## Upload image to wordpress\n\n\n \n \n",
+        "height": 240,
+        "width": 920
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -2320,
+        1920
+      ],
+      "typeVersion": 1,
+      "id": "15421953-39fd-4244-bc39-0cd812271c45",
+      "name": "Sticky Note12"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://directdrivelogistic.com/wp-json/wp/v2/media/{{ $json.wp_id }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "wordpressApi",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "title",
+              "value": "={{ $('SEO details').item.json.title }}"
+            },
+            {
+              "name": "slug",
+              "value": "={{ $('image prompt generator Refiner').item.json.src }}"
+            },
+            {
+              "name": "alt_text",
+              "value": "={{ $('image prompt generator Refiner').item.json.alt }}"
+            },
+            {
+              "name": "caption",
+              "value": "={{ $('SEO details').item.json.subtitle }}"
+            },
+            {
+              "name": "description",
+              "value": "=this image is used for {{ $('image prompt generator Refiner').item.json.section }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -1760,
+        1980
+      ],
+      "id": "855288bf-7a94-48eb-ae7c-306da116ac49",
+      "name": "Update image meta data",
+      "credentials": {
+        "wordpressApi": {
+          "id": "RhUjrJJGtwsdBBX8",
+          "name": "Wordpress account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://directdrivelogistic.com/wp-json/wp/v2/media",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "wordpressApi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "content-disposition",
+              "value": "=attachment; filename={{ $binary.data.fileName }}"
+            },
+            {
+              "name": "content-type",
+              "value": "={{ $binary.data.mimeType }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "binaryData",
+        "inputDataFieldName": "data",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -2100,
+        1980
+      ],
+      "id": "9f764323-ed8a-49c5-97d0-2d94f81078c7",
+      "name": "upload image",
+      "credentials": {
+        "wordpressApi": {
+          "id": "RhUjrJJGtwsdBBX8",
+          "name": "Wordpress account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// فرض می‌شود images آرایه‌ی تصاویر از SEO details است\nconst images = $('SEO details').item.json.images; // اگر لازم بود بنویسید $('SEO details').item.json.images\n\nreturn images.map(image => ({\n  json: {\n    src: image.src,\n    alt: image.alt,\n    section: image.section\n  }\n}));\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -3800,
+        1980
+      ],
+      "id": "8a2ca1ac-3df1-4be9-b700-2acd10784373",
+      "name": "Image array splitter"
+    },
+    {
+      "parameters": {
+        "jsCode": "// هر آیتم ورودی یک output دارد که یک رشته JSON با بک‌تیک است.\n// روی همه items اجرا می‌کنیم و خروجی را به صورت آرایه برمی‌گردانیم.\n\nreturn items.map(item => {\n  const text = item.json.output;\n  const match = text.match(/\\{[\\s\\S]*\\}/);\n  if (!match) return null;\n  try {\n    const obj = JSON.parse(match[0]);\n    return { json: obj };\n  } catch (e) {\n    return null;\n  }\n}).filter(x => x !== null);\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -3300,
+        1980
+      ],
+      "id": "4b320140-21bc-4c74-9fa7-5167879a0bad",
+      "name": "image prompt generator Refiner"
+    },
+    {
+      "parameters": {
+        "content": "## Generate image\n\n \n \n",
+        "height": 240,
+        "width": 700
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -3080,
+        1920
+      ],
+      "typeVersion": 1,
+      "id": "8a5c9647-0c02-4ae6-975b-c1bfb629207a",
+      "name": "Sticky Note15"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://directdrivelogistic.com/wp-json/wp/v2/posts/{{ $json.id }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "wordpressApi",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "excerpt",
+              "value": "={{ $('SEO details').item.json.meta_description }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -1860,
+        2600
+      ],
+      "id": "acc06e55-ff66-4449-9c60-5be507b0c1c3",
+      "name": "Add excerpt1",
+      "credentials": {
+        "wordpressApi": {
+          "id": "RhUjrJJGtwsdBBX8",
+          "name": "Wordpress account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "return items.map(item => ({\n  json: {\n    // اطلاعات اولیه که در json تا اینجا همراه داشتی:\n    src: item.json.src,\n    alt: item.json.alt,\n    section: item.json.section,\n    prompt: item.json.prompt,\n    // اطلاعات وردپرس برگشتی:\n    wp_id: item.json.id || null,                       // ID تصویر در وردپرس\n    wp_url: item.json.guid?.rendered || null,          // URL آپلود شده در وردپرس\n    wp_slug: item.json.slug || null,                   // Slug تصویر (اختیاری)\n    wp_title: item.json.title?.rendered || null,       // Title تصویر (اختیاری)\n    // اگر اطلاعات بیشتری برگشت داده اضافه کن...\n  }\n}));\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1920,
+        1980
+      ],
+      "id": "6f8bea4f-5503-4b55-a860-3f93f8cfb009",
+      "name": "dada collector1"
+    },
+    {
+      "parameters": {
+        "jsCode": "return items.map(item => ({\n  json: {\n    src: item.json.src,                     // برای هماهنگی نهایی اگر نیاز شد\n    alt: item.json.alt,\n    section: item.json.section,\n    prompt: item.json.prompt,\n\n    wp_id: item.json.id || null,            // ID تصویر در وردپرس\n    wp_url: item.json.guid?.rendered || null, // URL نهایی تصویر\n    wp_slug: item.json.slug || null,        // Slug در وردپرس\n    wp_title: item.json.title?.rendered || null, // عنوان منتشر شده تصویر\n  }\n}));\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1580,
+        1980
+      ],
+      "id": "96fd1617-cb11-4dad-9b53-a04da7fd6721",
+      "name": "data collector2"
+    },
+    {
+      "parameters": {
+        "jsCode": "return items.map(item => ({\n  json: {\n    src: item.json.src,\n    alt: item.json.alt,\n    section: item.json.section,\n    prompt: item.json.prompt,\n    // اگر فیلد image یا data در خروجی HTTP Request FLUX داری، اینجا اضافه کن:\n    image: item.json.image || null,         // اگر image یا url برگشت داده\n    data: item.json.data || null,           // اگر data (برای node بعدی Resize Image)\n    // اگر فیلد دیگری (مثلاً url) داری، همین‌جا اضافه کن\n  },\n  binary: item.binary || undefined          // اگر تصویر به صورت binary برگشته و نیاز داری\n}));\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2800,
+        1980
+      ],
+      "id": "2314b393-dd4a-43c1-a57e-8fb6e42b09e2",
+      "name": "add image dada1"
+    },
+    {
+      "parameters": {
+        "jsCode": "return items.map(item => ({\n  json: {\n    src: item.json.src,\n    alt: item.json.alt,\n    section: item.json.section,\n    prompt: item.json.prompt,\n    // اگر فیلد image یا data در خروجی HTTP Request FLUX داری، اینجا اضافه کن:\n    image: item.json.image || null,         // اگر image یا url برگشت داده\n    data: item.json.data || null,           // اگر data (برای node بعدی Resize Image)\n    // اگر فیلد دیگری (مثلاً url) داری، همین‌جا اضافه کن\n  },\n  binary: item.binary || undefined          // اگر تصویر به صورت binary برگشته و نیاز داری\n}));\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2280,
+        1980
+      ],
+      "id": "19f63ffb-9763-4502-b06a-dc3a196ad260",
+      "name": "add image data2"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-1.5-flash-8b",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -1820,
+        1020
+      ],
+      "id": "5ca857ec-58cb-466b-b3c5-29e893f6c86b",
+      "name": "gemini-1.5-flash-8b3",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "GuN25ijHYyyWUd8Y",
+          "name": "Google Gemini Mansurirad@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Category $ Subtitle Generator",
+        "height": 240,
+        "width": 540
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1880,
+        720
+      ],
+      "typeVersion": 1,
+      "id": "4518d0fc-8962-4da7-a961-488cf4066309",
+      "name": "Sticky Note19"
+    },
+    {
+      "parameters": {
+        "content": "## Estimated Reading Time Generator\n\n \n \n",
+        "height": 240,
+        "width": 560
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -3860,
+        1380
+      ],
+      "typeVersion": 1,
+      "id": "7b17fee4-7ac1-42c8-be2d-b91e01300088",
+      "name": "Sticky Note20"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-flash-preview-05-20",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -3780,
+        1680
+      ],
+      "id": "a0ba1b3e-df3b-4c76-acfe-96c8ec86d3a7",
+      "name": "Gemini-2.0-flash-thinking-exp-01-02(3)3",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "dg8UqtcDtIDprGzD",
+          "name": "Google Gemini(PaLM) DirectDrivelogistic@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Key Takeaways Generator\n\n \n \n",
+        "height": 240,
+        "width": 560
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -3180,
+        1380
+      ],
+      "typeVersion": 1,
+      "id": "70c2b53d-775e-46ed-9419-843a97d2167b",
+      "name": "Sticky Note21"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-flash-preview-05-20",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -3120,
+        1680
+      ],
+      "id": "86029de2-5229-47e3-8046-7ff40fc24a28",
+      "name": "Gemini-2.0-flash-thinking-exp-01-02(3)4",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "dg8UqtcDtIDprGzD",
+          "name": "Google Gemini(PaLM) DirectDrivelogistic@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Input:\nBlog Content: {{ $('Add internal links').item.json.output }}",
+        "options": {
+          "systemMessage": "=Generate and output ONLY the HTML code (no extra text, no code fences, no “html” label at the top).\n\nExtract the 3–5 most important actionable key takeaways from the following blog post.  \nOutput the key takeaways as a semantic HTML section (<section class=\"key-takeaways\">...</section>) with a heading and an unordered list.\n\nInput is given for  Blog Content\n\nDo NOT include any CSS, meta tags, or extra commentary. Output only the HTML for the key takeaways section. If a key takeaways section already exists in the input, pass it through as-is and do not generate a new one."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        -3100,
+        1440
+      ],
+      "id": "79789f45-b114-4f19-ab2c-0152a9d3c4d5",
+      "name": "Key Takeaways Generator"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={{\n  (() => {\n    const raw = $json.output || '';\n    // Match <section class=\"key-takeaways\">...</section>\n    const match = raw.match(/<section\\s+class=[\"']key-takeaways[\"'][^>]*>[\\s\\S]*?<\\/section>/i);\n    return {\n      keyTakeaways: match ? match[0].trim() : ''\n    };\n  })()\n}}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -2760,
+        1440
+      ],
+      "id": "9f774a24-74ac-4aac-aded-8eb834b66763",
+      "name": "Key Takeaways Refiner"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Input:\nBlog Content: {{ $('Add internal links').item.json.output }}",
+        "options": {
+          "systemMessage": "=Generate and output ONLY the HTML code (no extra text, no code fences, no “html” label at the top).\n\nEstimate the reading time (in minutes) for the following blog post, assuming an average reading speed of 300 words per minute.  \nOutput the estimated reading time as a semantic HTML element (<div class=\"reading-time\">Estimated reading time: X minutes</div>) for placement near the top of the article.\n\nInput as given for \nBlog Content\n\nDo NOT include any CSS, meta tags, or extra commentary. Output only the HTML for the reading time. If a reading time indicator already exists in the input, pass it through as-is and do not generate a new one."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        -3780,
+        1440
+      ],
+      "id": "a779453b-5832-41e0-b0c9-dbcb97b6aac5",
+      "name": "Estimated Reading Time Generator"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={{\n  (() => {\n    const raw = $json.output || '';\n    // Match <div class=\"reading-time\">...</div>\n    const match = raw.match(/<div\\s+class=[\"']reading-time[\"'][^>]*>[\\s\\S]*?<\\/div>/i);\n    return {\n      readingTime: match ? match[0].trim() : ''\n    };\n  })()\n}}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -3420,
+        1440
+      ],
+      "id": "75e2ccad-eeb8-409c-b514-4035640e9450",
+      "name": "Estimated Reading Time Refiner"
+    },
+    {
+      "parameters": {
+        "content": "## Table of Contents Injector \n\n \n \n",
+        "height": 260,
+        "width": 500
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -3900,
+        660
+      ],
+      "typeVersion": 1,
+      "id": "f2ac49b5-6688-45b5-ad76-1bd70d1eb546",
+      "name": "Sticky Note22",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-flash-preview-05-20",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -3840,
+        960
+      ],
+      "id": "49aad86a-8ed3-43cd-8b3b-9111f581f3f8",
+      "name": "Gemini-2.0-flash-thinking-exp-01-02(3)5",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "dg8UqtcDtIDprGzD",
+          "name": "Google Gemini(PaLM) DirectDrivelogistic@gmail.com"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=`Blog Content HTML` : {{ $('Add internal links').item.json.output }}\n",
+        "options": {
+          "systemMessage": "=You are an expert HTML Table of Contents (ToC) generator.\nYour ONLY task is to analyze the provided HTML content and generate a JSON object containing two things: the ToC's HTML, and a structured list of headings.\n\n**Instructions:**\n1.  Analyze the input HTML and find all `<h2>` headings in their original order.\n2.  For each `<h2>` heading:\n    a. Create a slugified, lowercase version for the ID (e.g., \"My Heading\" becomes \"my-heading\").\n    b. Create a link: `<li><a href=\"#my-heading\">My Heading</a></li>`.\n3.  Assemble the full `<nav>` block for the ToC.\n4.  Create a JSON array of objects, where each object has two keys: \"heading\" (the full text of the heading) and \"slug\" (the slugified version).\n\n**Crucial Output Rules:**\n- Your output MUST be a single, valid JSON object with exactly two keys: `toc_html` and `headings_data`.\n- Do NOT output the original article or any other text.\n\n**Example of expected output:**\n```json\n{\n  \"toc_html\": \"<nav class='table-of-contents' aria-label='Table of Contents'><h2>Table of Contents</h2><ul><li><a href='#my-heading'>My Heading</a></li></ul></nav>\",\n  \"headings_data\": [\n    {\n      \"heading\": \"My Awesome Heading\",\n      \"slug\": \"my-awesome-heading\"\n    }\n  ]\n}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        -3860,
+        740
+      ],
+      "id": "95bf81d4-ea02-4625-8559-6b9a4c1af458",
+      "name": "Table of Contents Generator",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={{\n  (() => {\n    // Validate input\n    if (!$json || !$json.output) {\n      return { error: \"Invalid input: $json.output is required.\" };\n    }\n\n    const raw = ($json.output || \"\").trim();\n\n    // Try matching ```json ... ```\n    let match = raw.match(/```json\\s*([\\s\\S]*?)```/i);\n    if (!match) {\n      // Try matching ``` ... ```\n      match = raw.match(/```\\s*([\\s\\S]*?)```/i);\n    }\n\n    if (match && match[1]) {\n      try {\n        // Try parsing extracted block as JSON\n        return JSON.parse(match[1].trim());\n      } catch (e) {\n        return { \n          error: \"Parsing failed for content inside code block.\",\n          details: e.message\n        };\n      }\n    }\n\n    // If not a code block, try parsing as plain JSON\n    try {\n      return JSON.parse(raw);\n    } catch (e) {\n      // If it's valid HTML (e.g., Table of Contents HTML injection step), optionally allow\n      if (/^\\s*</.test(raw) && /<\\/\\w+>\\s*$/.test(raw)) {\n        // Optionally: return as raw HTML\n        return { html: raw };\n      }\n      return { error: \"Input is not valid JSON or code block.\", details: e.message };\n    }\n  })()\n}}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -3560,
+        740
+      ],
+      "id": "1cf3b233-2458-4359-9068-2eecc4a438b9",
+      "name": "Table of Contents Refiner",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "content": "## Footer Generator\n\n \n \n",
+        "height": 240,
+        "width": 560
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -2540,
+        1380
+      ],
+      "typeVersion": 1,
+      "id": "b791f5a8-eb10-4e0c-91d3-411fed56dfe2",
+      "name": "Sticky Note24"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-flash-preview-05-20",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -2480,
+        1700
+      ],
+      "id": "8be1a4de-189f-44f1-95c4-bf9e47797809",
+      "name": "Gemini-2.0-flash-thinking-exp-01-02(3)7",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "dg8UqtcDtIDprGzD",
+          "name": "Google Gemini(PaLM) DirectDrivelogistic@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Your task is to generate the HTML for the footer section of my blog post.\n\nThe footer must clearly include the company's NAP (Name, Address, Phone) information. Crucially, this NAP information must also be marked up with Schema.org Microdata for the \"Organization\" type, ensuring explicit machine-readability for local SEO.\n\n**Company NAP Details:**\n* Name: Direct Drive Logistic\n* Address: Iraq, Kurdistan region, Erbil, MRF Quattro towers, Block A-29-1\n* Phone: (+964) 7509539899\n* Email: Erbil@DirectDriveLogistic.com\n* **Google Business Profile URL: https://g.co/kgs/8nSsXyt\n\n**Additional Footer Requirements:**\n* Include standard copyright information for the current year.\n* Display the publication date.\n* Provide links to Privacy Policy, Terms of Service, and Disclaimer pages.\n* Ensure all links for phone and email are clickable (using `tel:` and `mailto:`).\n* **Include a direct, clickable link to the company's Google Business Profile.**\n\n**Output Format:**\nReturn ONLY the complete HTML for the `<footer>` element, starting with `<footer>` and ending with `</footer>`. Do not add any extra text, explanations, or commentary.\n\n**Dynamic Inputs:**\n* Date: {{ $json.date || (new Date()).toISOString().split('T')[0] }}\n\n**Example of Desired HTML Structure (for NAP with Microdata AND GMB Link):**\n```html\n<footer itemscope itemtype=\"[http://schema.org/Organization](http://schema.org/Organization)\" aria-label=\"Footer\">\n  <address>\n    <p><strong><span itemprop=\"name\">Direct Drive Logistic</span></strong></p>\n    <p itemprop=\"address\" itemscope itemtype=\"[http://schema.org/PostalAddress](http://schema.org/PostalAddress)\">\n      <span itemprop=\"streetAddress\">MRF Quattro towers, Block A-29-1</span>,<br>\n      <span itemprop=\"addressLocality\">Erbil</span>, <span itemprop=\"addressRegion\">Kurdistan region</span>, <span itemprop=\"addressCountry\">IQ</span>\n      <div itemprop=\"geo\" itemscope itemtype=\"[http://schema.org/GeoCoordinates](http://schema.org/GeoCoordinates)\">\n        <meta itemprop=\"latitude\" content=\"36.191113\">\n        <meta itemprop=\"longitude\" content=\"44.009167\">\n      </div>\n    </p>\n    <p>Phone: <a href=\"tel:+9647509539899\"><span itemprop=\"telephone\">(+964) 7509539899</span></a></p>\n    <p>Email: <a href=\"mailto:Erbil@DirectDriveLogistic.com\"><span itemprop=\"email\">Erbil@DirectDriveLogistic.com</span></a></p>\n    <p><a href=\"[https://g.co/kgs/8nSsXyt](https://g.co/kgs/8nSsXyt)\" target=\"_blank\" rel=\"noopener\">View on Google Maps / Google Business Profile</a></p>\n  </address>\n  <p>&copy; Date Direct Drive Logistic. All rights reserved.</p>\n  <p>Published on: <time datetime=\"Date\">Date</time></p>\n  <p><a href=\"https://directdrivelogistic.com/privacy-policy-for-direct-drive-logistic/\" target=\"_blank\" rel=\"noopener noreferrer\">Privacy Policy</a> |\n<a href=\"https://directdrivelogistic.com/terms-of-service/\" target=\"_blank\" rel=\"noopener noreferrer\">Terms of Service</a> |\n<a href=\"https://directdrivelogistic.com/disclaimer/\" target=\"_blank\" rel=\"noopener noreferrer\">Disclaimer</a>\n</p>\n</footer>",
+        "options": {
+          "systemMessage": "=Generate and output ONLY the HTML code (no extra text, no code fences, no “html” label at the top).\n\nCreate a footer section for the blog post. The footer should include company name, copyright, the publication date, and standard trust or legal text.\n\nInputs are given for below:\nDate:\nCompany/Brand: \n\nDo NOT include any CSS, meta tags, or extra commentary. Output only the HTML for the footer. If a footer already exists in the input, pass it through as-is and do not generate a new one."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        -2500,
+        1440
+      ],
+      "id": "30afd7f1-1668-411b-9c58-4e2ba8927d05",
+      "name": "Footer Generator"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={{\n  (() => {\n    const raw = $json.output || '';\n    // Match <footer>...</footer>\n    const match = raw.match(/<footer[\\s\\S]*?<\\/footer>/i);\n    return {\n      footer: match ? match[0].trim() : ''\n    };\n  })()\n}}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -2140,
+        1440
+      ],
+      "id": "26f412a6-71f9-4766-8f63-60c2fb48f02f",
+      "name": "Footer  Refiner"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=define below",
+        "options": {
+          "systemMessage": "=You receive one JSON object with:\n\nHTML Blog (string): HTML with <img> tags.\n\nImage data (array): Each item has alt (string) and wp_url (string).\n\nTask:\nFor every <img> in HTML Blog, if its alt matches any alt in Image data (trimmed, case-insensitive), replace src with the corresponding wp_url.\nLeave other tags/attributes unchanged.\n\nin ImagData input you see and text each image information is like below exampl:\n{\"wp_url\":\"https://directdrivelogistic.com/wp-content/uploads/2025/06/FLUX-56.jpeg\",\"alt\":\"Shipping containers at Umm Qasr Port, Iraq, representing the customs clearance process.\"}\nwhich \"wp_url\" is the address for \"alt\". \n\nOutput:\nA JSON array with one object\n\nProperty html: the transformed HTML string.\n\nDo not change the JSON structure.\n\nInput Data:\nHTML Blog: {{ $json.output }}\nImageData: {{ JSON.stringify($json.Imagedata) }}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        -920,
+        1980
+      ],
+      "id": "c99b4182-ad01-4b1e-9893-d0bb263a5967",
+      "name": "Image Injector1"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.0-flash-lite-preview-02-05",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -900,
+        2200
+      ],
+      "id": "ec244bdc-b75c-4d51-8886-b54d11375598",
+      "name": "Google Gemini Chat Model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "dg8UqtcDtIDprGzD",
+          "name": "Google Gemini(PaLM) DirectDrivelogistic@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Image Injector to the article\n\n \n \n",
+        "height": 240,
+        "width": 860
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1320,
+        1900
+      ],
+      "typeVersion": 1,
+      "id": "8fc377a6-e979-4c34-ad60-34ee64de101e",
+      "name": "Sticky Note23"
+    },
+    {
+      "parameters": {
+        "jsCode": "const html =  $('Add internal links').item.json.output ;\n\nreturn [\n  {\n    json: {\n      output: html\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1280,
+        1980
+      ],
+      "id": "e2baa62b-db55-4918-a31e-503601f9c2fe",
+      "name": "HTML Document"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        -2040,
+        2260
+      ],
+      "id": "fc4c56da-9b5b-4b48-96a0-4fb53f18d83e",
+      "name": "Merge image data"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "wp_url, alt",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        -1860,
+        2260
+      ],
+      "id": "c27d00c0-bfd2-4b61-b807-af799aaf533f",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        -1700,
+        2260
+      ],
+      "id": "c3bcd686-bf42-4bc5-8420-8497e0185a5c",
+      "name": "Aggregate Image Data1"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        -1100,
+        1980
+      ],
+      "id": "e79aa054-c911-485a-a0f8-6bbf684dc910",
+      "name": "Merge1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f7c51a81-83b0-413e-a7d0-4698c9f72dce",
+              "name": "Imagedata",
+              "value": "={{ $json.data }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1300,
+        2260
+      ],
+      "id": "de0888c1-9f8e-4c8f-a1d4-69ee68f4907b",
+      "name": "Imagedata"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1c1b1f98-e834-406a-b7fa-036b36b1c883",
+              "name": "Pillar Page",
+              "value": "={{ $json['Pillar Page'] }}",
+              "type": "string"
+            },
+            {
+              "id": "c801deba-87cf-48b0-a452-60cb2860ea70",
+              "name": "Cluster",
+              "value": "={{ $json.Cluster }}",
+              "type": "string"
+            },
+            {
+              "id": "b0cda1e9-20b9-4791-a843-d43c8f4e8e49",
+              "name": "Intent",
+              "value": "={{ $json.Intent }}",
+              "type": "string"
+            },
+            {
+              "id": "7cf89648-0424-47f3-a29c-13a0cbed3451",
+              "name": "In the style of ",
+              "value": "={{ $json['In the style of '] }}",
+              "type": "string"
+            },
+            {
+              "id": "d18c3ed8-f769-416a-a69c-0ba7f0fc7ea3",
+              "name": "Keywords",
+              "value": "={{ $json.Keywords }}",
+              "type": "string"
+            },
+            {
+              "id": "0f67f6ad-6fd2-4162-a3a7-b72f03ab0ccf",
+              "name": "Primary Keyword",
+              "value": "={{ $json['Primary Keyword'] }}",
+              "type": "string"
+            },
+            {
+              "id": "57b56642-5611-42d7-9ee3-b97d9eb4bc4e",
+              "name": "Category ID",
+              "value": "={{ $json['Category ID'] }}",
+              "type": "string"
+            },
+            {
+              "id": "900f191b-9d6b-4363-95f4-da0efcf9534a",
+              "name": "Author ID/Name",
+              "value": "={{ $json['Author ID/Name'] }}",
+              "type": "string"
+            },
+            {
+              "id": "ac10a397-10a0-41ff-ad35-989fc2d3517e",
+              "name": "Word count",
+              "value": "={{ $json['Word count'] }}",
+              "type": "number"
+            },
+            {
+              "id": "9b649aa7-0643-4049-ad2b-53a88e9abab9",
+              "name": "Call to Action URL",
+              "value": "={{ $json['Call to Action URL'] }}",
+              "type": "string"
+            },
+            {
+              "id": "47c54509-8247-45d4-bd7a-87ac32a64dc5",
+              "name": "Customer offer/ Brand View",
+              "value": "={{ $json['Customer offer/ Brand View'] }}",
+              "type": "string"
+            },
+            {
+              "id": "b1fecfad-0cf2-4af2-b1ff-e7ac96832140",
+              "name": "completed",
+              "value": "={{ $json.completed }}",
+              "type": "string"
+            },
+            {
+              "id": "b6237052-77f4-4b31-bca2-eee8682df0d7",
+              "name": "Image No.",
+              "value": "={{ $json[\"Image No.\"] }} ",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -3360,
+        160
+      ],
+      "id": "81ac1e8c-e380-429e-9ca6-73a529ac3763",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get the HTML output from the Write Blog node\nconst html = $('Write Blog').item.json.output;\n\n// Use a regular expression to remove all <a> tags, but keep their content.\nconst cleanedHtml = html.replace(/<a[^>]*>|<\\/a>/g, \"\");\n\n// Return the cleaned HTML in a new variable\nreturn [{ json: { cleanedHtml: cleanedHtml } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1060,
+        160
+      ],
+      "id": "1b4df3e1-e784-4529-acce-7201c92a4ba1",
+      "name": "Write Blog refiner"
+    },
+    {
+      "parameters": {
+        "content": "## Title and Meta Description & Slug Generator \n \n",
+        "height": 240,
+        "width": 700
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -2620,
+        720
+      ],
+      "typeVersion": 1,
+      "id": "7bba42d3-3268-4c62-bda0-875516dcbf5d",
+      "name": "Sticky Note26"
+    },
+    {
+      "parameters": {
+        "jsCode": "// The input item's JSON property contains the raw string from the AI.\nconst rawOutput = $json.output;\n\nlet jsonString = rawOutput.trim();\n\n// In case the AI wraps the output in markdown fences (e.g., ```json ... ```),\n// this regex will find and extract just the JSON content inside.\nconst match = jsonString.match(/```json\\s*([\\s\\S]*?)\\s*```/);\n\nif (match && match[1]) {\n  jsonString = match[1];\n}\n\ntry {\n  // Parse the cleaned JSON string into an object.\n  const parsedJson = JSON.parse(jsonString);\n\n  // Return the parsed object so subsequent nodes can easily access\n  // its properties, like `blog_title` and `meta_description`.\n  return [\n    {\n      json: parsedJson\n    }\n  ];\n\n} catch (e) {\n  // If parsing fails, return an error object for debugging.\n  return [\n    {\n      json: {\n        error: \"Failed to parse JSON from the input.\",\n        details: e.message,\n        originalInput: rawOutput\n      }\n    }\n  ];\n}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2260,
+        780
+      ],
+      "id": "0ecbf674-6a38-48a0-9cd9-f0e721309e8e",
+      "name": "Title and Meta Description Refiner"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Input:\nBlog Content: {{ $('Add internal links').item.json.output }}\nPrimary Keyword: {{ $('Grab New Cluster').item.json[\"Primary Keyword\"] }}",
+        "options": {
+          "systemMessage": "=You are an expert SEO strategist trained on the most recent SEO algorithms and Google ranking factors (2024–2025), including CTR optimization, EEAT, user intent fulfillment, and entity-level search ranking.\nGenerate and output ONLY a valid JSON object (no extra text, no code fences, no “json” label at the top).\n\nPRIMARY DIRECTIVE: You MUST strictly adhere to all character limits. Failure to meet these limits means the entire task has failed. Before providing the final output, mentally review your generated text to ensure it complies with all length rules.\n\nYou have four tasks:\n\nTask 1: Extract the Title: From the Blog Content input, find the main <h1> HTML tag and extract its exact text content.\n\nTask 2: Refine and revise the Title:\n\nInclude the Primary Keyword near the beginning.\nUse a power word or action trigger that boosts click-through rate\nReflect the benefit or value the post offers\nMatch the Audience/Intent Type (e.g., informational, transactional)\nBe unique, clickable, and within 60 characters\nOptionally include year if relevant to freshness or urgency\nThe final title you output in the JSON must be the compliant one.\noutput final title\nTask 3: Generate the Slug: Based on the final title from Task 2, create a URL-friendly slug.\n\nRules: less than 5 words, Must be lowercase, use hyphens for spaces, remove special characters, and be concise.\nTask 4: Generate Meta Description\nUsing the blog content for context, create a highly compelling, SEO-optimized meta description that performs well in Google SERPs.\n\nRequirements:\n\nThe meta description MUST NOT exceed 160 characters. This is a strict limit.\nEngagement Power / Uniqueness.\nIt must naturally include the Primary Keyword within the first 10 words.\nClearly reflect the target user's intent (e.g., informational, commercial, navigational).\nMust highlight a key benefit or value proposition relevant to the blog.\nEnd with a clear Call-to-Action (CTA) (e.g., “Learn more,” “Explore now,” “Get expert tips”).\nTone: Engaging, actionable, and benefit-driven.\nOutput Format:\nOutput the results as a single, valid JSON object with exactly four keys: \"blog_title\", \"final_title\", \"slug\", and \"meta_description\".\n\nInputs are given to you as:\nBlog Content: The full text of the article.\nPrimary Keyword: The main target keyword.\n\nDo NOT include any extra explanations or commentary. Your output must only be the JSON object.\n\nExample of expected output:\n\nJSON\n\n{\n  \"blog_title\": \"Road Freight in Kurdistan: Challenges & Opportunities\",\n  \"final_title\": \"Kurdistan Road Freight: Master Your Logistics in 2025\",\n  \"slug\": \"kurdistan-road-freight-logistics\",\n  \"meta_description\": \"Master road freight in Kurdistan with our guide. Learn to navigate transport challenges, find strategic routes, and choose reliable companies for secure land freight. Get started now.\"\n}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        -2600,
+        780
+      ],
+      "id": "6fab1af8-1df0-4b0c-8a21-47d67c8b76bb",
+      "name": "Title and Meta Description Generator"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.0-flash-lite-001",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -2580,
+        1000
+      ],
+      "id": "13da1f4c-5af7-46f6-ab80-0b3e4a4eaeb2",
+      "name": "gemini-1.5-pro",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "dg8UqtcDtIDprGzD",
+          "name": "Google Gemini(PaLM) DirectDrivelogistic@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "crop",
+        "width": 1024,
+        "height": 960,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.editImage",
+      "typeVersion": 1,
+      "position": [
+        -2640,
+        1980
+      ],
+      "id": "b2aedde2-899b-42db-83c5-aff3c4e16971",
+      "name": "Edit Image"
+    },
+    {
+      "parameters": {
+        "jsCode": "return items.map(item => {\n  const text = item.json.output;\n\n  // 1. Extract the JSON array block, which starts with ````json\\n` and ends with `\\n```\n  const match = text.match(/```json\\n([\\s\\S]*?)\\n```/);\n\n  if (!match) {\n    return null;\n  } else {\n    try {\n      // 2. Parse the extracted JSON array\n      const arr = JSON.parse(match[1]); // Use match[1] to get the content inside the capture group\n      return arr[0]; // Return the first object as JSON\n    } catch (e) {\n      console.error(\"Error parsing JSON:\", e.message);\n      return null;\n    }\n  }\n}).filter(x => x !== null);\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -600,
+        1980
+      ],
+      "id": "57316559-0b4f-4829-ad35-33d9bd405649",
+      "name": "image Injector Refiner",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "content": "## BLOG schema\n\n \n \n",
+        "height": 240,
+        "width": 560
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -3840,
+        2540
+      ],
+      "typeVersion": 1,
+      "id": "83e90245-8b0e-4ced-819d-abeded5ba956",
+      "name": "Sticky Note25"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Final, All-in-One Schema Generator Prompt (Simplified)\nRole: You are an expert in generating SEO-focused structured data.\n\nTask: Your sole task is to receive article details and pre-generated components, then produce a final JSON object containing three separate, complete schemas.\n\nOutput: You must return only a valid JSON object with the exact structure below, containing the three schema keys (articleSchema, faqSchema, breadcrumbSchema). Do not add any other text or explanations.\n\n{\n  \"articleSchema\": { ... },\n  \"faqSchema\": { ... },\n  \"breadcrumbSchema\": { ... }\n}\n\nInstructions & Templates:\n1. articleSchema (BlogPosting):\nComplete the following template using the dynamic data.\n\n{\n  \"@context\": \"https://schema.org\",\n  \"@type\": \"BlogPosting\",\n  \"headline\": \"{{ $('SEO details').item.json.title }}\",\n  \"description\": \"{{ $('SEO details').item.json.meta_description }}\",\n  \"image\": \"{{ $('Imagedata').item.json.Imagedata[0].wp_url }}\",\n  \"author\": {\n    \"@type\": \"Person\",\n    \"name\": \"Mojtaba Mustafa\",\n    \"url\": \"https://directdrivelogistic.com/about-us\"\n  },\n  \"datePublished\": \"{{ $('SEO details').item.json.datePublished || new Date().toISOString().split('T')[0] }}\",\n  \"dateModified\": \"{{ $now.toFormat('yyyy-MM-dd') }}\",\n  \"publisher\": {\n    \"@type\": \"Organization\",\n    \"name\": \"Direct Drive Logistic\",\n    \"logo\": {\n      \"@type\": \"ImageObject\",\n      \"url\": \"https://directdrivelogistic.com/wp-content/uploads/2025/06/Direct-Driv-logistic-logo.png\"\n    }\n  },\n  \"mainEntityOfPage\": {\n    \"@type\": \"WebPage\",\n    \"@id\": \"https://directdrivelogistic.com/{{ $('SEO details').item.json.slug }}\"\n  }\n}\n\n2. faqSchema (FAQPage):\nAnalyze the FAQ HTML Block input. Extract each question (from <h3> tags) and its corresponding answer (from <p> tags) and place them into a standard FAQPage schema.\n\n3. breadcrumbSchema (BreadcrumbList):\nComplete the following template using the dynamic data.\n\n{\n  \"@context\": \"https://schema.org\",\n  \"@type\": \"BreadcrumbList\",\n  \"itemListElement\": [\n    {\n      \"@type\": \"ListItem\",\n      \"position\": 1,\n      \"name\": \"Home\",\n      \"item\": \"https://directdrivelogistic.com/\"\n    },\n    {\n      \"@type\": \"ListItem\",\n      \"position\": 2,\n      \"name\": \"Blog\",\n      \"item\": \"https://directdrivelogistic.com/blog/\"\n    },\n    {\n      \"@type\": \"ListItem\",\n      \"position\": 3,\n      \"name\": \"{{ $('SEO details').item.json.title }}\",\n      \"item\": \"https://directdrivelogistic.com/{{ $('SEO details').item.json.slug }}\"\n    }\n  ]\n}\n\nInput Data for faqSchema:\n\nFAQ HTML Block: {{ $('FAQ Generator').item.json.output }}\n\nNow, generate the final JSON object containing all three schemas.\n\n",
+        "options": {
+          "systemMessage": "="
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        -3780,
+        2600
+      ],
+      "id": "b234f866-017d-499f-b93a-a82a771859dc",
+      "name": "Blog Schema Generator1"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={{(() => {\n  const raw = $json.output;\n  const match = raw.match(/```json\\s*([\\s\\S]*?)```/);\n  if (match) return JSON.parse(match[1]);\n  try { return JSON.parse(raw); } catch { return {}; }\n})()}}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -3440,
+        2600
+      ],
+      "id": "2f56b043-08cd-434c-a1d3-91779d3bd3ba",
+      "name": "Schema Refiner"
+    },
+    {
+      "parameters": {
+        "url": "=https://image.pollinations.ai/prompt/{{ $json.prompt }}?token=vWpokt4cJsV7WE0G",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -2980,
+        1980
+      ],
+      "id": "e808d997-f627-4442-9b3e-78f75c0c5322",
+      "name": "Pollinations"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Input:\nBlog Title:{{ $('Title refiner').item.json.html }}\nPrimary Keyword:{{ $('Grab New Cluster').item.json['Primary Keyword'] }}\nMeta Description:{{ $json.meta_description }}\n",
+        "options": {
+          "systemMessage": "==Role: You are an expert AI assistant specializing in enriching and categorizing blog content.\n\nTask: You will receive the title, primary keyword, and meta description of a blog post. Your job is to perform two tasks and return the results in a single JSON object:\n\nGenerate a short, engaging subtitle.\nSelect the single most relevant Category ID for the post.\n\nOutput Format:\nYou must return only a valid JSON object with the exact structure below. Do not add any other text, explanations, or markdown.\n\nJSON\n\n{\n  \"subtitle_html\": \"<h2 class=\\\"subtitle\\\">Generated subtitle goes here...</h2>\",\n  \"category_id\": 24\n}\nInstructions:\nTask 1: Generate Subtitle\n\nBased on the Blog Title, Primary Keyword, and Meta Description, create a short subtitle that clarifies or expands on the main title.\nDo not repeat the main title.\nThe output for this task must be an HTML string formatted as <h2 class=\\\"subtitle\\\">Subtitle text here</h2>.\nPlace this HTML string as the value for the subtitle_html key in the final JSON.\nTask 2: Select Category ID\n\nAnalyze the Blog Title, Primary Keyword, and Meta Description, and select the single most relevant category ID from the list below.\n\nCategory List:\nAir freight = 24\nArticles = 16\nConsultation Logistics = 23\nInternational Transportation = 18\nIRAQ Local Transportation = 19\nPetroleum Transportation = 22\nSea Freight = 20\nWarehousing = 21\n\n**Special Instruction for Customs/Import/Export Topics:**\nIf the blog post's primary focus is on customs clearance, import/export procedures, duties, or cross-border regulatory compliance, the most relevant category is 'International Transportation' (ID 18). This is because customs operations are a critical component of cross-border trade, even when specific local regulations within Iraq are discussed. 'IRAQ Local Transportation' (ID 19) should be used only for content solely about moving goods *within* Iraq's borders that do not involve international customs procedures.\n\nThe output for this task must be only the numerical ID (as an integer).\nPlace this number as the value for the category_id key in the final JSON.\n\nNow, generate the final JSON object."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        -1820,
+        780
+      ],
+      "id": "4e82a635-d5be-43ae-9d5e-36cbc3e67d0e",
+      "name": "Category & Subtitle Generator"
+    },
+    {
+      "parameters": {
+        "jsCode": "// این کد برای پالایش و استخراج یک آبجکت JSON تمیز از خروجی خام هوش مصنوعی طراحی شده است\n\n// قدم اول: دریافت خروجی متنی خام از نود هوش مصنوعی قبلی\n// فرض بر این است که خروجی در فیلد output قرار دارد\nconst rawOutput = $input.item.json.output || '';\n\n// قدم دوم: حذف هرگونه فضای خالی اضافی از ابتدا و انتهای متن\nlet jsonString = rawOutput.trim();\n\n// قدم سوم: پیدا کردن و استخراج محتوای داخل بلوک کد مارک‌داون\n// این کد به دنبال بلوک ```json ... ``` می‌گردد و فقط محتوای داخل آن را استخراج می‌کند\nconst match = jsonString.match(/```json\\s*([\\s\\S]*?)\\s*```/);\n\n// اگر بلوک کد پیدا شد، فقط از محتوای داخل آن استفاده می‌کنیم\nif (match && match[1]) {\n  jsonString = match[1];\n}\n\n// قدم چهارم: تلاش برای تجزیه (Parse) کردن رشته JSON تمیز شده\ntry {\n  // رشته را به یک آبجکت واقعی JSON تبدیل می‌کنیم\n  const parsedJson = JSON.parse(jsonString);\n  \n  // آبجکت JSON نهایی را برای استفاده در نودهای بعدی برمی‌گردانیم\n  // نود بعدی می‌تواند به مقادیر با استفاده از $json.subtitle_html و $json.category_id دسترسی پیدا کند\n  return [{ json: parsedJson }];\n\n} catch (e) {\n  // اگر تجزیه با خطا مواجه شد، یک آبجکت خطا برای اشکال‌زدایی آسان‌تر برمی‌گردانیم\n  console.error(\"Failed to parse JSON:\", e.message);\n  return [{ \n    json: { \n      error: \"JSON_PARSING_FAILED\",\n      details: e.message,\n      originalOutput: rawOutput // خروجی اصلی را برای بررسی ارسال می‌کنیم\n    }\n  }];\n}\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1480,
+        780
+      ],
+      "id": "e34e465e-004a-4323-95bb-5889cdac7a5f",
+      "name": "Category & subtitle Refiner"
+    },
+    {
+      "parameters": {
+        "content": "## POst & Excerpt & featured image\n\n\n\n\n\n \n \n",
+        "height": 280,
+        "width": 620
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -2100,
+        2520
+      ],
+      "typeVersion": 1,
+      "id": "df7eac68-109f-45c5-be7b-f3423ba34fac",
+      "name": "Sticky Note27"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://directdrivelogistic.com/wp-json/wp/v2/posts/{{ $json.id }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "wordpressApi",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "featured_media",
+              "value": "={{ $('Update image meta data').first().json.id }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -1680,
+        2600
+      ],
+      "id": "34d74c95-be4d-46bf-92b5-4a8e6d1ab219",
+      "name": "Set Featured Image",
+      "credentials": {
+        "wordpressApi": {
+          "id": "RhUjrJJGtwsdBBX8",
+          "name": "Wordpress account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "html": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">\n    <link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin>\n    <link href=\"https://fonts.googleapis.com/css2?family=Poppins:wght@600&family=Roboto:wght@400;700&display=swap\" rel=\"stylesheet\">\n    <title>{{ $('SEO details').item.json.title }}</title>\n    <meta name=\"description\" content=\"{{ $('SEO details').item.json.meta_description }}\">\n    <!-- [SCHEMA_MARKUP_PLACEHOLDER] -->\n            <script type=\"application/ld+json\">\n          {{ JSON.stringify($('Schema Refiner').item.json.articleSchema) }}\n\n          </script>\n          <script type=\"application/ld+json\">\n          {{ JSON.stringify($('Schema Refiner').item.json.faqSchema) }}\n          </script>\n          <script type=\"application/ld+json\">\n          {{ JSON.stringify($('Schema Refiner').item.json.breadcrumbSchema) }}\n            </script>\n    <style>\n        /* Final CSS styles based on your preference */\n        body{font-family:'Roboto',sans-serif;font-size:17px;line-height:1.8;color:#333;background-color:#fff;margin:0;padding:0}.container{max-width:840px;margin:40px auto;padding:20px}h1,h2,h3,h4,h5,h6{font-family:'Poppins',sans-serif;font-weight:600;color:#081D34}h1{font-size:40px;text-align:center;margin-bottom:30px}h2{font-size:32px;margin-top:50px;padding-bottom:15px;border-bottom:1px solid #e0e0e0}h3{font-size:24px;margin-top:40px}p{margin-bottom:20px}a{color:#D97706;text-decoration:none;transition:opacity .2s ease-in-out}a:hover{text-decoration:underline;opacity:.8}strong{font-weight:700}hr.section-divider{border:0;height:1px;background-color:#e0e0e0;margin:60px 0}img,figure{max-width:100%;height:auto;margin:30px 0;border-radius:8px}figcaption{text-align:center;font-style:italic;color:#777;margin-top:-20px;font-size:14px}.faq-section h2{text-align:center;border-bottom:none;margin-bottom:40px}.faq-item{padding-top:25px;border-top:1px solid #e0e0e0}.faq-item h3{margin-top:0;font-size:20px}.expert-perspective{background-color:#f7f7f7;border-left:5px solid #D97706;padding:30px;margin:50px 0;border-radius:5px}.expert-perspective blockquote{margin:0;font-size:19px;font-style:italic;line-height:1.7}.expert-perspective .author{margin-top:20px;font-weight:700;text-align:right;color:#081D34}.expert-perspective .author::before{content:\"— \"}.cta-section{background-color:#081D34;color:#fff;padding:40px;border-radius:8px;text-align:center;margin:60px 0}.cta-section h2{color:#fff;border-bottom:none;margin-top:0;padding-bottom:0}.cta-section p{font-size:18px;max-width:600px;margin:20px auto}.cta-section a{color:#F2A900;font-weight:700}@media (max-width:768px){h1{font-size:32px}h2{font-size:28px}h3{font-size:22px}body{font-size:16px}}\n    </style>\n</head>\n<body>\n    <div class=\"container\">\n        <header>\n            <h1>{{ $('SEO details').item.json.title }}</h1>\n        </header>\n        <main>\n            <!-- Top content modules -->\n            {{ $('Key Takeaways Refiner').item.json.keyTakeaways }}\n\n\n            <article>\n\n                {{ $('image Injector Refiner').item.json.html }}\n            </article>\n\n            <!-- Bottom content modules -->\n            {{ $('Expert Perspective refiner').item.json.html }}\n            {{ $('FAQ Generator').item.json.output }}\n            {{ $('CTA  refiner').item.json.html }}\n        </main>\n        \n         {{ $('Footer  Refiner').item.json.footer }}   \n        \n    </div>\n    <!-- Schema scripts will be injected here -->\n\n</body>\n</html>\n"
+      },
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        -3200,
+        2600
+      ],
+      "id": "afe37bff-3bdb-4ae6-9807-a8eb999bfc4f",
+      "name": "HTML"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=run system prompt",
+        "options": {
+          "systemMessage": "=Role: You are an expert HTML DOM (Document Object Model) processor.\n\nTask: Your sole task is to add id attributes to all <h2> heading tags within a given HTML document. You will utilize a provided JSON array as a precise map to identify each <h2> tag and its corresponding id value.\n\nInstructions:\n\nInput Acquisition: Receive the full HTML content as a string and the JSON array of heading data.\nRobust HTML Parsing:\nParse the input HTML Content string into a mutable HTML Document Object Model (DOM) structure.\nCrucial: This step is essential to ensure reliable and safe manipulation of HTML elements, preventing issues like accidental truncation or malformation that can occur with simple string-based operations.\nIterate and Inject IDs:\nIterate meticulously through each object provided in the Headings Data JSON array.\nFor each object, retrieve the \"heading\" (the exact text content of the <h2> tag) and the \"slug\" (the desired id attribute value).\nLocate the specific <h2> tag within the parsed HTML DOM whose inner text (or textContent) exactly matches the \"heading\" value from the current data object.\nOnce the exact <h2> element is identified, add or update its id attribute with the corresponding \"slug\" value.\nPrioritization: If an <h2> tag already possesses an id attribute, it must be overwritten with the \"slug\" provided in the Headings Data.\nError Handling: If a heading from the Headings Data array cannot be found as an <h2> tag in the HTML, ignore that specific entry and proceed to the next one without halting the process or throwing an error.\nOutput Generation:\nAfter all id attributes have been injected according to the Headings Data, serialize the entire modified HTML DOM structure back into a single, complete HTML document string.\nOutput Rules:\n\nThe output must be ONLY the modified, complete HTML document content as a plain text string.\nIt must NOT be wrapped in any code blocks (e.g., ```html, ```json, etc.).\nIt must NOT include any explanations, introductory/concluding remarks, comments, or any extraneous formatting beyond the raw HTML structure.\nThe entire HTML document, from <!DOCTYPE html> to </html>, must be returned in full, without any truncation.\nDynamic Inputs:\n\nHTML Content: {{ $json.html }}\nHeadings Data: {{ JSON.stringify($('Table of Contents Refiner').item.json.headings_data) }}\n\n\n\n\n\n\n\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        -3000,
+        2240
+      ],
+      "id": "c58f8abf-b4e4-41bd-910d-57b2abfd296b",
+      "name": "TOC link Injector",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get the raw string output from the upstream AI node.\n// This is assumed to be a JSON string property, e.g., $json.output.\nconst rawOutput = $json.output || '';\n\nlet cleanedHtml = rawOutput.trim(); // Start with trimming any leading/trailing whitespace\n\n// --- Strategy 1: Aggressively remove markdown code fences from the BEGINNING and END ---\n// This regex will match '```' followed by optional language tag (html, farsi, json, etc.) and optional whitespace/newline.\nconst fenceStartRegex = /^```(?:html|farsi|json|javascript|python)?\\s*\\n?/i;\nconst fenceEndRegex = /\\n?```\\s*$/; // Matches '```' at the very end of the string, with optional leading newline/whitespace\n\n// Apply removal to the start of the string\nif (fenceStartRegex.test(cleanedHtml)) {\n  cleanedHtml = cleanedHtml.replace(fenceStartRegex, '').trim();\n}\n\n// Apply removal to the end of the string\nif (fenceEndRegex.test(cleanedHtml)) {\n  cleanedHtml = cleanedHtml.replace(fenceEndRegex, '').trim();\n}\n\n// --- Strategy 2: If after fence removal, the string is still a JSON string literal, unescape it ---\n// This handles cases where the AI might have returned the HTML already wrapped as a JSON string (e.g., \"\\\"<html>\\\\n<body>...</html>\\\"\").\nif (cleanedHtml.startsWith('\"') && cleanedHtml.endsWith('\"') && cleanedHtml.length > 1) {\n  try {\n    // Attempt to parse the string. If it's a valid JSON string literal, it will be unescaped.\n    const parsedAsJsonString = JSON.parse(cleanedHtml);\n    \n    // Ensure the result of parsing is actually a string (not a number, boolean, object, etc.)\n    if (typeof parsedAsJsonString === 'string') {\n      cleanedHtml = parsedAsJsonString;\n    }\n  } catch (e) {\n    // If parsing fails, it means it was not a valid JSON string literal (e.g., just quoted HTML attribute).\n    // Keep cleanedHtml as is and log the error for debugging.\n    console.error(\"Failed to parse string as JSON literal in TOC Link refiner (Strategy 2):\", e.message);\n  }\n}\n\n// Final trim after all operations to catch any remaining leading/trailing whitespace\ncleanedHtml = cleanedHtml.trim();\n\n// Return the cleaned HTML in a structured output for the next nodes.\nreturn [{\n  json: {\n    html: cleanedHtml\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2660,
+        2240
+      ],
+      "id": "51a7bf23-80c1-4fd2-ba30-a3192ae21c3e",
+      "name": "TOC Link refiner",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "content": "## CTA Generator\n\n \n \n",
+        "height": 240,
+        "width": 560
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1860,
+        1380
+      ],
+      "typeVersion": 1,
+      "id": "e4df1b31-bdc8-40b5-9225-9cbda12a6241",
+      "name": "Sticky Note28"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-flash-preview-05-20",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -1780,
+        1660
+      ],
+      "id": "30a51291-7cec-49f0-b10d-6d6ad40467cb",
+      "name": "Gemini-2.0-flash-thinking-exp-01-02(3)8",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "dg8UqtcDtIDprGzD",
+          "name": "Google Gemini(PaLM) DirectDrivelogistic@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Expert Perspective Generator\n\n\n \n \n",
+        "height": 240,
+        "width": 560
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1220,
+        1380
+      ],
+      "typeVersion": 1,
+      "id": "8c662219-1837-4720-bc92-54975ad62747",
+      "name": "Sticky Note29"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-flash-preview-05-20",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -1140,
+        1660
+      ],
+      "id": "b1066c61-53db-4ade-a0df-3370c3b8b9f4",
+      "name": "Gemini-2.0-flash-thinking-exp-01-02(3)9",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "dg8UqtcDtIDprGzD",
+          "name": "Google Gemini(PaLM) DirectDrivelogistic@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Article Topic: {{ $('SEO details').item.json.title }}\nArticle description: {{ $('SEO details').item.json.meta_description }}\nArticle Conclusuin: {{ $('SEO details').item.json.conclusion }}",
+        "options": {
+          "systemMessage": "=Role: You are an expert marketing copywriter for \"Direct Drive Logistic\".\n\nTask: Create a highly compelling and contextually-aware Call-to-Action (CTA) section. The CTA's message must be precisely tailored by synthesizing the provided article topic, description, and conclusion, while reflecting the brand's core identity: professional, confident, and solutions-focused.\n\nContext: You will be given the topic, a brief description, and the concluding paragraph of an article. Your goal is to use this rich context to craft a CTA that serves as the perfect \"next step\" for the reader, directly connecting the article's key takeaways and final thoughts to the expert logistics services offered by Direct Drive Logistic in Iraq.\n\nInstructions:\n\nSynthesize All Inputs: Carefully analyze the Article Topic, Article Description, and especially the Article Conclusion to understand the core message, the problems discussed, and the final outlook presented. The conclusion is the most important input for setting the stage for the CTA.\nCraft a Data-Driven Headline: Based on the synthesized information, write a strong, engaging headline. It should pose a question or state a bold solution that directly relates to the article's main point or final thought.\nWrite Persuasive Body Text: Write a short paragraph that builds a seamless bridge from the article's conclusion to the services of Direct Drive Logistic. Reference a specific challenge or opportunity mentioned in the article and position the company as the reader's ideal partner to act on that information.\nInclude the Standard Link: Add a clear call-to-action link with the anchor text \"Contact Us for a Consultation\". The link's href must be https://www.directdrivelogistic.com/#contact.\nMaintain Strict Formatting: Format your entire response using the exact HTML structure provided below. Do not output any extra text, explanations, or markdown.\nRequired HTML Structure:\n\nHTML\n\n<section class=\"cta-section\">\n  <h2>[Your generated headline here]</h2>\n  <p>[Your generated paragraph here]</p>\n  <a href=\"https://directdrivelogistic.com/contact/\">Contact Us for a Consultation</a>\n</section>\n\nDynamic Inputs:\n\nArticle Topic: is given\nArticle description: is given.\nArticle List of Content: is given\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        -1800,
+        1440
+      ],
+      "id": "903c7a31-48e1-4d8a-8eb8-f1f16442ef4c",
+      "name": "CTA Generator"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Article Content: {{ $('Add internal links').item.json.output }}",
+        "options": {
+          "systemMessage": "=\nRole: You are a content strategist specializing in logistics within the Middle East, working for the brand \"Direct Drive Logistic\".\n\nTask: Based on the provided article content, generate a concise and insightful \"Expert Perspective\" block. The perspective should come from a fictional, authoritative figure whose views align with Direct Drive Logistic's core values of reliability and expertise in complex environments like Iraq.\n\nInstructions:\n\nRead and understand the main theme of the input article, focusing on the challenges and opportunities discussed.\nWrite a short, impactful quote (2-3 sentences) that offers a forward-looking opinion. The quote should subtly emphasize the importance of having a reliable and knowledgeable logistics partner.\nAssign a relevant fictional name and a specific, authoritative title to the author (e.g., \"Senior Iraq Logistics Analyst,\" \"Middle East Supply Chain Director\").\nFormat the entire output using the exact HTML structure below. Do not add any other text.\nHTML Structure to use:\n\nHTML\n\n<div class=\"expert-perspective\">\n  <blockquote>[Quote text here]</blockquote>\n  <div class=\"author\">[Author's Name], [Author's Title]</div>\n</div>\nDynamic Inputs:\n\nArticle Content: is given"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        -1160,
+        1440
+      ],
+      "id": "8ea6a255-7cb9-453c-9e81-5c4d90026b79",
+      "name": "Expert Perspective Generator"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get the raw string output from the 'HTML Formatting' node.\nconst rawOutput = $json.output || '';\n\n// This regex is designed to find code blocks like ```html ... ``` and extract only the content inside.\nconst regex = /```(?:html)?\\s*([\\s\\S]*?)\\s*```/;\nconst match = rawOutput.match(regex);\n\nlet cleanedHtml;\n\n// If the regex finds a match, use the captured content (the part inside the fences).\nif (match && match[1]) {\n  cleanedHtml = match[1].trim();\n} else {\n  // If no markdown fence is found, assume the output is already clean HTML and just trim any whitespace.\n  cleanedHtml = rawOutput.trim();\n}\n\n// Return the cleaned HTML in a structured output for the final WordPress node.\nreturn [{\n  json: {\n    html: cleanedHtml\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -840,
+        1440
+      ],
+      "id": "f878d4b6-3cc1-4ce0-a90d-039d26d8c9a1",
+      "name": "Expert Perspective refiner"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get the raw string output from the 'HTML Formatting' node.\nconst rawOutput = $json.output || '';\n\n// This regex is designed to find code blocks like ```html ... ``` and extract only the content inside.\nconst regex = /```(?:html)?\\s*([\\s\\S]*?)\\s*```/;\nconst match = rawOutput.match(regex);\n\nlet cleanedHtml;\n\n// If the regex finds a match, use the captured content (the part inside the fences).\nif (match && match[1]) {\n  cleanedHtml = match[1].trim();\n} else {\n  // If no markdown fence is found, assume the output is already clean HTML and just trim any whitespace.\n  cleanedHtml = rawOutput.trim();\n}\n\n// Return the cleaned HTML in a structured output for the final WordPress node.\nreturn [{\n  json: {\n    html: cleanedHtml\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1480,
+        1440
+      ],
+      "id": "529c2a3b-a60b-4a96-a493-1dc0657e010c",
+      "name": "CTA  refiner"
+    },
+    {
+      "parameters": {
+        "content": "## Title Generator\n\n \n \n",
+        "height": 240,
+        "width": 560
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -3280,
+        700
+      ],
+      "typeVersion": 1,
+      "id": "44f8eacb-f8fc-455d-9417-6b108ac3f143",
+      "name": "Sticky Note30"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-flash-preview-05-20",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -3220,
+        1000
+      ],
+      "id": "74c3c584-1b9f-43a7-a1f2-78b6c7f739f2",
+      "name": "Gemini-2.0-flash-thinking-exp-01-02(3)10",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "dg8UqtcDtIDprGzD",
+          "name": "Google Gemini(PaLM) DirectDrivelogistic@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Input Data:\nPrimary Keyword: {{ $('Grab New Cluster').item.json['Primary Keyword'] }}\nTable of content: {{ $json.toc_html }}\nAudience/Intent Type: {{ $('Grab New Cluster').item.json.Intent }}",
+        "options": {
+          "systemMessage": "=You are an expert SEO strategist trained on the most recent SEO algorithms and Google ranking factors (2024–2025), including CTR optimization, EEAT, user intent fulfillment, and entity-level search ranking.\n\nYour task is to generate one powerful SEO blog title using the following dynamic inputs:\n\n\nPrimary Keyword: is given\nTable of content: is given\nAudience/Intent Type: is given\nTarget Year (optional):  year \n\n\nYour Title Must:\n\nInclude the Primary Keyword near the beginning\n\nUse a power word or action trigger that boosts click-through rate Reflect the benefit or value the post offers Match the Audience/Intent Type (e.g., informational, transactional)\n\nBe unique, clickable, and within 60 characters\n\nOptionally include  year  if relevant to freshness or urgency\n\nFormat Options to Consider:\n\n“Primary Keyword: benefit or value  for  search intent type  Readers”\n\n“How to  benefit or value  with Primary Keyword in  year ”\n\n“Primary Keyword Made Easy:  power_word  Tips for  audience ”\n\n🎯 Return ONLY one optimized SEO blog title using the inputs above. Do not add explanations, comments, or alternative titles.\n\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        -3220,
+        780
+      ],
+      "id": "bb8b8a44-fe3d-4585-9ef6-7c4107fd6874",
+      "name": "Title Generator"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get the raw string output from the 'HTML Formatting' node.\nconst rawOutput = $json.output || '';\n\n// This regex is designed to find code blocks like ```html ... ``` and extract only the content inside.\nconst regex = /```(?:html)?\\s*([\\s\\S]*?)\\s*```/;\nconst match = rawOutput.match(regex);\n\nlet cleanedHtml;\n\n// If the regex finds a match, use the captured content (the part inside the fences).\nif (match && match[1]) {\n  cleanedHtml = match[1].trim();\n} else {\n  // If no markdown fence is found, assume the output is already clean HTML and just trim any whitespace.\n  cleanedHtml = rawOutput.trim();\n}\n\n// Return the cleaned HTML in a structured output for the final WordPress node.\nreturn [{\n  json: {\n    html: cleanedHtml\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2880,
+        780
+      ],
+      "id": "1f72f242-a8a4-4529-9c63-00f5bc58e38e",
+      "name": "Title refiner"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get the JSON object from the previous node's output.\n// It is assumed the previous node is the 'refiner' for the AI output.\nconst inputData = $json;\n\n// --- Smart Truncation Function ---\n// This function truncates text to a max length without cutting words in half.\nfunction smartTruncate(text, maxLength) {\n  // If the text is already short enough, return it as is.\n  if (text.length <= maxLength) {\n    return text;\n  }\n\n  // Find the last space within the allowed length.\n  let truncatedText = text.substring(0, maxLength);\n  let lastSpaceIndex = truncatedText.lastIndexOf(' ');\n\n  // If a space is found, cut the text at that point. Otherwise, cut at the max length.\n  if (lastSpaceIndex > 0) {\n    truncatedText = truncatedText.substring(0, lastSpaceIndex);\n  }\n  \n  // Add an ellipsis for titles, but not for meta descriptions\n  if (maxLength <= 60) {\n      return truncatedText + '...';\n  }\n\n  return truncatedText;\n}\n\n\n// --- Process the data ---\n\n// Set the maximum lengths\nconst MAX_TITLE_LENGTH = 60;\nconst MAX_META_DESC_LENGTH = 155;\n\n// Apply the smart truncation to the title and meta description\nconst refinedTitle = smartTruncate(inputData.final_title, MAX_TITLE_LENGTH);\nconst refinedMetaDesc = smartTruncate(inputData.meta_description, MAX_META_DESC_LENGTH);\n\n\n// --- Prepare the final output ---\n\n// Create the final output object. The slug remains unchanged.\nconst outputData = {\n  final_title: refinedTitle,\n  slug: inputData.slug, // The slug is already good, so we pass it through.\n  meta_description: refinedMetaDesc,\n  original_title: inputData.blog_title // Optional: keep the original for reference\n};\n\n// Return the new object for the next nodes in the workflow.\nreturn [\n  {\n    json: outputData\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2060,
+        780
+      ],
+      "id": "13cf35cc-3d77-4715-b320-d565e952f28a",
+      "name": "Meta Description lenght controller"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-flash-preview-05-20",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -3000,
+        2460
+      ],
+      "id": "2ab7dc2a-f172-4856-8727-74eef3ec9ae7",
+      "name": "Gemini-2.0-flash-thinking-exp-01-02(3)6",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "dg8UqtcDtIDprGzD",
+          "name": "Google Gemini(PaLM) DirectDrivelogistic@gmail.com"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "content": "## Blog Score\n\n\n\n\n\n\n \n \n",
+        "height": 280,
+        "width": 620
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -2560,
+        2920
+      ],
+      "typeVersion": 1,
+      "id": "4f491828-d3ce-4dc3-be68-1bfebd4cbc7f",
+      "name": "Sticky Note31"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=BLOG CONTENT TO EVALUATE:\n{{$json.html}}\n\n---\n\nSCORING SYSTEM & INSTRUCTIONS:\n\nStep 1: Evaluation Process\nEvaluate the blog post across the 17 SEO categories listed below. For each category, review the content against the checklist items and assign a `raw_score` from 0 to 5.\n*   0 = Not present at all\n*   1 = Very poor\n*   2 = Needs improvement\n*   3 = Adequate\n*   4 = Good\n*   5 = Excellent\n\nStep 2: Weighted Calculation\nFor each category, multiply your assigned `raw_score` by the category's assigned **Weight** to get the `weighted_score`.\n\nStep 3: Final Score Calculation\nAdd all 17 `weighted_score` values together to get a total. Divide this total by 100 to get the `final_score`.\n\n**Step 4: Identify Weaknesses**\nAfter scoring, identify the three categories with the lowest `raw_score`. For each of these three categories, write a brief, specific `reason` explaining *why* the score is low based on its checklist items.\n\n**Step 5: Assemble JSON Output**\nConstruct the final JSON object precisely as described in the System Message. Note: The `score_breakdown` in the final output should **not** include the `weighted_score`.\n\n---\n\nSCORING CATEGORIES & WEIGHTS:\n\nCategory: Content Quality & Relevance\nChecklist:\n- Originality & depth\n- Alignment with search intent\n- Grammar & readability\nWeight: 11\n\nCategory: Keyword Optimization\nChecklist:\n- Use of primary keywords\n- Use of LSI/semantic terms\n- Keyword placement in headers\nWeight: 9\n\nCategory: E-E-A-T (Experience, Expertise, Authoritativeness, Trust)\nChecklist:\n- Author credentials\n- Trustworthy external citations\n- Topical authority presence\nWeight: 9\n\nCategory: Answer Engine Optimization (AEO)\nChecklist:\n- Snippet-ready content\n- Conversational Q&A\n- Answer structure formatting\nWeight: 8\n\nCategory: On-Page SEO\nChecklist:\n- Proper heading hierarchy\n- Keyword use in H1–H4\n- Internal semantic structure\nWeight: 8\n\nCategory: Technical SEO\nChecklist:\n- HTTPS & indexing\n- Mobile responsive code\n- No technical errors\nWeight: 7\n\nUser Experience (UX)\nChecklist:\n- Readable layout\n- Clear CTAs\n- Table of contents\nWeight: 7\n\nCategory: Mobile Optimization\nChecklist:\n- Mobile responsiveness\n- Touch-friendly design\n- Cross-device consistency\nWeight: 6\n\nCategory: Page Speed & Core Web Vitals\nChecklist:\n- Optimized images\n- Minified CSS/JS\n- Meets LCP, FID, CLS standards\nWeight: 6\n\nCategory: Structured Data & Schema\nChecklist:\n- Schema implementation\n- Correct type (FAQ, Article)\n- Validates in Google test\nWeight: 6\n\nCategory: Internal & External Linking\nChecklist:\n- Relevant authority links\n- Internal structure\n- Anchor text use\nWeight: 5\n\nCategory: Image Optimization\nChecklist:\n- ALT text\n- Proper sizing\n- Descriptive filenames\nWeight: 4\n\nCategory: Meta Tags\nChecklist:\n- Optimized title\n- Compelling description\n- Uniqueness\nWeight: 4\n\nCategory: Local SEO\nChecklist:\n- NAP consistency\n- Map presence\n- Google Business linked\nWeight: 3\n\nCategory: Social Proof & Sharing\nChecklist:\n- Testimonials\n- Share buttons\n- Open Graph tags\nWeight: 2\n\nCategory: AI Overview Readiness\nChecklist:\n- Structured answers\n- Bullet lists/Q&A\n- Summary formatting\nWeight: 3\n\nCategory: Content Freshness\nChecklist:\n- Recently updated\n- Cites current data\n- Active refresh cycle\nWeight: 3",
+        "options": {
+          "systemMessage": "=ROLE:\nYou are a meticulous, data-driven SEO evaluation model. Your sole task is to analyze the provided HTML blog content and generate a comprehensive analysis in a structured JSON format. You must follow all instructions precisely.\n\n---\n\nCRITICAL OUTPUT FORMAT:\nYour entire response MUST be a single, valid JSON object. Do not include any introductory text, explanations, or markdown formatting like ` ```json `.\n\nThe JSON object must contain these three top-level keys:\n1.  `final_score`: A single number representing the overall score.\n2.  `score_breakdown`: An array of 17 objects. Each object must contain ONLY the keys: `category` (string) and `raw_score` (number from 0-5).\n3.  `weakest_areas`: An array of the top 3 categories with the lowest `raw_score`. Each object must contain the keys: `category` (string), `raw_score` (number), and `reason` (a brief string explaining why the score was low).\n\nExample of a perfect response structure:\n{\n  \"final_score\": 75,\n  \"score_breakdown\": [\n    {\n      \"category\": \"Content Quality & Relevance\",\n      \"raw_score\": 4\n    },\n    {\n      \"category\": \"Keyword Optimization\",\n      \"raw_score\": 5\n    }\n  ],\n  \"weakest_areas\": [\n    {\n      \"category\": \"Local SEO\",\n      \"raw_score\": 1,\n      \"reason\": \"The content lacks any NAP information or connection to a Google Business Profile.\"\n    }\n  ]\n}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        -2460,
+        2980
+      ],
+      "id": "fbe929a2-813b-4d1e-aa0c-839cc3459c8b",
+      "name": "scoreing"
+    },
+    {
+      "parameters": {
+        "title": "={{ $('SEO details').item.json.title }}",
+        "additionalFields": {
+          "authorId": 2,
+          "content": "={{ $json.html }}",
+          "slug": "={{ $('SEO details').item.json.slug }}",
+          "status": "draft",
+          "commentStatus": "closed",
+          "sticky": false,
+          "categories": "={{ $('SEO details').item.json.category_id }}",
+          "tags": [],
+          "postTemplate": {
+            "values": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.wordpress",
+      "typeVersion": 1,
+      "position": [
+        -2060,
+        2600
+      ],
+      "id": "752a963d-eeac-4e1a-b0d8-385d144b1ef2",
+      "name": "Create a post",
+      "credentials": {
+        "wordpressApi": {
+          "id": "RhUjrJJGtwsdBBX8",
+          "name": "Wordpress account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "=8183574838",
+        "text": "=🤖 SEO Analysis Complete!\n🟢 Final SEO Score: {{ $json.final_score.toString() }}\n\nContent Quality & Relevance: {{ $json.score_breakdown[0].raw_score.toString() }}\nKeyword Optimization: {{ $json.score_breakdown[1].raw_score }}\nE-E-A-T (Experience, Expertise, Authoritativeness, Trust): {{ $json.score_breakdown[2].raw_score.toString() }}\nAnswer Engine Optimization (AEO): {{ $json.score_breakdown[3].raw_score.toString() }}\nOn-Page SEO:{{ $json.score_breakdown[4].raw_score.toString() }}\nTechnical SEO: {{ $json.score_breakdown[5].raw_score.toString() }}\nUser Experience (UX): {{ $json.score_breakdown[6].raw_score.toString() }}\nMobile Optimization: {{ $json.score_breakdown[7].raw_score.toString() }}\nPage Speed & Core Web Vitals: {{ $json.score_breakdown[8].raw_score.toString() }}\nStructured Data & Schema: {{ $json.score_breakdown[9].raw_score.toString() }}\nInternal & External Linking: {{ $json.score_breakdown[10].raw_score.toString() }}\nImage Optimization: {{ $json.score_breakdown[11].raw_score.toString() }}\nMeta Tags: {{ $json.score_breakdown[12].raw_score.toString() }}\nLocal SEO: {{ $json.score_breakdown[13].raw_score.toString() }}\nSocial Proof & Sharing: {{ $json.score_breakdown[14].raw_score.toString() }}\nAI Overview Readiness: {{ $json.score_breakdown[15].raw_score.toString() }}\nContent Freshness: {{ $json.score_breakdown[16].raw_score.toString() }}\n",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -1860,
+        2980
+      ],
+      "id": "5297863a-c098-452b-8d84-6571d5fec93f",
+      "name": "Telegram Notify Post Published1",
+      "webhookId": "335e9b84-8fad-4b0a-b48f-c6a081b3d0bf",
+      "credentials": {
+        "telegramApi": {
+          "id": "2au3ZTo4EwGWbEwi",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-1.5-flash-latest",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -2440,
+        3220
+      ],
+      "id": "0376ebed-03e7-4f21-9cf4-e2ad152214c0",
+      "name": "gemini-1.5-pro1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "GuN25ijHYyyWUd8Y",
+          "name": "Google Gemini Mansurirad@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// This code will extract the clean JSON from the AI's messy text output.\n\nconst item = items[0];\n\n// 1. Get the raw text output that contains the markdown fences.\nconst inputText = item.json.output;\n\n// 2. Use a regular expression to find the JSON content inside the fences.\n// This looks for everything between the first '{' and the last '}'.\nconst jsonMatch = inputText.match(/\\{[\\s\\S]*\\}/);\n\n// 3. If a match is found, parse it into a real JSON object and return it.\nif (jsonMatch && jsonMatch[0]) {\n  return JSON.parse(jsonMatch[0]);\n}\n\n// 4. If no JSON is found, return an error object for debugging.\nreturn { error: \"No valid JSON object was found in the input.\" };"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2100,
+        2980
+      ],
+      "id": "f1065896-2d77-4789-98ba-0349d231c93e",
+      "name": "SEO Score Refiner"
+    },
+    {
+      "parameters": {
+        "jsCode": "// --- Helper Functions ---\n\n// Function to get a status emoji based on the score\nconst getScoreEmoji = (score) => {\n  if (score >= 80) return '🟢';\n  if (score >= 60) return '🟡';\n  return '🔴';\n};\n\n// Escape ALL MarkdownV2 special characters required by Telegram\nconst escapeMarkdownV2 = (text) => {\n  if (typeof text !== 'string') return '';\n  // Escapes: _ * [ ] ( ) ~ ` > # + - = | { } . ! \\\n  return text.replace(/([_*\\[\\]()~`>#+\\-=|{}.!\\\\])/g, '\\\\$1');\n};\n\n// --- Build Message Parts ---\nconst inputData = items[0].json;\n\n// Part 1: Weakest Areas\nlet weakestAreasText = '';\nif (inputData.weakest_areas && inputData.weakest_areas.length > 0) {\n  for (let i = 0; i < inputData.weakest_areas.length; i++) {\n    const area = inputData.weakest_areas[i];\n    const category = escapeMarkdownV2(area.category);\n    const reason = escapeMarkdownV2(area.reason || '');\n    weakestAreasText += `${i + 1}\\\\. *${category}* \\\\(Score: \\`${escapeMarkdownV2(String(area.raw_score))}/5\\`\\\\)\\n_${reason}_\\n\\n`;\n  }\n} else {\n  weakestAreasText = '_No weak areas detected_\\n';\n}\n\n// Part 2: Full Score Breakdown\nlet scoreBreakdownText = '';\nfor (let i = 0; i < inputData.score_breakdown.length; i++) {\n  const item = inputData.score_breakdown[i];\n  const category = escapeMarkdownV2(item.category);\n  const score = escapeMarkdownV2(String(item.raw_score));\n  scoreBreakdownText += `▪️ ${category}: \\`${score}/5\\`\\n`;\n}\n\n// --- Assemble Final Message ---\nconst separator = '====================';\n\nlet finalMessage = `🤖 *SEO Analysis Complete\\\\!*\\n\\n`;\nfinalMessage += `${getScoreEmoji(inputData.final_score)} *Final SEO Score:* \\`${escapeMarkdownV2(String(inputData.final_score))}\\`\\n\\n`;\nfinalMessage += `${separator}\\n\\n`;\nfinalMessage += `*🔧 Top 3 Areas for Improvement:*\\n${weakestAreasText}\\n`;\nfinalMessage += `${separator}\\n\\n`;\nfinalMessage += `*📌 Full Score Breakdown:*\\n${scoreBreakdownText}`;\n\n// --- Output with Telegram-compatible MarkdownV2 ---\nreturn [{\n  json: {\n    ...inputData,\n    telegramMessage: finalMessage\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1560,
+        2840
+      ],
+      "id": "e0074d05-931a-4dc0-9485-f925c6b26a1b",
+      "name": "Format Telegram Message",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "jsCode": "return items.map(item => {\n  const text = item.json.output;\n\n  // 1. Extract the JSON array block, which starts with `[` and ends with `]`\n  const match = text.match(/\\[\\s*{[\\s\\S]*?}\\s*\\]/);\n  if (!match) return null;\n  try {\n    // 2. Parse the extracted JSON array\n    const arr = JSON.parse(match[0]);\n    return { json: arr[0] }; // Return the first object as {json: {...}}\n  } catch (e) {\n    return null;\n  }\n}).filter(x => x !== null);\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -600,
+        1720
+      ],
+      "id": "5384fdc2-ff0a-41a7-a8a4-63f815cd57f5",
+      "name": "image Injector Refiner1",
+      "alwaysOutputData": true
+    }
+  ],
+  "pinData": {
+    "Schedule Trigger": [
+      {
+        "json": {
+          "timestamp": "2025-06-30T06:43:16.654+03:00",
+          "Readable date": "June 30th 2025, 6:43:16 am",
+          "Readable time": "6:43:16 am",
+          "Day of week": "Monday",
+          "Year": "2025",
+          "Month": "June",
+          "Day of month": "30",
+          "Hour": "06",
+          "Minute": "43",
+          "Second": "16",
+          "Timezone": "Asia/Baghdad (UTC+03:00)"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Grab New Cluster",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Competitors URL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fix Links": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Previous Posts": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Add internal links",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check as completed on Sheets": {
+      "main": [
+        [
+          {
+            "node": "Completed Pages URLS",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create plan": {
+      "main": [
+        [
+          {
+            "node": "Write Blog",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Write Blog": {
+      "main": [
+        [
+          {
+            "node": "Write Blog refiner",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add internal links": {
+      "main": [
+        [
+          {
+            "node": "Title Generator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preliminary Plan": {
+      "main": [
+        [
+          {
+            "node": "Research",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gemini-2.0-flash-thinking-exp-01-21": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Preliminary Plan",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Grab New Cluster": {
+      "main": [
+        [
+          {
+            "node": "Telegram",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gemini-2.0-flash-thinking-exp-01-21 Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Create plan",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gemini-2.0-flash-thinking-exp-01-02(3)": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Add internal links",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "gemini-1.5-flash-8b": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "SEO check details",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SEO details": {
+      "main": [
+        [
+          {
+            "node": "FAQ Generator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Completed Pages URLS": {
+      "main": [
+        [
+          {
+            "node": "Telegram Notify Post Published",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Competitors URL": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate1": {
+      "main": [
+        [
+          {
+            "node": "List of competitors domains",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Aggregate1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "List of competitors domains": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Research": {
+      "main": [
+        [
+          {
+            "node": "Fix Links",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Competitors link santization",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "gemini-1.5-flash-8b1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Competitors link santization",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Competitors link santization": {
+      "main": [
+        [
+          {
+            "node": "Create plan",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SEO check details": {
+      "main": [
+        [
+          {
+            "node": "SEO details",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Write Blog",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gemini-2.0-flash-thinking-exp-01-02(3)1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "FAQ Generator",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "FAQ Generator": {
+      "main": [
+        [
+          {
+            "node": "Estimated Reading Time Generator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gemini-2.0-flash-thinking-exp-01-02(3)2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Blog Schema Generator1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "gemini-1.5-flash-8b2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Image Promp generator",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Image Promp generator": {
+      "main": [
+        [
+          {
+            "node": "image prompt generator Refiner",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Resize Image": {
+      "main": [
+        [
+          {
+            "node": "add image data2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "upload image": {
+      "main": [
+        [
+          {
+            "node": "dada collector1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update image meta data": {
+      "main": [
+        [
+          {
+            "node": "data collector2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Image array splitter": {
+      "main": [
+        [
+          {
+            "node": "Image Promp generator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "image prompt generator Refiner": {
+      "main": [
+        [
+          {
+            "node": "Pollinations",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "dada collector1": {
+      "main": [
+        [
+          {
+            "node": "Update image meta data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "data collector2": {
+      "main": [
+        [
+          {
+            "node": "HTML Document",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge image data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "add image dada1": {
+      "main": [
+        [
+          {
+            "node": "Edit Image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "add image data2": {
+      "main": [
+        [
+          {
+            "node": "upload image",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge image data",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "gemini-1.5-flash-8b3": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Category & Subtitle Generator",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gemini-2.0-flash-thinking-exp-01-02(3)3": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Estimated Reading Time Generator",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gemini-2.0-flash-thinking-exp-01-02(3)4": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Key Takeaways Generator",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Key Takeaways Generator": {
+      "main": [
+        [
+          {
+            "node": "Key Takeaways Refiner",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Estimated Reading Time Generator": {
+      "main": [
+        [
+          {
+            "node": "Estimated Reading Time Refiner",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Estimated Reading Time Refiner": {
+      "main": [
+        [
+          {
+            "node": "Key Takeaways Generator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gemini-2.0-flash-thinking-exp-01-02(3)5": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Table of Contents Generator",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Key Takeaways Refiner": {
+      "main": [
+        [
+          {
+            "node": "Footer Generator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Table of Contents Generator": {
+      "main": [
+        [
+          {
+            "node": "Table of Contents Refiner",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gemini-2.0-flash-thinking-exp-01-02(3)7": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Footer Generator",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Table of Contents Refiner": {
+      "main": [
+        []
+      ]
+    },
+    "Footer Generator": {
+      "main": [
+        [
+          {
+            "node": "Footer  Refiner",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Footer  Refiner": {
+      "main": [
+        [
+          {
+            "node": "CTA Generator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Image Injector1": {
+      "main": [
+        [
+          {
+            "node": "image Injector Refiner",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Image Injector1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTML Document": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge image data": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Aggregate Image Data1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate Image Data1": {
+      "main": [
+        [
+          {
+            "node": "Imagedata",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge1": {
+      "main": [
+        [
+          {
+            "node": "Image Injector1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Imagedata": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Preliminary Plan",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Write Blog refiner": {
+      "main": [
+        [
+          {
+            "node": "Previous Posts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Title and Meta Description Refiner": {
+      "main": [
+        [
+          {
+            "node": "Meta Description lenght controller",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Title and Meta Description Generator": {
+      "main": [
+        [
+          {
+            "node": "Title and Meta Description Refiner",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "gemini-1.5-pro": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Title and Meta Description Generator",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Image": {
+      "main": [
+        [
+          {
+            "node": "Resize Image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "image Injector Refiner": {
+      "main": [
+        [
+          {
+            "node": "Blog Schema Generator1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Blog Schema Generator1": {
+      "main": [
+        [
+          {
+            "node": "Schema Refiner",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schema Refiner": {
+      "main": [
+        [
+          {
+            "node": "HTML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pollinations": {
+      "main": [
+        [
+          {
+            "node": "add image dada1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Category & Subtitle Generator": {
+      "main": [
+        [
+          {
+            "node": "Category & subtitle Refiner",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Category & subtitle Refiner": {
+      "main": [
+        [
+          {
+            "node": "SEO check details",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Featured Image": {
+      "main": [
+        [
+          {
+            "node": "Check as completed on Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add excerpt1": {
+      "main": [
+        [
+          {
+            "node": "Set Featured Image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTML": {
+      "main": [
+        [
+          {
+            "node": "Create a post",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "TOC link Injector": {
+      "main": [
+        [
+          {
+            "node": "TOC Link refiner",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "TOC Link refiner": {
+      "main": [
+        []
+      ]
+    },
+    "Gemini-2.0-flash-thinking-exp-01-02(3)8": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "CTA Generator",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gemini-2.0-flash-thinking-exp-01-02(3)9": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Expert Perspective Generator",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "CTA Generator": {
+      "main": [
+        [
+          {
+            "node": "CTA  refiner",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Expert Perspective Generator": {
+      "main": [
+        [
+          {
+            "node": "Expert Perspective refiner",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Expert Perspective refiner": {
+      "main": [
+        [
+          {
+            "node": "Image array splitter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "CTA  refiner": {
+      "main": [
+        [
+          {
+            "node": "Expert Perspective Generator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gemini-2.0-flash-thinking-exp-01-02(3)10": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Title Generator",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Title Generator": {
+      "main": [
+        [
+          {
+            "node": "Title refiner",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Title refiner": {
+      "main": [
+        [
+          {
+            "node": "Title and Meta Description Generator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Meta Description lenght controller": {
+      "main": [
+        [
+          {
+            "node": "Category & Subtitle Generator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gemini-2.0-flash-thinking-exp-01-02(3)6": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "TOC link Injector",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "scoreing": {
+      "main": [
+        [
+          {
+            "node": "SEO Score Refiner",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a post": {
+      "main": [
+        [
+          {
+            "node": "Add excerpt1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "gemini-1.5-pro1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "scoreing",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SEO Score Refiner": {
+      "main": [
+        [
+          {
+            "node": "Telegram Notify Post Published1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Telegram Message": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "b18f9c59-bb8e-4829-8d5f-949616cd0c06",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "8c6670fa66d84c39f8f69bcc7182802b79e938c12d18fb51aba3b24d138852db"
+  },
+  "id": "VVAuXhF9yGXIGqjy",
+  "tags": []
+}
