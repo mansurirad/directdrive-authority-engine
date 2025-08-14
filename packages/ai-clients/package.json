@@ -10,7 +10,7 @@
     "test": "vitest"
   },
   "dependencies": {
-    "@directdrive/shared": "workspace:*",
+    "@directdrive/shared": "file:../shared",
     "openai": "^4.20.0",
     "@google/generative-ai": "^0.2.0",
     "axios": "^1.6.0",
