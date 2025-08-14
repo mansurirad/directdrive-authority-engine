@@ -122,7 +122,7 @@ export const CitationAnalyticsComponent: React.FC<CitationAnalyticsProps> = ({
     datasets: [
       {
         label: 'Citations by AI Model',
-        data: analytics.model_breakdown.map(model => model.citation_count),
+        data: analytics.model_breakdown.map(model => model.cited_count),
         backgroundColor: [
           'rgba(59, 130, 246, 0.8)',   // ChatGPT - Blue
           'rgba(16, 185, 129, 0.8)',   // Google AI - Green
