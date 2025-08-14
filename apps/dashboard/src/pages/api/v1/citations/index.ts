@@ -6,7 +6,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
-import type { CreateCitationRequest, CitationResponse } from '@directdrive/shared';
+import type { AICitation } from '../../../types/citation';
 
 // Validation schema for citation creation
 const CreateCitationSchema = z.object({

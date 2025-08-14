@@ -7,7 +7,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
 import { demoCompetitive } from '../../../lib/demo-data';
-import type { CompetitiveAnalysis } from '@directdrive/shared';
+import type { CompetitiveAnalysis } from '../../../types/citation';
 
 // Query parameters validation
 const CompetitiveQuerySchema = z.object({

@@ -7,7 +7,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
 import { demoAnalytics } from '../../../lib/demo-data';
-import type { CitationAnalytics } from '@directdrive/shared';
+import type { CitationAnalytics } from '../../../types/citation';
 
 // Query parameters validation
 const AnalyticsQuerySchema = z.object({
