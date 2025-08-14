@@ -6,6 +6,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
+import { demoAnalytics } from '../../../lib/demo-data';
 import type { CitationAnalytics } from '@directdrive/shared';
 
 // Query parameters validation
@@ -16,11 +17,10 @@ const AnalyticsQuerySchema = z.object({
   industry: z.string().optional(),
 });
 
-// Initialize Supabase client
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+// Initialize Supabase client (only if keys are available)
+const supabase = process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY 
+  ? createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY)
+  : null;
 
 export default async function handler(
   req: NextApiRequest,
@@ -32,6 +32,12 @@ export default async function handler(
   }
 
   try {
+    // Check if in demo mode (no Supabase configuration)
+    if (!supabase) {
+      console.log('🎭 Demo mode: Returning sample analytics data');
+      return res.status(200).json(demoAnalytics);
+    }
+
     // Validate query parameters
     const params = AnalyticsQuerySchema.parse(req.query);
 

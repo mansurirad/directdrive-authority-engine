@@ -6,6 +6,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
+import { demoCompetitive } from '../../../lib/demo-data';
 import type { CompetitiveAnalysis } from '@directdrive/shared';
 
 // Query parameters validation
@@ -14,11 +15,10 @@ const CompetitiveQuerySchema = z.object({
   ai_model: z.enum(['chatgpt', 'google-ai', 'perplexity']).optional(),
 });
 
-// Initialize Supabase client
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+// Initialize Supabase client (only if keys are available)
+const supabase = process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY 
+  ? createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY)
+  : null;
 
 // Known Kurdistan logistics competitors
 const KURDISTAN_LOGISTICS_COMPETITORS = [
@@ -42,6 +42,12 @@ export default async function handler(
   }
 
   try {
+    // Check if in demo mode (no Supabase configuration)
+    if (!supabase) {
+      console.log('🎭 Demo mode: Returning sample competitive data');
+      return res.status(200).json(demoCompetitive);
+    }
+
     // Validate query parameters
     const params = CompetitiveQuerySchema.parse(req.query);
 
