@@ -49,3 +49,18 @@ export interface CompetitiveAnalysis {
   competitors: CompetitorMention[];
   market_share: number;
 }
+
+// Additional types for dashboard components
+export interface CreateCitationRequest {
+  content_id?: number;
+  ai_model: 'chatgpt' | 'google-ai' | 'perplexity';
+  query_text: string;
+  cited: boolean;
+  citation_context?: string;
+  position?: number;
+}
+
+export interface CitationResponse {
+  citation: AICitation;
+  success: boolean;
+}

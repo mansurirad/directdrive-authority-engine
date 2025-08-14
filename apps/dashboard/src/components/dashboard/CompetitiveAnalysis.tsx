@@ -5,7 +5,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Bar, Radar } from 'react-chartjs-2';
-import type { CompetitiveAnalysis, CompetitorMention } from '@directdrive/shared';
+import type { CompetitiveAnalysis, CompetitorMention } from '../../types/citation';
 
 interface CompetitiveAnalysisProps {
   selectedQuery?: string;

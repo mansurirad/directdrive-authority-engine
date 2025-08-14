@@ -4,7 +4,7 @@
  */
 
 import { useState, useEffect, useCallback } from 'react';
-import type { CitationAnalytics, CompetitiveAnalysis } from '@directdrive/shared';
+import type { CitationAnalytics, CompetitiveAnalysis } from '../types/citation';
 
 export interface CitationFilters {
   timeRange: '7d' | '30d' | '90d';

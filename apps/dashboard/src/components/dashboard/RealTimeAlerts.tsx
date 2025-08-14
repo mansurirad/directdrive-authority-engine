@@ -5,7 +5,7 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { createClient } from '@supabase/supabase-js';
-import type { AICitation } from '@directdrive/shared';
+import type { AICitation } from '../../types/citation';
 
 interface AlertConfig {
   enabled: boolean;

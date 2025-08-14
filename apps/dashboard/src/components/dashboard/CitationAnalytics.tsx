@@ -17,7 +17,7 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
-import type { CitationAnalytics, CitationTrend } from '@directdrive/shared';
+import type { CitationAnalytics, CitationTrend } from '../../types/citation';
 
 // Register Chart.js components
 ChartJS.register(

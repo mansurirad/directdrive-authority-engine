@@ -5,7 +5,7 @@
 
 import { useEffect, useState } from 'react';
 import { createClient } from '@supabase/supabase-js';
-import type { AICitation } from '@directdrive/shared';
+import type { AICitation } from '../types/citation';
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,

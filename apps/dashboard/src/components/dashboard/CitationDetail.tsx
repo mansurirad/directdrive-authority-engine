@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import type { AICitation } from '@directdrive/shared';
+import type { AICitation } from '../../types/citation';
 
 interface CitationDetailProps {
   citationId?: number;
