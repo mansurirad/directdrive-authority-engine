@@ -1,0 +1,14 @@
+FORCE UPDATE FOR VERCEL DEPLOYMENT
+
+This file forces Vercel to use the latest commit with all TypeScript fixes.
+
+Latest fixes include:
+- All @directdrive/shared imports removed
+- Local types created in src/types/citation.ts
+- Chart.js dependencies added
+- All components updated to use local imports
+
+Commit with fixes: 4f74071
+Previous broken commit: 13db99b
+
+This deployment should work perfectly!
