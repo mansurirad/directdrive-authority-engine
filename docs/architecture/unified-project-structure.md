@@ -126,6 +126,10 @@ directdrive-authority-engine/
 │   ├── prd-directdrive-authority-engine.md
 │   ├── architecture.md                # This document
 │   ├── api-reference.md               # API documentation
+│   ├── deployment-strategy.md         # Comprehensive deployment procedures
+│   ├── rollback-procedures.md         # Emergency rollback procedures
+│   ├── feature-flags-strategy.md      # Feature flag implementation
+│   ├── monitoring-enhancement-plan.md # Monitoring and alerting strategy
 │   └── setup/                         # Setup guides
 │       ├── development.md             # Local development setup
 │       ├── deployment.md              # Deployment guide

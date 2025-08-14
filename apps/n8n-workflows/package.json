@@ -1,0 +1,20 @@
+{
+  "name": "@directdrive/n8n-workflows",
+  "version": "1.0.0",
+  "description": "n8n workflows for DirectDrive Authority Engine",
+  "private": true,
+  "scripts": {
+    "deploy": "node scripts/deploy-workflow.js deploy",
+    "deploy:credentials": "node scripts/deploy-workflow.js credentials",
+    "deploy:full": "node scripts/deploy-workflow.js full-deploy", 
+    "activate": "node scripts/deploy-workflow.js activate",
+    "test": "node scripts/deploy-workflow.js test",
+    "validate": "node scripts/validate-workflows.js"
+  },
+  "dependencies": {
+    "axios": "^1.6.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0"
+  }
+}

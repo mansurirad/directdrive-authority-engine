@@ -40,4 +40,18 @@
 
 **NFR8:** The system shall generate measurable ROI data suitable for business case presentations to tourism industry prospects.
 
+### Operational Requirements
+
+**OR1:** The system shall support automated CI/CD pipeline with GitHub Actions for safe deployment without interrupting DirectDrive operations.
+
+**OR2:** The system shall implement comprehensive rollback procedures for each epic and story with <5 minute emergency rollback capability.
+
+**OR3:** The system shall use feature flags for gradual feature rollout, allowing instant disable of problematic features without deployment.
+
+**OR4:** The system shall provide enhanced monitoring covering DirectDrive business operations, n8n integration points, and technical infrastructure with real-time alerting.
+
+**OR5:** The system shall maintain automated deployment to staging and production environments with health checks and automated rollback triggers.
+
+**OR6:** The system shall preserve DirectDrive business continuity during all deployments, with fallback mechanisms ensuring uninterrupted content generation.
+
 ---

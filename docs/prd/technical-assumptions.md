@@ -32,4 +32,15 @@ Single repository containing DirectDrive-specific implementation with clear indu
 - **Technical Metrics:** Document system performance for scaling to multiple tourism clients
 - **Cost Modeling:** Validate API usage costs for pricing model validation
 
+**Operational Infrastructure:**
+- **CI/CD Pipeline:** GitHub Actions automated testing and deployment with staging/production environments
+- **Feature Flags:** Environment-variable-based feature toggle system for safe brownfield integration
+- **Monitoring Stack:** Comprehensive monitoring covering business operations, n8n workflows, and technical infrastructure
+- **Rollback Procedures:** Epic-level rollback strategies with emergency procedures and business continuity protection
+
+**Deployment Strategy:**
+- **Zero-Downtime Deployment:** Vercel-based deployment with health checks and automated rollback triggers
+- **Environment Management:** Development, staging, and production environments with proper secrets management
+- **Business Continuity:** DirectDrive operations protected during all deployments with fallback mechanisms
+
 ---

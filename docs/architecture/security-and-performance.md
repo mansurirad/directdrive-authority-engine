@@ -93,7 +93,31 @@ Production-ready security and performance requirements for DirectDrive Authority
 - **Production Scaling:** ~$500/month (50 clients), linear scaling with usage
 - **Cost Monitoring:** Monthly budget alerts, per-client cost attribution
 
+## Operational Security & Performance
+
+### CI/CD Pipeline Security
+- **GitHub Actions Security:** Secrets management, signed commits, audit logging
+- **Deployment Security:** Environment isolation, rollback authentication, change approval
+- **Pipeline Integrity:** Automated security scanning, dependency vulnerability checks
+
+### Feature Flag Performance
+- **Toggle Response Time:** <30 seconds for all feature flag changes
+- **Configuration Caching:** Edge-cached feature flag states for performance
+- **Emergency Disable:** <5 second feature disable capability for critical issues
+
+### Rollback Performance Targets
+- **Emergency Rollback:** <5 minutes complete system rollback
+- **Epic-Level Rollback:** <15 minutes for database changes
+- **Feature Rollback:** <2 minutes using feature flags
+- **Business Continuity:** Zero DirectDrive operation interruption during rollbacks
+
+### Monitoring Performance Requirements
+- **Real-time Alerts:** <30 seconds from incident to notification
+- **Health Check Response:** <10 seconds for all critical endpoints
+- **Dashboard Updates:** <5 seconds for real-time metrics refresh
+- **n8n Workflow Monitoring:** <1 minute detection of workflow failures
+
 **Security and Performance Rationale:**
-These specifications ensure DirectDrive Authority Engine meets enterprise-grade security requirements while maintaining the performance needed for real-time citation monitoring and multi-client scaling. The security model supports both single-tenant DirectDrive validation and multi-tenant tourism client operations.
+These specifications ensure DirectDrive Authority Engine meets enterprise-grade security requirements while maintaining the performance needed for real-time citation monitoring and multi-client scaling. The security model supports both single-tenant DirectDrive validation and multi-tenant tourism client operations, with comprehensive operational security protecting business continuity.
 
 ---

@@ -1,0 +1,584 @@
+{
+  "name": "DirectDrive Citation Monitoring",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 24
+            }
+          ]
+        }
+      },
+      "id": "1",
+      "name": "Schedule Daily Monitoring",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        220,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "schema": {
+          "__rl": true,
+          "value": "public",
+          "mode": "list"
+        },
+        "table": {
+          "__rl": true,
+          "value": "keywords",
+          "mode": "list"
+        },
+        "where": {
+          "conditions": [
+            {
+              "column": "processing_status",
+              "condition": "equal",
+              "value": "pending"
+            },
+            {
+              "column": "industry_category",
+              "condition": "equal",
+              "value": "logistics"
+            }
+          ]
+        },
+        "sort": {
+          "rules": [
+            {
+              "column": "priority_level",
+              "direction": "ASC"
+            }
+          ]
+        },
+        "limit": 5
+      },
+      "id": "2",
+      "name": "Get Pending Keywords",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        440,
+        300
+      ],
+      "credentials": {
+        "supabaseApi": {
+          "id": "supabase-credentials",
+          "name": "DirectDrive Supabase"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "citation-check-condition",
+              "leftValue": "={{ $json.keyword_text }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty"
+              }
+            }
+          ],
+          "combinator": "and"
+        }
+      },
+      "id": "3",
+      "name": "Filter Valid Keywords",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        660,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "schema": {
+          "__rl": true,
+          "value": "public",
+          "mode": "list"
+        },
+        "table": {
+          "__rl": true,
+          "value": "keywords",
+          "mode": "list"
+        },
+        "updateKey": "keyword_id",
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "processing_status": "processing",
+            "last_processed_at": "={{ $now }}"
+          }
+        }
+      },
+      "id": "4",
+      "name": "Mark Keyword Processing",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        880,
+        300
+      ],
+      "credentials": {
+        "supabaseApi": {
+          "id": "supabase-credentials",
+          "name": "DirectDrive Supabase"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "language-router-condition",
+              "leftValue": "={{ $json.language }}",
+              "rightValue": "english",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        }
+      },
+      "id": "5",
+      "name": "AI Model Router",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1100,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "model": "gpt-4",
+        "messages": {
+          "values": [
+            {
+              "role": "system",
+              "content": "You are a helpful assistant providing information about logistics and transportation services. Respond naturally and provide accurate information."
+            },
+            {
+              "role": "user", 
+              "content": "={{ $json.keyword_text.includes('DirectDrive') ? 'Tell me about DirectDrive logistics company. What services do they offer?' : 'I need information about ' + $json.keyword_text + '. Can you provide recommendations and information about available services?' }}"
+            }
+          ]
+        },
+        "options": {
+          "maxTokens": 1000,
+          "temperature": 0.7
+        }
+      },
+      "id": "6",
+      "name": "ChatGPT Citation Check",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1.3,
+      "position": [
+        1320,
+        200
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "openai-credentials",
+          "name": "OpenAI API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "gemini-pro",
+        "prompt": "={{ $json.language === 'arabic' ? 'أحتاج معلومات عن ' + $json.keyword_text + '. هل يمكنك تقديم توصيات وتفاصيل عن الخدمات المتوفرة؟' : 'I need information about ' + $json.keyword_text + '. Can you provide recommendations?' }}",
+        "options": {
+          "maxOutputTokens": 1000,
+          "temperature": 0.3
+        }
+      },
+      "id": "7",
+      "name": "Google AI Citation Check",
+      "type": "n8n-nodes-base.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        1320,
+        400
+      ],
+      "credentials": {
+        "googleGeminiOAuth2Api": {
+          "id": "google-ai-credentials",
+          "name": "Google AI API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Citation Detection Logic\nconst response = $input.first();\nconst keyword = response.json.keyword_text;\nconst aiResponse = response.json.message?.content || response.json.text || '';\nconst aiModel = response.json.model || 'chatgpt';\n\n// DirectDrive keywords for detection\nconst directdriveKeywords = [\n  'directdrive',\n  'direct drive', \n  'directdrive logistics',\n  'direct drive logistics',\n  'directdrivelogistic.com'\n];\n\n// Check if DirectDrive is mentioned\nconst lowerResponse = aiResponse.toLowerCase();\nconst directdriveMentioned = directdriveKeywords.some(kw => \n  lowerResponse.includes(kw.toLowerCase())\n);\n\n// Extract citation context\nlet citationContext = '';\nif (directdriveMentioned) {\n  const sentences = aiResponse.split(/[.!?]+/);\n  const contextSentences = sentences.filter(sentence =>\n    directdriveKeywords.some(kw =>\n      sentence.toLowerCase().includes(kw.toLowerCase())\n    )\n  );\n  citationContext = contextSentences.join('. ').trim();\n}\n\n// Estimate position based on text location\nlet position = null;\nif (directdriveMentioned) {\n  // Look for numbered lists\n  const lines = aiResponse.split('\\n');\n  for (let i = 0; i < lines.length && i < 10; i++) {\n    const line = lines[i].toLowerCase();\n    const hasDirectDrive = directdriveKeywords.some(kw => \n      line.includes(kw.toLowerCase())\n    );\n    if (hasDirectDrive && line.match(/^[\\s]*[1-9]\\.|^[\\s]*[-*•]/)) {\n      position = i + 1;\n      break;\n    }\n  }\n  \n  // Fallback to relative position\n  if (!position) {\n    const firstMention = directdriveKeywords.reduce((earliest, kw) => {\n      const index = lowerResponse.indexOf(kw.toLowerCase());\n      return index !== -1 && index < earliest ? index : earliest;\n    }, Infinity);\n    \n    if (firstMention !== Infinity) {\n      const relativePos = firstMention / aiResponse.length;\n      position = relativePos < 0.2 ? 1 : relativePos < 0.5 ? 3 : 5;\n    }\n  }\n}\n\n// Return citation analysis result\nreturn {\n  keyword_id: response.json.keyword_id,\n  keyword_text: keyword,\n  ai_model: aiModel.includes('gpt') ? 'chatgpt' : aiModel.includes('gemini') ? 'google-ai' : 'perplexity',\n  query_text: keyword,\n  cited: directdriveMentioned,\n  citation_context: citationContext || null,\n  position: position,\n  response_text: aiResponse,\n  monitored_at: new Date().toISOString()\n};"
+      },
+      "id": "8",
+      "name": "Analyze Citation Results",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1540,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "insert",
+        "schema": {
+          "__rl": true,
+          "value": "public",
+          "mode": "list"
+        },
+        "table": {
+          "__rl": true,
+          "value": "ai_citations",
+          "mode": "list"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "content_id": "={{ $json.content_id || null }}",
+            "ai_model": "={{ $json.ai_model }}",
+            "query_text": "={{ $json.query_text }}",
+            "cited": "={{ $json.cited }}",
+            "citation_context": "={{ $json.citation_context }}",
+            "position": "={{ $json.position }}",
+            "monitored_at": "={{ $json.monitored_at }}"
+          }
+        }
+      },
+      "id": "9",
+      "name": "Store Citation Results",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        1760,
+        300
+      ],
+      "credentials": {
+        "supabaseApi": {
+          "id": "supabase-credentials",
+          "name": "DirectDrive Supabase"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "schema": {
+          "__rl": true,
+          "value": "public",
+          "mode": "list"
+        },
+        "table": {
+          "__rl": true,
+          "value": "keywords",
+          "mode": "list"
+        },
+        "updateKey": "keyword_id",
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "processing_status": "completed",
+            "last_processed_at": "={{ $now }}"
+          }
+        }
+      },
+      "id": "10",
+      "name": "Mark Keyword Complete",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        1980,
+        300
+      ],
+      "credentials": {
+        "supabaseApi": {
+          "id": "supabase-credentials",
+          "name": "DirectDrive Supabase"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "citation-webhook",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "11",
+      "name": "Citation Results Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        2200,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "error-condition",
+              "leftValue": "={{ $json.error }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty"
+              }
+            }
+          ],
+          "combinator": "and"
+        }
+      },
+      "id": "12",
+      "name": "Error Handler",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1540,
+        500
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "schema": {
+          "__rl": true,
+          "value": "public",
+          "mode": "list"
+        },
+        "table": {
+          "__rl": true,
+          "value": "keywords",
+          "mode": "list"
+        },
+        "updateKey": "keyword_id",
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "processing_status": "pending",
+            "last_processed_at": "={{ $now }}"
+          }
+        }
+      },
+      "id": "13",
+      "name": "Reset Keyword Status",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        1760,
+        500
+      ],
+      "credentials": {
+        "supabaseApi": {
+          "id": "supabase-credentials",
+          "name": "DirectDrive Supabase"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Performance monitoring and metrics collection\nconst startTime = $input.first().json.workflow_start_time || Date.now();\nconst endTime = Date.now();\nconst executionTime = endTime - startTime;\n\n// Count successful citations\nconst citationResults = $input.all();\nconst totalProcessed = citationResults.length;\nconst successfulCitations = citationResults.filter(item => item.json.cited).length;\nconst citationRate = totalProcessed > 0 ? (successfulCitations / totalProcessed) * 100 : 0;\n\n// Generate performance report\nconst performanceMetrics = {\n  workflow_id: 'citation-monitoring',\n  execution_date: new Date().toISOString().split('T')[0],\n  execution_time_ms: executionTime,\n  keywords_processed: totalProcessed,\n  citations_found: successfulCitations,\n  citation_rate_percent: citationRate,\n  performance_score: executionTime < 30000 && citationRate >= 10 ? 'Good' : 'Needs Improvement',\n  timestamp: new Date().toISOString()\n};\n\nconsole.log('Performance Metrics:', performanceMetrics);\n\nreturn performanceMetrics;"
+      },
+      "id": "14",
+      "name": "Performance Monitor",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2200,
+        500
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Daily Monitoring": {
+      "main": [
+        [
+          {
+            "node": "Get Pending Keywords",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Pending Keywords": {
+      "main": [
+        [
+          {
+            "node": "Filter Valid Keywords",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Valid Keywords": {
+      "main": [
+        [
+          {
+            "node": "Mark Keyword Processing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mark Keyword Processing": {
+      "main": [
+        [
+          {
+            "node": "AI Model Router",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Model Router": {
+      "main": [
+        [
+          {
+            "node": "ChatGPT Citation Check",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Google AI Citation Check",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ChatGPT Citation Check": {
+      "main": [
+        [
+          {
+            "node": "Analyze Citation Results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google AI Citation Check": {
+      "main": [
+        [
+          {
+            "node": "Analyze Citation Results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze Citation Results": {
+      "main": [
+        [
+          {
+            "node": "Store Citation Results",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Error Handler",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Store Citation Results": {
+      "main": [
+        [
+          {
+            "node": "Mark Keyword Complete",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mark Keyword Complete": {
+      "main": [
+        [
+          {
+            "node": "Citation Results Webhook",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Performance Monitor",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Error Handler": {
+      "main": [
+        [
+          {
+            "node": "Reset Keyword Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "citation-monitoring-error-handler"
+  },
+  "staticData": {},
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "id": "citation-monitoring-workflow",
+  "tags": [
+    {
+      "createdAt": "2025-08-13T10:00:00.000Z",
+      "updatedAt": "2025-08-13T10:00:00.000Z",
+      "id": "directdrive-citations",
+      "name": "DirectDrive Citations"
+    }
+  ]
+}

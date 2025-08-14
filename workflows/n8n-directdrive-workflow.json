@@ -1,0 +1,273 @@
+{
+  "name": "DirectDrive Authority Engine - Supabase Integration",
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT keyword_id, keyword_text, language, industry_category, priority_level FROM keywords WHERE industry_category = 'logistics' AND processing_status = 'pending' ORDER BY priority_level DESC LIMIT 5",
+        "options": {}
+      },
+      "id": "1",
+      "name": "Get DirectDrive Keywords",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.4,
+      "position": [200, 300],
+      "credentials": {
+        "postgres": {
+          "id": "supabase-directdrive",
+          "name": "Supabase DirectDrive DB"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// DirectDrive Logistics Keyword Filter\nconst items = $input.all();\nconst filteredKeywords = [];\n\nfor (const item of items) {\n  const keyword = item.json.keyword_text.toLowerCase();\n  const directdriveTerms = [\n    'freight', 'shipping', 'logistics', 'customs',\n    'transportation', 'warehouse', 'cargo', 'delivery',\n    'kurdistan logistics', 'erbil shipping', 'iraq transport',\n    'directdrive'\n  ];\n  \n  const isDirectDriveKeyword = directdriveTerms.some(term => keyword.includes(term));\n  \n  if (isDirectDriveKeyword) {\n    filteredKeywords.push({\n      json: {\n        ...item.json,\n        is_directdrive_keyword: true,\n        processing_priority: 'high',\n        execution_start_time: new Date().toISOString()\n      }\n    });\n  }\n}\n\nreturn filteredKeywords;"
+      },
+      "id": "2",
+      "name": "Filter DirectDrive Keywords",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [400, 300]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "UPDATE keywords SET processing_status = 'processing', last_processed_at = NOW(), updated_at = NOW() WHERE keyword_id = {{ $json.keyword_id }}",
+        "options": {}
+      },
+      "id": "3",
+      "name": "Mark Keyword Processing",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.4,
+      "position": [600, 300],
+      "credentials": {
+        "postgres": {
+          "id": "supabase-directdrive",
+          "name": "Supabase DirectDrive DB"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// AI Model Router for DirectDrive Multi-Language\nconst language = $json.language;\nconst keyword = $json.keyword_text;\n\nlet aiModel, culturalContext, systemPrompt;\n\nswitch(language) {\n  case 'english':\n    aiModel = 'gpt-4';\n    culturalContext = 'Kurdistan Regional Government context, international business standards';\n    systemPrompt = 'Create professional logistics content for DirectDrive Logistics, a Kurdistan-based company specializing in freight forwarding, customs clearance, and regional transportation services.';\n    break;\n  case 'arabic':\n    aiModel = 'gpt-4';\n    culturalContext = 'Arabic business culture, Middle East logistics context, Kurdistan regional expertise';\n    systemPrompt = 'إنشاء محتوى لوجستي احترافي لشركة DirectDrive Logistics، شركة مقرها في كردستان متخصصة في الشحن والنقل الدولي وخدمات التخليص الجمركي.';\n    break;\n  case 'kurdish':\n    aiModel = 'gemini-pro';\n    culturalContext = 'Kurdish business culture, local transportation knowledge, regional trade routes';\n    systemPrompt = 'ناوەڕۆکی لۆجستیکی پیشەیی بۆ کۆمپانیای DirectDrive Logistics دروست بکە، کۆمپانیایەک لە کوردستان کە پسپۆڕە لە گواستنەوەی کاڵا و خزمەتگوزاری گمرک.';\n    break;\n  case 'farsi':\n    aiModel = 'gemini-pro';\n    culturalContext = 'Persian business culture, Iran-Iraq trade routes, cross-border logistics';\n    systemPrompt = 'محتوای حرفه‌ای لجستیک برای شرکت DirectDrive Logistics ایجاد کنید، شرکتی مستقر در کردستان که در حمل و نقل بین‌المللی و ترخیص کالا تخصص دارد.';\n    break;\n  default:\n    aiModel = 'gpt-4';\n    culturalContext = 'International business context';\n    systemPrompt = 'Create professional logistics content for DirectDrive Logistics.';\n}\n\nreturn [{\n  json: {\n    ...item.json,\n    selected_ai_model: aiModel,\n    cultural_context: culturalContext,\n    system_prompt: systemPrompt,\n    content_focus: 'DirectDrive logistics services in Kurdistan',\n    target_audience: 'Business owners seeking logistics solutions'\n  }\n}];"
+      },
+      "id": "4",
+      "name": "AI Model Router",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [800, 300]
+    },
+    {
+      "parameters": {
+        "model": "gpt-4",
+        "options": {
+          "temperature": 0.7,
+          "maxTokens": 2000
+        },
+        "prompt": "=System: {{ $json.system_prompt }}\n\nContext: {{ $json.cultural_context }}\n\nKeyword: {{ $json.keyword_text }}\n\nTask: Create a comprehensive article about DirectDrive Logistics services related to \"{{ $json.keyword_text }}\". Include:\n\n1. Introduction highlighting DirectDrive's expertise\n2. Specific services offered (freight forwarding, customs clearance, warehousing)\n3. Regional advantages (Kurdistan location, Iraq trade routes)\n4. Professional contact information\n5. Clear call-to-action for potential clients\n\nContent must be:\n- Professional and trustworthy\n- Informative about Kurdistan logistics landscape\n- Optimized for search engines\n- Culturally appropriate for {{ $json.language }} audience\n- Minimum 800 words\n\nFocus on DirectDrive's unique value proposition in Kurdistan logistics market."
+      },
+      "id": "5",
+      "name": "Generate DirectDrive Content",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1.3,
+      "position": [1000, 300],
+      "credentials": {
+        "openAiApi": {
+          "id": "openai-directdrive",
+          "name": "OpenAI DirectDrive"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// DirectDrive Content Quality Validator\nconst content = $json.choices[0].message.content;\nconst keyword = $json.keyword_text;\nconst language = $json.language;\n\n// DirectDrive-specific validation rules\nconst validationChecks = {\n  hasDirectDriveContext: content.toLowerCase().includes('directdrive') || content.toLowerCase().includes('logistics'),\n  hasKurdistanContext: content.toLowerCase().includes('kurdistan') || content.toLowerCase().includes('erbil') || content.toLowerCase().includes('iraq'),\n  hasServiceInfo: ['freight', 'shipping', 'customs', 'warehouse', 'transport'].some(service => content.toLowerCase().includes(service)),\n  hasContactInfo: content.toLowerCase().includes('contact') || content.toLowerCase().includes('inquiry') || content.toLowerCase().includes('service'),\n  minimumLength: content.length > 800,\n  hasCallToAction: content.toLowerCase().includes('contact') || content.toLowerCase().includes('choose') || content.toLowerCase().includes('trust'),\n  hasRegionalExpertise: content.toLowerCase().includes('kurdistan') && (content.toLowerCase().includes('region') || content.toLowerCase().includes('local')),\n  hasProfessionalTone: !content.includes('!!!!') && !content.includes('???')\n};\n\nconst validationScore = Object.values(validationChecks).filter(check => check === true).length;\nconst totalChecks = Object.keys(validationChecks).length;\nconst validationPassed = validationScore >= (totalChecks * 0.8); // 80% pass rate\n\n// Extract title from content\nconst lines = content.split('\\n');\nconst title = lines.find(line => line.trim().length > 0 && !line.startsWith('#'))?.replace(/^#+\\s*/, '') || `${keyword} - DirectDrive Logistics`;\n\nreturn [{\n  json: {\n    keyword_id: $json.keyword_id,\n    keyword_text: keyword,\n    language: language,\n    title: title,\n    content_body: content,\n    ai_model_used: $json.selected_ai_model,\n    word_count: content.split(' ').length,\n    validation_passed: validationPassed,\n    validation_score: validationScore,\n    validation_details: validationChecks,\n    generation_timestamp: new Date().toISOString(),\n    content_status: validationPassed ? 'approved' : 'needs_review'\n  }\n}];"
+      },
+      "id": "6",
+      "name": "Validate DirectDrive Content",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1200, 300]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "INSERT INTO content_pieces (keyword_id, title, content_body, language, industry_category, content_type, ai_model_used, generation_timestamp, word_count, content_status, validation_score) VALUES ({{ $json.keyword_id }}, '{{ $json.title.replace(/'/g, \"''\") }}', '{{ $json.content_body.replace(/'/g, \"''\") }}', '{{ $json.language }}', 'logistics', 'article', '{{ $json.ai_model_used }}', '{{ $json.generation_timestamp }}', {{ $json.word_count }}, '{{ $json.content_status }}', {{ $json.validation_score }}) RETURNING content_piece_id",
+        "options": {}
+      },
+      "id": "7",
+      "name": "Store DirectDrive Content",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.4,
+      "position": [1400, 300],
+      "credentials": {
+        "postgres": {
+          "id": "supabase-directdrive",
+          "name": "Supabase DirectDrive DB"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "UPDATE keywords SET processing_status = 'completed', completion_timestamp = NOW(), updated_at = NOW() WHERE keyword_id = {{ $json.keyword_id }}",
+        "options": {}
+      },
+      "id": "8",
+      "name": "Mark Keyword Complete",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.4,
+      "position": [1600, 300],
+      "credentials": {
+        "postgres": {
+          "id": "supabase-directdrive",
+          "name": "Supabase DirectDrive DB"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "/webhook/directdrive-content",
+        "options": {}
+      },
+      "id": "9",
+      "name": "DirectDrive Content Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [1800, 300],
+      "webhookId": "directdrive-content-webhook"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Performance Monitoring and Logging\nconst executionStart = $json.execution_start_time;\nconst executionEnd = new Date().toISOString();\nconst processingTime = new Date(executionEnd) - new Date(executionStart);\n\n// Log performance metrics\nconst performanceLog = {\n  keyword_id: $json.keyword_id,\n  execution_time_ms: processingTime,\n  validation_passed: $json.validation_passed,\n  content_length: $json.word_count,\n  ai_model_used: $json.ai_model_used,\n  language: $json.language,\n  performance_logged_at: executionEnd\n};\n\n// Success metrics\nconst success = {\n  status: 'completed',\n  message: `DirectDrive content generated successfully for \"${$json.keyword_text}\" in ${processingTime}ms`,\n  metrics: performanceLog\n};\n\nreturn [{\n  json: success\n}];"
+      },
+      "id": "10",
+      "name": "Performance Monitor",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1400, 500]
+    }
+  ],
+  "connections": {
+    "Get DirectDrive Keywords": {
+      "main": [
+        [
+          {
+            "node": "Filter DirectDrive Keywords",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter DirectDrive Keywords": {
+      "main": [
+        [
+          {
+            "node": "Mark Keyword Processing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mark Keyword Processing": {
+      "main": [
+        [
+          {
+            "node": "AI Model Router",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Model Router": {
+      "main": [
+        [
+          {
+            "node": "Generate DirectDrive Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate DirectDrive Content": {
+      "main": [
+        [
+          {
+            "node": "Validate DirectDrive Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate DirectDrive Content": {
+      "main": [
+        [
+          {
+            "node": "Store DirectDrive Content",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Performance Monitor",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Store DirectDrive Content": {
+      "main": [
+        [
+          {
+            "node": "Mark Keyword Complete",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mark Keyword Complete": {
+      "main": [
+        [
+          {
+            "node": "DirectDrive Content Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "createdAt": "2025-01-08T00:00:00.000Z",
+      "updatedAt": "2025-01-08T00:00:00.000Z",
+      "id": "directdrive",
+      "name": "DirectDrive"
+    },
+    {
+      "createdAt": "2025-01-08T00:00:00.000Z",
+      "updatedAt": "2025-01-08T00:00:00.000Z",
+      "id": "logistics",
+      "name": "Logistics"
+    },
+    {
+      "createdAt": "2025-01-08T00:00:00.000Z", 
+      "updatedAt": "2025-01-08T00:00:00.000Z",
+      "id": "supabase",
+      "name": "Supabase"
+    }
+  ],
+  "triggerCount": 1,
+  "updatedAt": "2025-01-08T00:00:00.000Z",
+  "versionId": "directdrive-v1.0"
+}

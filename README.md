@@ -1,88 +1,180 @@
 # DirectDrive Authority Engine
 
-A comprehensive AI-powered content generation and citation monitoring system using DirectDrive Logistics as proof-of-concept for tourism industry scaling.
+> **AI-Powered Citation Monitoring & Content Authority System for DirectDrive Logistics**
 
-## Strategic Approach: BUILD → PROVE → SELL
+A comprehensive system that monitors AI model citations, tracks competitive positioning, and automates content creation to establish DirectDrive Logistics as the leading authority in Kurdistan's logistics sector.
 
-1. **BUILD**: Implement system with DirectDrive Logistics as real-world test case
-2. **PROVE**: Demonstrate measurable AI citation improvements with actual business data  
-3. **SELL**: Use DirectDrive success to acquire tourism industry clients with evidence-based demonstrations
+## 🚀 Live Demo
 
-## Architecture Overview
+- **Dashboard**: [Coming Soon - GitHub Pages]
+- **API Documentation**: [View API Docs](./docs/api/)
+- **n8n Workflows**: [View Workflows](./apps/n8n-workflows/)
 
-- **Frontend**: Next.js dashboard with real-time citation monitoring
-- **Backend**: Supabase PostgreSQL with industry-agnostic schema
-- **Workflow**: Enhanced n8n automation (60+ nodes) with multi-language AI integration
-- **AI Models**: GPT-4 (English/Arabic), Gemini (Kurdish/Farsi) with cultural optimization
-- **Monitoring**: Real-time citation tracking across ChatGPT, Google AI, Perplexity
+## 📋 Project Status
 
-## Project Structure
+### ✅ Epic 1: DirectDrive Authority Foundation (COMPLETED)
+- **Story 1.1**: Database Infrastructure ✅
+- **Story 1.2**: n8n Workflow Enhancement ✅  
+- **Story 1.3**: Content Specialization ✅
+- **Story 1.4**: AI Citation Monitoring System ✅ **(Latest Complete)**
+
+### 🔄 Next: Epic 2: Content Publishing Automation
+- **Story 1.5**: DirectDrive Content Publishing Automation (Ready)
+
+## 🛠️ Tech Stack
+
+- **Frontend**: Next.js 14, React 18, TypeScript, Tailwind CSS
+- **Backend**: Next.js API Routes, Supabase PostgreSQL
+- **AI Integration**: OpenAI GPT-4, Google AI, Perplexity API
+- **Workflow Automation**: n8n Cloud (14-node production workflow)
+- **Real-time**: Supabase Realtime, WebSockets
+- **Testing**: Vitest, Testing Library, Playwright
+- **Deployment**: Vercel, GitHub Actions
+
+## 🏗️ Architecture
 
 ```
-directdrive-authority-engine/
-├── docs/
-│   ├── architecture/          # Sharded architecture documentation
-│   ├── prd/                  # Sharded PRD with 5 epics (25 user stories)
-│   └── *.md                  # Additional documentation
-├── directdrive_schema.sql    # Supabase database schema
-└── .bmad-core/              # BMad project management framework
+DirectDrive Authority Engine/
+├── apps/
+│   ├── dashboard/           # Next.js dashboard app
+│   └── n8n-workflows/      # Automation workflows
+├── packages/
+│   ├── shared/              # Shared utilities & types
+│   └── ai-clients/          # AI model integrations
+├── database/                # Schema & migrations
+├── docs/                    # Documentation
+└── scripts/                 # Build & deployment scripts
 ```
 
-## Implementation Status
+## ⚡ Quick Start
 
-### ✅ Completed
-- Supabase database setup with multi-language logistics keywords
-- Comprehensive architecture documentation (11 sections)
-- Product requirements with modular industry framework (14 sections)
-- Strategic pivot analysis ensuring DirectDrive-first validation
+### Prerequisites
+- Node.js 18+ 
+- npm/yarn
+- Supabase account
+- n8n Cloud account
 
-### 🔄 In Progress  
-- n8n workflow enhancement for Supabase integration
-- DirectDrive logistics content specialization
+### Installation
 
-### 📋 Next Steps
-1. Complete Epic 1: DirectDrive Foundation & Database Migration
-2. Build Epic 2: Multi-Language DirectDrive Content Engine  
-3. Develop Epic 3: DirectDrive Authority Dashboard & Analytics
-4. Create Epic 4: Modular Industry Framework Implementation
-5. Launch Epic 5: Tourism Industry Module & Client Demo System
+1. **Clone the repository**
+```bash
+git clone https://github.com/[username]/directdrive-authority-engine.git
+cd directdrive-authority-engine
+```
 
-## Key Technologies
+2. **Install dependencies**
+```bash
+npm install
+```
 
-- **Database**: Supabase PostgreSQL with real-time capabilities
-- **Frontend**: Next.js + TypeScript + Tailwind CSS + shadcn/ui
-- **Backend**: Next.js API Routes + Supabase Auth
-- **Workflows**: n8n Cloud with AI model integration
-- **AI Models**: OpenAI GPT-4, Google Gemini with language-specific routing
-- **Deployment**: Vercel + Supabase Edge Network
+3. **Set up environment variables**
+```bash
+cp .env.example .env.local
+# Edit .env.local with your credentials
+```
 
-## Business Value
+4. **Set up database**
+```bash
+# Apply database schema
+PGPASSWORD="CK7aE@s@U*B7Zyn" psql -h db.lrwdoihyhnybwwntmmrs.supabase.co -U postgres -d postgres -f ./database/ai_citations_schema_update.sql
+```
 
-**DirectDrive Validation Goals**:
-- 200-500% improvement in AI citations within 6 months
-- Multi-language content generation (English, Arabic, Kurdish, Farsi)
-- Measurable ROI connecting AI visibility to business inquiries
+5. **Start development server**
+```bash
+npm run dev
+```
 
-**Tourism Industry Scaling**:
-- Proven system demonstration eliminating prospect skepticism
-- Modular framework enabling rapid industry adaptation
-- Evidence-based sales approach using DirectDrive success data
+6. **Access the dashboard**
+```
+http://localhost:3000/dashboard
+```
 
-## Documentation
+## 🔧 Environment Variables
 
-- **Architecture**: `docs/architecture/` - Complete technical specifications
-- **Product Requirements**: `docs/prd/` - 5 epics with 25 user stories
-- **Database Schema**: `directdrive_schema.sql` - Multi-language industry-agnostic design
+```env
+# Supabase Configuration
+SUPABASE_URL=https://lrwdoihyhnybwwntmmrs.supabase.co
+SUPABASE_ANON_KEY=your_anon_key
+SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
 
-## Getting Started
+# AI API Keys
+OPENAI_API_KEY=your_openai_key
+GOOGLE_AI_API_KEY=your_google_ai_key
+PERPLEXITY_API_KEY=your_perplexity_key
 
-1. Review architecture documentation in `docs/architecture/`
-2. Understand requirements in `docs/prd/`
-3. Set up Supabase database using `directdrive_schema.sql`
-4. Begin Epic 1 implementation following user stories
+# n8n Configuration
+N8N_WEBHOOK_URL=your_n8n_webhook
+N8N_API_KEY=your_n8n_api_key
+```
+
+## 📊 Features
+
+### 🔍 AI Citation Monitoring
+- **Multi-AI Tracking**: Monitors DirectDrive mentions across ChatGPT, Google AI, and Perplexity
+- **Competitive Analysis**: Tracks positioning against Kurdistan logistics competitors
+- **Real-time Alerts**: Instant notifications for new citations
+- **Performance Metrics**: Citation trends, positioning improvements, market share
+
+### 🤖 Automated Workflows
+- **Daily Monitoring**: 14-node n8n workflow for systematic AI model querying
+- **Content Creation**: Automated content generation based on market gaps
+- **Performance Tracking**: Execution monitoring with retry logic
+- **Error Handling**: Comprehensive failure recovery and notification
+
+### 📱 Analytics Dashboard
+- **Citation Trends**: Visual charts of citation frequency and quality
+- **Competitive Landscape**: Market positioning analysis
+- **Real-time Updates**: Live dashboard with WebSocket connections
+- **Export Capabilities**: Data export for reporting and analysis
+
+## 🔌 API Endpoints
+
+### Citation Monitoring
+```bash
+# Record new citation
+POST /api/v1/citations
+
+# Get analytics data
+GET /api/v1/citations/analytics
+
+# Competitive analysis
+GET /api/v1/citations/competitive
+```
+
+## 🧪 Testing
+
+```bash
+# Run all tests
+./scripts/run-tests.sh
+
+# Database validation
+./database/validate-schema.sh
+
+# n8n workflow validation
+node ./apps/n8n-workflows/scripts/validate-workflows.js
+```
+
+## 📚 Documentation
+
+- [Architecture Overview](./docs/architecture/)
+- [Story Documentation](./docs/stories/)
+- [Implementation Summary](./docs/implementation-summary.md)
+
+## 📈 Business Value
+
+**DirectDrive Results**:
+- Complete AI citation monitoring system
+- 15 competitor tracking with positioning analysis
+- Multi-language support (English, Arabic, Kurdish, Farsi)
+- Real-time dashboard with performance metrics
+
+## 🔒 Security
+
+- **Row Level Security**: Supabase RLS on all tables
+- **API Rate Limiting**: Comprehensive rate limiting
+- **Input Validation**: Zod schemas for all endpoints
+- **Environment Security**: Secure credential management
 
 ---
 
-**Project Philosophy**: شرافت (Integrity) - Prove the system works with DirectDrive before making promises to tourism clients.
-
-*Built using BMad methodology with strategic focus on real business validation leading to systematic industry expansion.*
+**Built with ❤️ using Claude AI** | **Last Updated**: August 2025
