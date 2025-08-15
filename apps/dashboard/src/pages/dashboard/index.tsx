@@ -3,7 +3,7 @@
  * DirectDrive Authority Engine
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
 import {
   CitationAnalyticsComponent,
@@ -16,6 +16,15 @@ type DashboardTab = 'overview' | 'competitive' | 'details' | 'alerts';
 
 export default function DashboardPage() {
   const [activeTab, setActiveTab] = useState<DashboardTab>('overview');
+  const [currentTime, setCurrentTime] = useState<string>('');
+
+  useEffect(() => {
+    setCurrentTime(new Date().toLocaleTimeString());
+    const interval = setInterval(() => {
+      setCurrentTime(new Date().toLocaleTimeString());
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   const tabs = [
     { id: 'overview', name: 'Citation Analytics', icon: '📊' },
@@ -46,7 +55,7 @@ export default function DashboardPage() {
               </div>
               <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-4 space-y-2 sm:space-y-0">
                 <div className="text-sm text-gray-600 order-2 sm:order-1">
-                  Last updated: {new Date().toLocaleTimeString()}
+                  Last updated: {currentTime || '--:--:--'}
                 </div>
                 <button className="order-1 sm:order-2 inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
                   Export Report
