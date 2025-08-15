@@ -167,13 +167,16 @@ export const CitationAnalyticsComponent: React.FC<CitationAnalyticsProps> = ({
   return (
     <div className="space-y-6">
       {/* Header with filters */}
-      <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-gray-900">Citation Analytics</h2>
-        <div className="flex space-x-4">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center space-y-4 sm:space-y-0">
+        <div>
+          <h2 className="text-2xl font-bold text-gray-900">Citation Analytics</h2>
+          <p className="text-sm text-gray-600 mt-1">Monitor your AI citation performance across platforms</p>
+        </div>
+        <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4">
           <select
             value={timeRange}
             onChange={(e) => window.location.search = `?timeRange=${e.target.value}&aiModel=${aiModel}`}
-            className="border border-gray-300 rounded-md px-3 py-2"
+            className="border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           >
             <option value="7d">Last 7 days</option>
             <option value="30d">Last 30 days</option>
@@ -182,7 +185,7 @@ export const CitationAnalyticsComponent: React.FC<CitationAnalyticsProps> = ({
           <select
             value={aiModel}
             onChange={(e) => window.location.search = `?timeRange=${timeRange}&aiModel=${e.target.value}`}
-            className="border border-gray-300 rounded-md px-3 py-2"
+            className="border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           >
             <option value="all">All AI Models</option>
             <option value="chatgpt">ChatGPT</option>
@@ -193,100 +196,109 @@ export const CitationAnalyticsComponent: React.FC<CitationAnalyticsProps> = ({
       </div>
 
       {/* Key Metrics Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <div className="bg-white rounded-lg shadow p-6">
-          <div className="flex items-center">
-            <div className="p-2 bg-blue-100 rounded-lg">
-              <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm font-medium text-gray-600 mb-1">Total Citations</p>
+              <p className="text-3xl font-bold text-gray-900">{analytics.total_citations}</p>
+            </div>
+            <div className="p-3 bg-blue-100 rounded-lg">
+              <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
               </svg>
             </div>
-            <div className="ml-4">
-              <p className="text-sm font-medium text-gray-600">Total Citations</p>
-              <p className="text-2xl font-semibold text-gray-900">{analytics.total_citations}</p>
-            </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow p-6">
-          <div className="flex items-center">
-            <div className="p-2 bg-green-100 rounded-lg">
-              <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-              </svg>
-            </div>
-            <div className="ml-4">
-              <p className="text-sm font-medium text-gray-600">Improvement</p>
-              <p className="text-2xl font-semibold text-green-600">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm font-medium text-gray-600 mb-1">Improvement</p>
+              <p className="text-3xl font-bold text-green-600">
                 +{analytics.improvement_metrics.citation_rate_improvement.toFixed(1)}%
               </p>
             </div>
+            <div className="p-3 bg-green-100 rounded-lg">
+              <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+              </svg>
+            </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow p-6">
-          <div className="flex items-center">
-            <div className="p-2 bg-purple-100 rounded-lg">
-              <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm font-medium text-gray-600 mb-1">Baseline</p>
+              <p className="text-3xl font-bold text-gray-900">{Math.round(analytics.total_citations * 0.7)}</p>
+            </div>
+            <div className="p-3 bg-purple-100 rounded-lg">
+              <svg className="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
               </svg>
             </div>
-            <div className="ml-4">
-              <p className="text-sm font-medium text-gray-600">Baseline</p>
-              <p className="text-2xl font-semibold text-gray-900">{analytics.total_citations}</p>
-            </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow p-6">
-          <div className="flex items-center">
-            <div className="p-2 bg-orange-100 rounded-lg">
-              <svg className="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm font-medium text-gray-600 mb-1">Tracking Period</p>
+              <p className="text-3xl font-bold text-gray-900">{timeRange}</p>
+            </div>
+            <div className="p-3 bg-orange-100 rounded-lg">
+              <svg className="w-8 h-8 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
-            </div>
-            <div className="ml-4">
-              <p className="text-sm font-medium text-gray-600">Tracking Period</p>
-              <p className="text-2xl font-semibold text-gray-900">30d</p>
             </div>
           </div>
         </div>
       </div>
 
       {/* Charts Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
         {/* Citation Trends Chart */}
-        <div className="bg-white rounded-lg shadow p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Citation Trends Over Time</h3>
-          <div className="h-64">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+          <div className="mb-6">
+            <h3 className="text-xl font-semibold text-gray-900">Citation Trends Over Time</h3>
+            <p className="text-sm text-gray-600 mt-1">Track citation performance over the selected period</p>
+          </div>
+          <div className="h-80">
             <Line data={trendData} options={chartOptions} />
           </div>
         </div>
 
         {/* AI Model Breakdown */}
-        <div className="bg-white rounded-lg shadow p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Citations by AI Model</h3>
-          <div className="h-64">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+          <div className="mb-6">
+            <h3 className="text-xl font-semibold text-gray-900">Citations by AI Model</h3>
+            <p className="text-sm text-gray-600 mt-1">Distribution across different AI platforms</p>
+          </div>
+          <div className="h-80">
             <Doughnut data={modelBreakdownData} options={doughnutOptions} />
           </div>
         </div>
       </div>
 
       {/* Improvement Metrics Detail */}
-      <div className="bg-white rounded-lg shadow p-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Performance Analysis</h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="text-center">
-            <p className="text-sm text-gray-600">Current Citations</p>
-            <p className="text-3xl font-bold text-blue-600">{analytics.total_citations}</p>
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <div className="mb-6">
+          <h3 className="text-xl font-semibold text-gray-900">Performance Analysis</h3>
+          <p className="text-sm text-gray-600 mt-1">Compare current performance against baseline metrics</p>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+          <div className="text-center p-4 bg-blue-50 rounded-lg">
+            <p className="text-sm font-medium text-blue-600 mb-2">Current Citations</p>
+            <p className="text-4xl font-bold text-blue-700">{analytics.total_citations}</p>
           </div>
-          <div className="text-center">
-            <p className="text-sm text-gray-600">Baseline Citations</p>
-            <p className="text-3xl font-bold text-gray-600">{Math.round(analytics.total_citations * 0.7)}</p>
+          <div className="text-center p-4 bg-gray-50 rounded-lg">
+            <p className="text-sm font-medium text-gray-600 mb-2">Baseline Citations</p>
+            <p className="text-4xl font-bold text-gray-700">{Math.round(analytics.total_citations * 0.7)}</p>
           </div>
-          <div className="text-center">
-            <p className="text-sm text-gray-600">Growth Rate</p>
-            <p className={`text-3xl font-bold ${analytics.improvement_metrics.citation_rate_improvement >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+          <div className="text-center p-4 bg-green-50 rounded-lg">
+            <p className="text-sm font-medium text-green-600 mb-2">Growth Rate</p>
+            <p className={`text-4xl font-bold ${analytics.improvement_metrics.citation_rate_improvement >= 0 ? 'text-green-700' : 'text-red-700'}`}>
               {analytics.improvement_metrics.citation_rate_improvement >= 0 ? '+' : ''}{analytics.improvement_metrics.citation_rate_improvement.toFixed(1)}%
             </p>
           </div>
@@ -294,44 +306,61 @@ export const CitationAnalyticsComponent: React.FC<CitationAnalyticsProps> = ({
       </div>
 
       {/* Model Performance Breakdown */}
-      <div className="bg-white rounded-lg shadow p-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">AI Model Performance</h3>
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <div className="mb-6">
+          <h3 className="text-xl font-semibold text-gray-900">AI Model Performance</h3>
+          <p className="text-sm text-gray-600 mt-1">Detailed breakdown of citations by AI platform</p>
+        </div>
         <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+          <table className="min-w-full">
+            <thead>
+              <tr className="border-b border-gray-200">
+                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">
                   AI Model
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">
                   Citations Found
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">
                   Percentage
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">
                   Performance
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {analytics.model_breakdown.map((model) => (
-                <tr key={model.ai_model}>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                    {model.ai_model.charAt(0).toUpperCase() + model.ai_model.slice(1)}
+            <tbody className="divide-y divide-gray-100">
+              {analytics.model_breakdown.map((model, index) => (
+                <tr key={model.ai_model} className="hover:bg-gray-50 transition-colors">
+                  <td className="px-6 py-4 text-sm font-medium text-gray-900">
+                    <div className="flex items-center">
+                      <div className={`w-3 h-3 rounded-full mr-3 ${
+                        index === 0 ? 'bg-blue-500' : 
+                        index === 1 ? 'bg-green-500' : 'bg-red-500'
+                      }`}></div>
+                      {model.ai_model.charAt(0).toUpperCase() + model.ai_model.slice(1)}
+                    </div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                  <td className="px-6 py-4 text-sm font-medium text-gray-900">
                     {model.total_citations}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                  <td className="px-6 py-4 text-sm text-gray-600">
                     {((model.cited_count / model.total_citations) * 100).toFixed(1)}%
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="w-full bg-gray-200 rounded-full h-2">
-                      <div
-                        className="bg-blue-600 h-2 rounded-full"
-                        style={{ width: `${(model.cited_count / model.total_citations) * 100}%` }}
-                      ></div>
+                  <td className="px-6 py-4">
+                    <div className="flex items-center">
+                      <div className="w-32 bg-gray-200 rounded-full h-3 mr-3">
+                        <div
+                          className={`h-3 rounded-full transition-all duration-300 ${
+                            index === 0 ? 'bg-blue-500' : 
+                            index === 1 ? 'bg-green-500' : 'bg-red-500'
+                          }`}
+                          style={{ width: `${(model.cited_count / model.total_citations) * 100}%` }}
+                        ></div>
+                      </div>
+                      <span className="text-sm font-medium text-gray-700">
+                        {((model.cited_count / model.total_citations) * 100).toFixed(1)}%
+                      </span>
                     </div>
                   </td>
                 </tr>
