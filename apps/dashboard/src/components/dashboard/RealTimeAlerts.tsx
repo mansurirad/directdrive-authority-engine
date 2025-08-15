@@ -36,10 +36,10 @@ export const RealTimeAlertsComponent: React.FC = () => {
   const [unreadCount, setUnreadCount] = useState(0);
 
   // Initialize Supabase client for real-time subscriptions
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  );
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://demo.supabase.co';
+  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'demo-key';
+  
+  const supabase = createClient(supabaseUrl, supabaseKey);
 
   useEffect(() => {
     if (config.enabled) {
