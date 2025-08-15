@@ -37,7 +37,7 @@ export default function DashboardPage() {
     <>
       <Head>
         <title>DirectDrive Authority Engine - Dashboard</title>
-        <meta name="description" content="AI Citation Monitoring Dashboard for DirectDrive Logistics" />
+        <meta name="description" content="AI Citation Monitoring Dashboard for DirectDrive Logistics - Enhanced UI" />
       </Head>
 
       <div className="min-h-screen bg-gray-50">
