@@ -130,7 +130,7 @@ export const RealTimeAlertsComponent: React.FC = () => {
 
   const playNotificationSound = () => {
     // Create audio context and play a simple notification tone
-    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const audioContext = new ((window as any).AudioContext || (window as any).webkitAudioContext)();
     const oscillator = audioContext.createOscillator();
     const gainNode = audioContext.createGain();
 

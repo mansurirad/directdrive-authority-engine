@@ -99,7 +99,7 @@ export const CompetitiveAnalysisComponent: React.FC<CompetitiveAnalysisProps> = 
   const competitorData = {
     labels: [
       'DirectDrive',
-      ...analysis.competitors.map(comp => comp.company_name.split(' ')[0]) // Shorten names
+      ...analysis.competitors.map(comp => comp.name.split(' ')[0]) // Shorten names
     ],
     datasets: [
       {
@@ -341,11 +341,11 @@ export const CompetitiveAnalysisComponent: React.FC<CompetitiveAnalysisProps> = 
 
               {/* Competitor Rows */}
               {analysis.competitors.map((competitor, index) => (
-                <tr key={competitor.company_name} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
+                <tr key={competitor.name} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center">
                       <div className="w-3 h-3 bg-gray-400 rounded-full mr-2"></div>
-                      <span className="text-sm font-medium text-gray-900">{competitor.company_name}</span>
+                      <span className="text-sm font-medium text-gray-900">{competitor.name}</span>
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
@@ -360,7 +360,7 @@ export const CompetitiveAnalysisComponent: React.FC<CompetitiveAnalysisProps> = 
                     </span>
                   </td>
                   <td className="px-6 py-4 text-sm text-gray-600 max-w-xs truncate">
-                    {competitor.mention_context}
+                    Context not available
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span className={`text-sm ${
@@ -404,8 +404,8 @@ export const CompetitiveAnalysisComponent: React.FC<CompetitiveAnalysisProps> = 
             <h4 className="font-medium text-gray-900 mb-2">Competitive Threats</h4>
             <ul className="space-y-1 text-sm text-gray-600">
               {analysis.competitors.slice(0, 3).map((competitor, index) => (
-                <li key={competitor.company_name}>
-                  • {competitor.company_name} ranked #{competitor.position}
+                <li key={competitor.name}>
+                  • {competitor.name} ranked #{competitor.position}
                 </li>
               ))}
               {analysis.competitors.length === 0 && (
