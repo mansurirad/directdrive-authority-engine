@@ -179,4 +179,4 @@ node ./apps/n8n-workflows/scripts/validate-workflows.js
 
 ---
 
-**Built with ❤️ using Claude AI** | **Last Updated**: August 2025
+**Built with ❤️ using Claude AI** | **Last Updated**: August 2025# Trigger deployment
