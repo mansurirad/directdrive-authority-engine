@@ -31,7 +31,8 @@ nano .env.local
 npm run dev
 ```
 
-Then open: **http://localhost:3000**
+Then open: **http://localhost:3000/dashboard**  
+**Note**: Root URL automatically redirects to `/dashboard`
 
 ## Alternative: Run from GitHub (Fresh Clone)
 
@@ -90,15 +91,19 @@ PERPLEXITY_API_KEY=your_perplexity_key
 3. Wait for environment to load
 4. Run the setup commands above
 
-## What You'll See
+## What You'll See ✅ **FULLY FUNCTIONAL**
 
 Once running, you'll have access to:
 
-- **📊 Citation Analytics Dashboard**: Real-time charts and metrics
-- **🔍 AI Monitoring Interface**: Track mentions across AI models
-- **📈 Competitive Analysis**: Compare against other logistics companies
-- **⚡ Real-time Alerts**: Live notifications for new citations
+- **📊 Citation Analytics Dashboard**: Interactive Chart.js visualizations with professional UI
+- **🏆 Competitive Analysis**: Position rankings, market share analysis with radar charts
+- **📋 Citation Details**: Detailed citation listings with context information  
+- **🔔 Real-Time Alerts**: Live monitoring system with notification management
+- **🎨 Professional UI**: Modern responsive design with Tailwind CSS, rounded cards, hover effects
 - **🛠️ API Endpoints**: RESTful APIs for citation management
+
+### **Live Demo Available**
+**URL**: https://directdrive-authority-engine-dashbo-flax.vercel.app/dashboard
 
 ## API Endpoints Available
 

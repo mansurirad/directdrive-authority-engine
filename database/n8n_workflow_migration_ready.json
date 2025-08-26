@@ -1,0 +1,397 @@
+{
+  "name": "SEO Content Generator English VERSION 04 - Supabase",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 8 * * 0"
+            },
+            {
+              "field": "cronExpression", 
+              "expression": "0 8 * * 3"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [-3820, 160],
+      "id": "dcecbc56-60b4-44da-93d4-461ab1b53127",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "requestMethod": "GET",
+        "url": "https://directdrive-authority-engine-dashbo-flax.vercel.app/api/v1/n8n/keywords",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "httpHeaderAuth": {
+          "name": "authorization",
+          "value": "Bearer {{ $env.N8N_WEBHOOK_SECRET }}"
+        },
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "json"
+            }
+          },
+          "queryParameters": {
+            "parameters": [
+              {
+                "name": "status",
+                "value": "pending"
+              },
+              {
+                "name": "language",
+                "value": "en"
+              },
+              {
+                "name": "limit",
+                "value": "1"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [-3540, 160],
+      "id": "supabase-get-keyword",
+      "name": "Get Pending Keyword from Supabase"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "keyword-exists-check",
+              "leftValue": "={{ $json.keywords && $json.keywords.length > 0 }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equal"
+              }
+            }
+          ],
+          "combinator": "and"
+        }
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [-3340, 160],
+      "id": "keyword-exists-if",
+      "name": "Check if Keyword Exists"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "extract-keyword-data",
+              "name": "primary_keyword",
+              "value": "={{ $json.keywords[0].primary_keyword }}",
+              "type": "string"
+            },
+            {
+              "id": "extract-secondary",
+              "name": "secondary_keywords", 
+              "value": "={{ $json.keywords[0].secondary_keywords }}",
+              "type": "string"
+            },
+            {
+              "id": "extract-intent",
+              "name": "intent",
+              "value": "={{ $json.keywords[0].intent }}",
+              "type": "string"
+            },
+            {
+              "id": "extract-industry",
+              "name": "industry",
+              "value": "={{ $json.keywords[0].industry }}",
+              "type": "string"
+            },
+            {
+              "id": "extract-id",
+              "name": "keyword_id",
+              "value": "={{ $json.keywords[0].id }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [-3160, 160],
+      "id": "extract-keyword-fields",
+      "name": "Extract Keyword Fields"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "Run system message",
+        "options": {
+          "systemMessage": "=You are part of a team that creates world-class blog posts. For each project, you get keywords and search intent to understand the user's goal.\n\n- Keywords: Terms to rank for, defining the blog topic.\n- Search intent: User's goal when searching keywords, guiding the blog theme.\n- Primary keyword: Key term for the title and introduction; blog topic must directly relate.\n\nGiven keywords and search intent, plan a blog post. Determine the **essential Main Sections** and their **logical flow** for a cohesive narrative, creating a preliminary plan.\n\n**Your output must be concise and API-friendly:**\n- Identify **Main Sections** of the blog post.\n- Use dot point format.\n- **Keep it brief and to the point, aiming for roughly half the length of the example output.**\n- Focus on the core essence of each section.\n\nEnsure the plan satisfies the search intent, uses keywords, and has a **clear, logical flow**. A concise plan is crucial for a focused, readable blog post that effectively meets user needs.\n\nProject:\n\nKeywords:\n{{ $json.secondary_keywords }}\n\nSearch intent:\n{{ $json.intent }}\n\nPrimary keyword:\n{{ $json.primary_keyword }}\n\nCreate the preliminary plan. Start directly with your result."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [-2980, 160],
+      "id": "preliminary-plan",
+      "name": "Preliminary Plan"
+    },
+    {
+      "parameters": {
+        "requestMethod": "GET",
+        "url": "https://directdrive-authority-engine-dashbo-flax.vercel.app/api/v1/n8n/content",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "httpHeaderAuth": {
+          "name": "authorization",
+          "value": "Bearer {{ $env.N8N_WEBHOOK_SECRET }}"
+        },
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "json"
+            }
+          },
+          "queryParameters": {
+            "parameters": [
+              {
+                "name": "status",
+                "value": "published"
+              },
+              {
+                "name": "limit", 
+                "value": "10"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [-800, 160],
+      "id": "get-previous-posts",
+      "name": "Get Previous Posts from Supabase"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "destinationFieldName": "previous-posts",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [-660, 160],
+      "id": "58a4f72a-f3de-40c3-8c6a-9cc70483d493",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "Run system message", 
+        "options": {
+          "systemMessage": "=You are an expert SEO copywriter for Direct Drive Logistic. Your only task is to write the main body content for a high-authority blog post, based on the Detailed Plan provided.\n\nINPUT DATA / PROJECT DATA\nHere are the details for this blog post:\n\nRequired Length: 2000 words\nDetailed Plan: {{ $json.output }}\n\nBRANDING & VOICE GUIDELINES\nIn all narrative, examples, and advice, summarize and naturally weave in the following brand elements and voice wherever relevant. Never simply copy the full USP text; always adapt and contextualize for the article.\n\nBrand Name: Direct Drive Logistic\nBrand Voice: Professional, confident, and solutions-focused. Always emphasize practical knowledge of Iraq's logistics challenges and reliability.\n\n**Your output must be a sequence of HTML sections, starting with the first `<h2>` section of the article and ending with the final closing `</section>` tag of the last topic.**\n\n- **DO NOT include** the `<header>`, `<h1>`, `<main>`, `<article>`, `<body>`, or `<head>` tags. Your task is to generate the content body ONLY.\n- **DO NOT include** any placeholders. This will be handled by another node.\n- **DO NOT output** any links (`<a>` tags). This will be handled by another node.\n- Use the Detailed Plan to write the content for each section.\n- Format the content using semantic tags like `<h2>`, `<h3>`, `<p>`, `<strong>`, `<li>`, and `<img>`.\n- Write in a simple, concise style with short paragraphs.\n- Your final output must be only the HTML code, with no extra explanations or commentary."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent", 
+      "typeVersion": 1.7,
+      "position": [-1380, 160],
+      "id": "write-blog",
+      "name": "Write Blog"
+    },
+    {
+      "parameters": {
+        "requestMethod": "POST",
+        "url": "https://directdrive-authority-engine-dashbo-flax.vercel.app/api/v1/n8n/content",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth", 
+        "httpHeaderAuth": {
+          "name": "authorization",
+          "value": "Bearer {{ $env.N8N_WEBHOOK_SECRET }}"
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"keyword_id\": {{ $('extract-keyword-fields').item.json.keyword_id }},\n  \"title\": \"{{ $('write-blog').item.json.output | slice(0, 100) }}\",\n  \"content\": {{ $('write-blog').item.json.output | tojsonstream }},\n  \"industry\": \"{{ $('extract-keyword-fields').item.json.industry }}\",\n  \"language\": \"en\",\n  \"ai_model\": \"gemini-2.0-flash-thinking-exp\",\n  \"quality_score\": 85,\n  \"status\": \"published\",\n  \"published_url\": \"https://directdrivelogistic.com/blog/{{ $('extract-keyword-fields').item.json.primary_keyword | slug }}\",\n  \"tracking_enabled\": true\n}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "json"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [-1420, 2620],
+      "id": "create-content-supabase",
+      "name": "Create Content in Supabase"
+    },
+    {
+      "parameters": {
+        "requestMethod": "PUT",
+        "url": "https://directdrive-authority-engine-dashbo-flax.vercel.app/api/v1/n8n/keywords/{{ $('extract-keyword-fields').item.json.keyword_id }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "httpHeaderAuth": {
+          "name": "authorization", 
+          "value": "Bearer {{ $env.N8N_WEBHOOK_SECRET }}"
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"status\": \"completed\"\n}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "json"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [-1220, 2620],
+      "id": "mark-keyword-completed",
+      "name": "Mark Keyword as Completed"
+    },
+    {
+      "parameters": {
+        "chatId": "=8183574838",
+        "text": "=Blog published successfully to Supabase!\n\nPrimary Keyword: {{ $('extract-keyword-fields').item.json.primary_keyword }}\n\nKeywords: {{ $('extract-keyword-fields').item.json.secondary_keywords }}\n\nContent ID: {{ $('create-content-supabase').item.json.content.id }}\n\nPerformance Tracking ID: {{ $('create-content-supabase').item.json.content.performance_tracking_id }}\n\nStatus: Published with tracking enabled",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [-980, 2620],
+      "id": "telegram-notify",
+      "name": "Telegram Notify Supabase Success"
+    }
+  ],
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get Pending Keyword from Supabase",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Pending Keyword from Supabase": {
+      "main": [
+        [
+          {
+            "node": "Check if Keyword Exists",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check if Keyword Exists": {
+      "main": [
+        [
+          {
+            "node": "Extract Keyword Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Keyword Fields": {
+      "main": [
+        [
+          {
+            "node": "Preliminary Plan",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preliminary Plan": {
+      "main": [
+        [
+          {
+            "node": "Get Previous Posts from Supabase",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Previous Posts from Supabase": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main", 
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Write Blog",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Write Blog": {
+      "main": [
+        [
+          {
+            "node": "Create Content in Supabase",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Content in Supabase": {
+      "main": [
+        [
+          {
+            "node": "Mark Keyword as Completed",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mark Keyword as Completed": {
+      "main": [
+        [
+          {
+            "node": "Telegram Notify Supabase Success",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "saveManualExecutions": true
+  },
+  "versionId": "4b35b5c7-89a5-4dbd-8374-0a12b1c9e8bc"
+}

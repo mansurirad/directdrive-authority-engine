@@ -1,0 +1,20 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "apps/dashboard/package.json",
+      "use": "@vercel/next"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "apps/dashboard/$1"
+    }
+  ],
+  "env": {
+    "NEXT_PUBLIC_SUPABASE_URL": "https://lrwdoihyhnybwwntmmrs.supabase.co",
+    "SUPABASE_SERVICE_ROLE_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxyd2RvaWh5aG55Ynd3bnRtbXJzIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1NDU0MDgzMiwiZXhwIjoyMDcwMTE2ODMyfQ.Sl34bADxt6Ki7qcfhAl7yuGmCrD-vZj-mVIhU98c3YY",
+    "N8N_WEBHOOK_SECRET": "6d2305201de5ffc4a1e786295beece03dac16ad54ff6b9b99517ff8477c4bd00"
+  }
+}

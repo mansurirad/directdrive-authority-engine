@@ -17,11 +17,16 @@
     "lint": "npm run lint --workspaces"
   },
   "devDependencies": {
-    "typescript": "^5.0.0",
-    "@types/node": "^20.0.0"
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
   },
   "engines": {
     "node": ">=18.0.0",
     "npm": ">=9.0.0"
+  },
+  "dependencies": {
+    "@playwright/test": "^1.54.2",
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "axios": "^1.6.0"
   }
 }

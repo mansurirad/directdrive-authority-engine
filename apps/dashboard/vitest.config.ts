@@ -13,6 +13,7 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     setupFiles: ['./tests/setup.ts'],
+    testTimeout: 30000, // 30 seconds for performance tests
     coverage: {
       reporter: ['text', 'json', 'html'],
       exclude: [
@@ -22,6 +23,12 @@ export default defineConfig({
         '**/*.config.*',
         'dist/',
       ],
+      thresholds: {
+        statements: 90,
+        branches: 85,
+        functions: 90,
+        lines: 90
+      },
     },
   },
   resolve: {

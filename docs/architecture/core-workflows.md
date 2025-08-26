@@ -210,7 +210,276 @@ sequenceDiagram
     Note over N8N,SB: Same workflow, different industry data
 ```
 
+## Story 1.5: Content-Citation-Performance Loop Workflows
+
+### Content Verification & Attribution Tracking
+
+This workflow demonstrates the new multi-factor content verification system and 12-week attribution tracking for measuring content performance correlation.
+
+```mermaid
+sequenceDiagram
+    participant WP as WordPress Site
+    participant CRAWLER as Content Crawler
+    participant API as Next.js API
+    participant SB as Supabase DB
+    participant VERIFY as Verification Engine
+    participant ATTRIB as Attribution Tracker
+    participant PERF as Performance Dashboard
+
+    Note over WP,PERF: Content-Citation-Performance Loop Flow
+    
+    rect rgb(240, 255, 240)
+        Note over CRAWLER,VERIFY: Daily Content Verification Process
+        
+        CRAWLER->>WP: Crawl directdrivelogistic.com/blog/
+        WP-->>CRAWLER: Return published content list
+        
+        loop For each detected content
+            CRAWLER->>API: POST /api/v1/content/verify
+            API->>SB: Query content_pieces for matching
+            SB-->>API: Return content metadata
+            
+            API->>VERIFY: Trigger multi-factor verification
+            
+            par Multi-Factor Verification
+                VERIFY->>VERIFY: URL pattern matching
+                VERIFY->>VERIFY: Title + date correlation
+                VERIFY->>VERIFY: Keyword fingerprint analysis
+                VERIFY->>VERIFY: Content similarity scoring
+            end
+            
+            VERIFY-->>API: Return verification results
+            
+            alt Confidence > 85%
+                API->>SB: Update content_pieces.verified_url
+                API->>SB: Create ContentPerformance record
+                API->>SB: Create ContentVerification record
+                
+                API->>ATTRIB: Initialize attribution tracking
+                ATTRIB->>SB: Create AttributionTimeline baseline
+                
+                API->>PERF: WebSocket: content_verification_complete
+                PERF->>PERF: Update verification dashboard
+                
+            else Confidence < 85%
+                API->>SB: Log verification failure
+                API->>PERF: WebSocket: verification_failed
+                Note over PERF: Alert for manual review
+            end
+        end
+    end
+```
+
+### 12-Week Attribution Timeline Management
+
+This workflow shows how the attribution tracking system manages the three phases of content performance measurement.
+
+```mermaid
+sequenceDiagram
+    participant SCHED as Scheduler
+    participant ATTRIB as Attribution Tracker
+    participant SB as Supabase DB
+    participant CITE as Citation Monitor
+    participant ROI as ROI Engine
+    participant PERF as Performance Dashboard
+
+    Note over SCHED,PERF: 12-Week Attribution Timeline Flow
+    
+    rect rgb(255, 248, 240)
+        Note over SCHED,ROI: Weekly Attribution Phase Management
+        
+        loop Weekly attribution check
+            SCHED->>ATTRIB: Trigger attribution update
+            ATTRIB->>SB: Query active attribution timelines
+            SB-->>ATTRIB: Return timeline records
+            
+            loop For each content attribution
+                ATTRIB->>SB: Get current attribution phase
+                SB-->>ATTRIB: Return phase data
+                
+                alt Phase: Baseline (0-4 weeks)
+                    ATTRIB->>CITE: Get baseline citation count
+                    CITE-->>ATTRIB: Return citation metrics
+                    ATTRIB->>SB: Update baseline measurements
+                    
+                    alt Week 4 reached
+                        ATTRIB->>SB: Transition to primary phase
+                        ATTRIB->>PERF: WebSocket: attribution_phase_transition
+                        Note over PERF: Baseline → Primary phase alert
+                    end
+                    
+                else Phase: Primary (4-8 weeks)
+                    ATTRIB->>CITE: Get current citation count
+                    CITE-->>ATTRIB: Return citation metrics
+                    ATTRIB->>ROI: Calculate citation lift
+                    ROI-->>ATTRIB: Return lift percentage
+                    
+                    ATTRIB->>SB: Update performance metrics
+                    
+                    alt Week 8 reached
+                        ATTRIB->>SB: Transition to sustained phase
+                        ATTRIB->>PERF: WebSocket: attribution_phase_transition
+                        Note over PERF: Primary → Sustained phase alert
+                    end
+                    
+                else Phase: Sustained (8-12 weeks)
+                    ATTRIB->>CITE: Get sustained citation count
+                    CITE-->>ATTRIB: Return citation metrics
+                    ATTRIB->>ROI: Calculate long-term ROI
+                    ROI-->>ATTRIB: Return ROI score
+                    
+                    ATTRIB->>SB: Update final performance metrics
+                    
+                    alt Week 12 reached
+                        ATTRIB->>SB: Mark attribution complete
+                        ATTRIB->>ROI: Generate final ROI analysis
+                        ROI->>SB: Store content effectiveness score
+                        
+                        ATTRIB->>PERF: WebSocket: attribution_complete
+                        Note over PERF: Final ROI analysis available
+                    end
+                end
+                
+                ATTRIB->>SB: Update attribution confidence
+                SB-->>ATTRIB: Confirm timeline update
+            end
+        end
+    end
+```
+
+### ROI Analysis & Business Impact Correlation
+
+This workflow demonstrates how the system correlates content performance with business impact through automated ROI calculation.
+
+```mermaid
+sequenceDiagram
+    participant TRIG as ROI Trigger
+    participant ROI as ROI Engine
+    participant SB as Supabase DB
+    participant CITE as Citation Data
+    participant COMP as Competitive Analysis
+    participant PERF as Performance Dashboard
+    participant BIZ as Business Dashboard
+
+    Note over TRIG,BIZ: ROI Analysis & Business Impact Flow
+    
+    TRIG->>ROI: POST /api/v1/content/roi-analysis/calculate
+    ROI->>SB: Query content performance data
+    SB-->>ROI: Return attribution timelines
+    
+    rect rgb(240, 248, 255)
+        Note over ROI,COMP: Comprehensive ROI Analysis
+        
+        ROI->>CITE: Get citation correlation data
+        CITE-->>ROI: Return citation-content mapping
+        
+        ROI->>COMP: Get competitive position changes
+        COMP-->>ROI: Return market position data
+        
+        par ROI Calculation Components
+            ROI->>ROI: Calculate citation lift percentage
+            Note over ROI: (Current - Baseline) / Baseline * 100
+            
+            ROI->>ROI: Calculate time to first citation
+            Note over ROI: Days from publication to first AI mention
+            
+            ROI->>ROI: Calculate attribution confidence
+            Note over ROI: Correlation strength between content and citations
+            
+            ROI->>ROI: Calculate content effectiveness score
+            Note over ROI: Weighted score: lift (40%) + speed (30%) + confidence (30%)
+        end
+        
+        ROI->>SB: Store calculated ROI metrics
+        SB-->>ROI: Confirm ROI data saved
+    end
+    
+    ROI->>PERF: WebSocket: roi_calculation_complete
+    PERF->>PERF: Update content performance charts
+    
+    ROI->>BIZ: WebSocket: business_impact_update
+    BIZ->>BIZ: Update business KPI dashboard
+    
+    alt High-performing content identified
+        ROI->>PERF: WebSocket: performance_alert
+        Note over PERF: Alert: Content achieving >50% citation lift
+        
+        ROI->>SB: Generate optimization recommendations
+        SB-->>ROI: Store content strategy insights
+        
+    else Underperforming content identified
+        ROI->>PERF: WebSocket: performance_alert
+        Note over PERF: Alert: Content requiring optimization
+        
+        ROI->>COMP: Request competitive analysis
+        COMP-->>ROI: Return improvement recommendations
+    end
+```
+
+### Real-time Performance Correlation Updates
+
+This workflow shows how the system provides real-time correlation between published content and AI citation improvements.
+
+```mermaid
+sequenceDiagram
+    participant CITE as Citation Monitor
+    participant CORR as Correlation Engine
+    participant SB as Supabase DB
+    participant ATTRIB as Attribution Tracker
+    participant PERF as Performance Dashboard
+    participant ALERT as Alert System
+
+    Note over CITE,ALERT: Real-time Performance Correlation Flow
+    
+    rect rgb(255, 240, 240)
+        Note over CITE,CORR: Citation Detection & Correlation
+        
+        CITE->>CITE: Detect new AI citation
+        CITE->>CORR: POST citation with content context
+        
+        CORR->>SB: Query published content database
+        SB-->>CORR: Return content pieces with metadata
+        
+        CORR->>CORR: Analyze citation-content correlation
+        Note over CORR: Match query keywords, publication timing, content similarity
+        
+        alt Strong correlation found (confidence > 85%)
+            CORR->>SB: Link citation to content piece
+            CORR->>ATTRIB: Update attribution timeline
+            ATTRIB->>SB: Increment citation count for current phase
+            
+            CORR->>PERF: WebSocket: citation_correlation_update
+            PERF->>PERF: Update real-time citation tracking
+            
+            alt First citation for content
+                CORR->>SB: Record time to first citation
+                CORR->>PERF: WebSocket: first_citation_milestone
+                Note over PERF: Celebration: First AI citation achieved!
+            end
+            
+            alt Citation lift threshold reached
+                CORR->>ALERT: Trigger performance alert
+                ALERT->>PERF: WebSocket: performance_threshold_reached
+                Note over PERF: Alert: 50% citation lift achieved
+            end
+            
+        else Weak correlation (confidence < 85%)
+            CORR->>SB: Log correlation attempt
+            Note over SB: Maintain correlation history for analysis
+        end
+    end
+    
+    CORR->>SB: Update overall performance metrics
+    SB-->>CORR: Confirm metrics updated
+    
+    CORR->>PERF: WebSocket: dashboard_refresh
+    PERF->>PERF: Refresh performance visualizations
+```
+
+**Story 1.5 Workflows Rationale:**
+These enhanced sequence diagrams demonstrate the new Content-Citation-Performance Loop monitoring capabilities that transform DirectDrive's content strategy from manual tracking to automated correlation analysis. The workflows provide real-time verification of published content, systematic attribution tracking through 12-week phases, and quantifiable ROI measurement that directly supports business decision-making. The integration maintains compatibility with existing Stories 1.1-1.4 infrastructure while adding sophisticated performance monitoring that enables data-driven content optimization.
+
 **Core Workflows Rationale:**
-These sequence diagrams illustrate how your existing n8n workflow expertise integrates seamlessly with modern web application patterns. The workflows demonstrate the BUILD → PROVE → SELL strategy in action: DirectDrive content generation proves the system works, citation monitoring validates business impact, and tourism demonstrations convert prospects using real evidence.
+These sequence diagrams illustrate how your existing n8n workflow expertise integrates seamlessly with modern web application patterns. The workflows demonstrate the BUILD → PROVE → SELL strategy in action: DirectDrive content generation proves the system works, citation monitoring validates business impact, and tourism demonstrations convert prospects using real evidence. The new Story 1.5 workflows extend this foundation with automated performance correlation, providing the quantifiable metrics needed for strategic content optimization and business growth validation.
 
 ---

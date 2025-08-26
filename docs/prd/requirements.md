@@ -22,6 +22,30 @@
 
 **FR10:** The system shall include modular industry adaptation framework allowing easy transition from logistics content to tourism content using same technical architecture.
 
+## Story 1.5 Enhanced Requirements: Content-Citation-Performance Loop
+
+### Business Intelligence and ROI Analysis Requirements
+
+**FR11:** The system shall implement comprehensive Content-Citation-Performance Loop monitoring providing multi-factor content verification through URL tracking, title+date correlation, keyword fingerprint analysis, and content similarity scoring with >85% confidence threshold.
+
+**FR12:** The system shall establish 12-week attribution timeline with three distinct phases: baseline establishment (0-4 weeks), primary impact measurement (4-8 weeks), and sustained impact analysis (8-12 weeks) for measuring content effectiveness.
+
+**FR13:** The system shall track key performance metrics including citation lift >50%, time to first citation <14 days, and attribution confidence >85% for all published content pieces.
+
+**FR14:** The system shall provide ROI analysis correlating published content pieces with AI citation frequency improvements and calculate content effectiveness scores for strategic decision-making.
+
+**FR15:** The system shall generate automated business intelligence reports showing content-citation correlation, performance trends, and strategic insights for content strategy optimization.
+
+**FR16:** The system shall perform daily website crawling of directdrivelogistic.com/blog/ to detect new content publication and track content availability status in real-time.
+
+**FR17:** The system shall maintain content performance database with attribution data, correlation metrics, and business impact scores for each published content piece.
+
+**FR18:** The system shall provide competitive positioning impact analysis showing how content strategy translates to enhanced AI visibility and market position improvements.
+
+**FR19:** The system shall generate ROI calculation reports suitable for business case presentations and stakeholder communication, including cost-per-citation analysis and content investment effectiveness.
+
+**FR20:** The system shall create performance correlation dashboard displaying real-time attribution timelines, ROI metrics, and business intelligence insights for data-driven content strategy decisions.
+
 ## Non-Functional Requirements
 
 **NFR1:** The system shall complete full content generation cycles within 30 minutes per piece to support 3-4 hour daily operational constraint.
@@ -39,6 +63,22 @@
 **NFR7:** The system shall support modular architecture allowing industry keyword/prompt swapping without technical infrastructure changes.
 
 **NFR8:** The system shall generate measurable ROI data suitable for business case presentations to tourism industry prospects.
+
+### Story 1.5 Enhanced Non-Functional Requirements
+
+**NFR9:** The system shall perform content verification with API response time <300ms and daily website crawling execution <2 minutes to ensure real-time performance monitoring.
+
+**NFR10:** The system shall maintain attribution correlation calculation <5 seconds per content piece and support 500+ published content pieces tracking simultaneously for enterprise scalability.
+
+**NFR11:** The system shall achieve content matching confidence threshold >85%, attribution confidence threshold >85%, and citation lift measurement accuracy ±5% for reliable business intelligence.
+
+**NFR12:** The system shall provide ROI calculation precision to 2 decimal places and maintain 12-week attribution timeline data with 99.9% data integrity for accurate business reporting.
+
+**NFR13:** The system shall integrate performance correlation system without impacting existing citation monitoring system performance, maintaining <1% system overhead for ROI analysis operations.
+
+**NFR14:** The system shall generate automated business reports with <10 second load times and support concurrent access by multiple stakeholders for real-time business intelligence access.
+
+**NFR15:** The system shall maintain content-citation correlation data for minimum 24 months for long-term trend analysis and business impact measurement suitable for strategic planning cycles.
 
 ### Operational Requirements
 

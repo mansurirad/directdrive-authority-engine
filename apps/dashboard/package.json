@@ -8,6 +8,16 @@
     "build": "next build",
     "start": "next start",
     "test": "vitest",
+    "test:story-1.5": "vitest tests/story-1.5",
+    "test:story-1.5:content-verification": "vitest tests/story-1.5/content-verification.test.ts",
+    "test:story-1.5:attribution-timeline": "vitest tests/story-1.5/attribution-timeline.test.ts",
+    "test:story-1.5:performance-benchmarking": "vitest tests/story-1.5/performance-benchmarking.test.ts",
+    "test:story-1.5:integration-compatibility": "vitest tests/story-1.5/integration-compatibility.test.ts",
+    "test:story-1.5:api-endpoints": "vitest tests/story-1.5/api-endpoints.test.ts",
+    "test:story-1.5:data-validation": "vitest tests/story-1.5/data-validation.test.ts",
+    "test:story-1.5:coverage": "vitest tests/story-1.5 --coverage",
+    "test:story-1.5:performance": "vitest tests/story-1.5/performance-benchmarking.test.ts --reporter=verbose",
+    "test:ci:story-1.5": "vitest tests/story-1.5 --run --reporter=json --outputFile=test-results-story-1.5.json",
     "lint": "next lint"
   },
   "dependencies": {
@@ -32,6 +42,7 @@
     "@types/node": "^20.0.0",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
+    "@vitejs/plugin-react": "^5.0.1",
     "typescript": "^5.0.0",
     "vitest": "^1.0.0"
   }
